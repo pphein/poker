@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: gainsboro;
+        }
+        
+        li {
+            list-style: none;
+            float: left;
+        }
+        
+        img {
+            width: 3%;
+            margin: 5px;
+            /* height: 144px; */
+            backface-visibility: hidden;
+        }
+        
+        #user1,
+        #user2,
+        #user3,
+        #user4 {
+            display: block;
+            float: right;
+        }
+        
+        .action {
+            clear: both;
+        }
+        
+        #user1_remove,
+        #user2_remove,
+        #user3_remove,
+        #user4_remove {
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <input id="saMal" type="submit" value="စမယ်" onclick="saMal()">
+    <input type="submit" value="ဝေမယ်" onclick="wayMal()">
+    <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
+    <div id="demo"></div>
+
+
+    <div id="showCard"></div>
+    <div id="output"></div>
+    <div id="user1">
+
+    </div>
+    <div id="user1_sarPhel"></div>
+    <div id="user1_winnerCard"></div>
+    <div class="action">
+        <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCard()">
+        <input type="submit" value="စားမယ်" onclick="sarMal()">
+        <input type="submit" value="ဆွဲမယ်" onclick="swalMal()">
+        <input type="submit" value="ပစ်မယ်" onclick="pyitMal()">
+    </div>
+    <div id="user1_remove"></div>
+
+    <div id="user2">
+
+    </div>
+    <div id="user2_sarPhel"></div>
+
+    <div id="user2_winnerCard"></div>
+
+    <div class="action">
+        <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCard()">
+        <input type="submit" value="စားမယ်" onclick="sarMal()">
+        <input type="submit" value="ဆွဲမယ်" onclick="swalMal()">
+        <input type="submit" value="ပစ်မယ်" onclick="pyitMal()">
+    </div>
+    <div id="user2_remove"></div>
+
+
+    <div id="user3">
+
+    </div>
+    <div id="user3_sarPhel"></div>
+
+    <div id="user3_winnerCard"></div>
+
+    <div class="action">
+        <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCard()">
+        <input type="submit" value="စားမယ်" onclick="sarMal()">
+        <input type="submit" value="ဆွဲမယ်" onclick="swalMal()">
+        <input type="submit" value="ပစ်မယ်" onclick="pyitMal()">
+    </div>
+    <div id="user3_remove"></div>
+
+    <div id="user4">
+
+    </div>
+    <div id="user4_sarPhel"></div>
+
+    <div id="user4_winnerCard"></div>
+
+    <div class="action">
+        <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCard()">
+        <input type="submit" value="စားမယ်" onclick="sarMal()">
+        <input type="submit" value="ဆွဲမယ်" onclick="swalMal()">
+        <input type="submit" value="ပစ်မယ်" onclick="pyitMal()">
+        <input type="submit" value="စီမယ်" onclick="selfArrange()">
+
+    </div>
+    <div id="user4_remove"></div>
+
+
+</body>
+
+<script>
+    var player = "player1";
+
+    var a1 = ['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', 'a10', 'a11', 'a12', 'a13'];
+    var a2 = ['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', 'a10', 'a11', 'a12', 'a13'];
+    var b1 = ['b01', 'b02', 'b03', 'b04', 'b05', 'b06', 'b07', 'b08', 'b09', 'b10', 'b11', 'b12', 'b13'];
+    var b2 = ['b01', 'b02', 'b03', 'b04', 'b05', 'b06', 'b07', 'b08', 'b09', 'b10', 'b11', 'b12', 'b13'];
+
+    var c1 = ['c01', 'c02', 'c03', 'c04', 'c05', 'c06', 'c07', 'c08', 'c09', 'c10', 'c11', 'c12', 'c13'];
+    var c2 = ['c01', 'c02', 'c03', 'c04', 'c05', 'c06', 'c07', 'c08', 'c09', 'c10', 'c11', 'c12', 'c13'];
+
+    var d1 = ['d01', 'd02', 'd03', 'd04', 'd05', 'd06', 'd07', 'd08', 'd09', 'd10', 'd11', 'd12', 'd13'];
+    var d2 = ['d01', 'd02', 'd03', 'd04', 'd05', 'd06', 'd07', 'd08', 'd09', 'd10', 'd11', 'd12', 'd13'];
+
+    var j1 = ['j1', 'j2'];
+    var j2 = ['j1', 'j2'];
+
+    // var package = [a1, a2, b1, b2, c1, c2, d1, d2, j1, j2];
+
+    var package = a1.concat(a2, b1, b2, c1, c2, d1, d2, j1, j2)
+
+    // function shuffle(array) {
+    //     let currentIndex = array.length,
+    //         randomIndex;
+
+    //     // While there remain elements to shuffle.
+    //     while (currentIndex != 0) {
+
+    //         // Pick a remaining element.
+    //         randomIndex = Math.floor(Math.random() * currentIndex);
+    //         currentIndex--;
+
+    //         // And swap it with the current element.
+    //         [array[currentIndex], array[randomIndex]] = [
+    //             array[randomIndex], array[currentIndex]
+    //         ];
+    //     }
+
+    //     return array;
+    // }
+
+    Array.prototype.shuffle = function() {
+        let m = this.length,
+            i;
+        while (m) {
+            i = (Math.random() * m--) >>> 0;
+            [this[m], this[i]] = [this[i], this[m]]
+        }
+        return this;
+    }
+
+    function saMal() {
+        document.getElementById('output').innerHTML = '';
+        // shuffle(package);
+        package.shuffle();
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+        })
+        document.getElementById('saMal').value = 'မွှေမယ်';
+    };
+
+    var user1 = [],
+        user2 = [],
+        user3 = [],
+        user4 = [],
+        user1_remove = [],
+        user2_remove = [],
+        user3_remove = [],
+        user4_remove = [],
+        user1_sarPhel = [],
+        user2_sarPhel = [],
+        user3_sarPhel = [],
+        user4_sarPhel = [],
+        showCard = [],
+        user1_winnerCard = [],
+        user2_winnerCard = [],
+        user3_winnerCard = [],
+        user4_winnerCard = [];
+
+    function wayMal() {
+
+        user1.push(package.pop());
+        user1.sort();
+        document.getElementById('user1').innerHTML = '';
+        user1.forEach(function(item) {
+            if (player == "player1") {
+                img = "./cards/" + item + ".png";
+            } else {
+                img = "./cards/back.png";
+            }
+            document.getElementById('user1').innerHTML += '<img src="' + img + '"/>';
+
+        })
+        document.getElementById('output').innerHTML = '';
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+        })
+
+        user2.push(package.pop());
+        document.getElementById('user2').innerHTML = '';
+        user2.forEach(function(item) {
+            if (player == "player2") {
+                img = "./cards/" + item + ".png";
+            } else {
+                img = "./cards/back.png";
+            }
+            document.getElementById('user2').innerHTML += '<img src="' + img + '"/>';
+
+        })
+        document.getElementById('output').innerHTML = '';
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+        })
+
+        user3.push(package.pop());
+        document.getElementById('user3').innerHTML = '';
+        user3.forEach(function(item) {
+            if (player == "player3") {
+                img = "./cards/" + item + ".png";
+            } else {
+                img = "./cards/back.png";
+            }
+            document.getElementById('user3').innerHTML += '<img src="' + img + '"/>';
+
+        })
+        document.getElementById('output').innerHTML = '';
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+        })
+
+        user4.push(package.pop());
+        document.getElementById('user4').innerHTML = '';
+        user4.forEach(function(item) {
+            if (player == "player4") {
+                img = "./cards/" + item + ".png";
+            } else {
+                img = "./cards/back.png";
+            }
+            document.getElementById('user4').innerHTML += '<img src="' + img + '"/>';
+
+        })
+        document.getElementById('output').innerHTML = '';
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+        })
+
+    }
+
+    function showFirstCard() {
+        showCard.push(package.pop());
+        document.getElementById('showCard').innerHTML = '';
+        showCard.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('showCard').innerHTML += '<img src="' + img + '"/>';
+
+        })
+        document.getElementById('output').innerHTML = '';
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+        })
+    }
+
+    var countShowCard = 0;
+
+    function showWinnerCard() {
+        user2_winnerCard.push(user2[countShowCard])
+        document.getElementById("user2_winnerCard").innerHTML = '';
+        user2_winnerCard.forEach(item => {
+            document.getElementById("user2_winnerCard").innerHTML += '<img src="./cards/' + item + ".png" + '"/>';
+        });
+        countShowCard++;
+        document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoser()" />';
+        document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinner()" />';
+    }
+
+    function firstCardWinner() {
+        user2_winnerCard = [];
+        document.getElementById("user2_winnerCard").innerHTML = '';
+        alert("I m winner yayyyyyyy");
+
+    }
+
+    function firstCardLoser() {
+        user2_winnerCard = [];
+        document.getElementById("user2_winnerCard").innerHTML = '';
+        alert("I am loser huuuuuu");
+
+    }
+
+    function swalMal() {
+        user1.push(package.pop());
+        user1.sort();
+        document.getElementById('user1').innerHTML = '';
+        user1.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user1').innerHTML += '<img src="' + img + '"/>';
+
+        })
+        document.getElementById('output').innerHTML = '';
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+        })
+
+    }
+
+    function sarMal() {
+        sarPhel = user1_remove.pop();
+        user1.push(sarPhel);
+        user1_sarPhel.push(sarPhel);
+        user1.sort();
+        document.getElementById('user1').innerHTML = '';
+        user1.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user1').innerHTML += '<img src="' + img + '"/>';
+
+        })
+        document.getElementById('user1_sarPhel').innerHTML = '';
+        user1_sarPhel.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user1_sarPhel').innerHTML += '<img src="' + img + '"/>';
+
+        })
+        document.getElementById('user1_remove').innerHTML = '';
+        user1_remove.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user1_remove').innerHTML += '<img src="' + img + '"/>';
+
+        })
+    }
+
+    function pyitMal() {
+        user1_remove.push(user1.pop());
+        document.getElementById('user1_remove').innerHTML = '';
+        user1_remove.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user1_remove').innerHTML += '<img src="' + img + '"/>';
+
+        })
+        document.getElementById('user1').innerHTML = '';
+        user1.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user1').innerHTML += '<img src="' + img + '"/>';
+
+        })
+
+    }
+
+    const el = document.getElementById('container');
+
+    const hiddenDiv = document.getElementById('hidden-div');
+
+    // ✅ Show hidden DIV on hover
+    el.addEventListener('mouseover', function handleMouseOver() {
+        hiddenDiv.style.visibility = 'visible';
+    });
+
+    // ✅ (optionally) Hide DIV on mouse out
+    el.addEventListener('mouseout', function handleMouseOut() {
+        // 👇️ if you used visibility property to hide div
+        hiddenDiv.style.visibility = 'hidden';
+    });
+
+
+    function selfArrange() {
+        const fromIndex = user1.lastIndexOf(); // 👉️ 0
+        const toIndex = 1;
+
+        const element = user1.splice(fromIndex, 1)[0];
+        console.log(element); // ['css']
+
+        user1.splice(toIndex, 0, element);
+
+        document.getElementById('user1').innerHTML = '';
+        user1.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user1').innerHTML += '<img src="' + img + '"/>';
+
+        })
+        document.getElementById('output').innerHTML = '';
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+        })
+    }
+
+
+
+    console.log(arr); // 👉️ ['js', 'ts', 'css']
+
+
+    const imgs = document.getElementsByTagName('img');
+    const map = fn => x => Array.prototype.map.call(x, fn);
+
+    // function x(z){ return z; }; /* Doesn't work */
+    // function x(z){alert(z); }; /* Does Work    */
+
+    map(img => {
+            img.addEventListener('mouseover', (e) => {
+                // imgs[e.target].onmouseover = x(e.target.src); /* function x(z) */
+                // document.getElementById("demo").innerHTML = x(e.target.src); /* Works Fine */
+                var x = e.target.src;
+                return x;
+            });
+        })(imgs)
+        /* I want to display the value here ( outside the function ) as below */
+    document.getElementById("demo").innerHTML = (imgs); /* returns [object HTMLCollection] */
+</script>
+
+</html>
