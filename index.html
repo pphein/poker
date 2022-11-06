@@ -19,10 +19,14 @@
         }
         
         img {
-            width: 3%;
-            margin: 5px;
+            width: 7%;
+            margin-left: -90px;
             /* height: 144px; */
             backface-visibility: hidden;
+        }
+        
+        img:first-child {
+            margin-left: 0;
         }
         
         #user1,
@@ -30,7 +34,7 @@
         #user3,
         #user4 {
             display: block;
-            float: right;
+            /* float: right; */
         }
         
         .action {
@@ -41,7 +45,7 @@
         #user2_remove,
         #user3_remove,
         #user4_remove {
-            float: left;
+            /* float: left; */
         }
     </style>
 </head>
@@ -60,11 +64,10 @@
     </div>
     <div id="user1_sarPhel"></div>
     <div id="user1_winnerCard"></div>
-    <div class="action">
-        <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCard()">
-        <input type="submit" value="စားမယ်" onclick="sarMal()">
-        <input type="submit" value="ဆွဲမယ်" onclick="swalMal()">
-        <input type="submit" value="ပစ်မယ်" onclick="pyitMal()">
+    <div class="action" id="action-1">
+        <input type="submit" value="စားမယ်" onclick="sarMaluser1()">
+        <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
+        <!-- <input type="submit" value="ပစ်မယ်" onclick="pyitMaluser1()"> -->
     </div>
     <div id="user1_remove"></div>
 
@@ -75,11 +78,11 @@
 
     <div id="user2_winnerCard"></div>
 
-    <div class="action">
-        <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCard()">
-        <input type="submit" value="စားမယ်" onclick="sarMal()">
-        <input type="submit" value="ဆွဲမယ်" onclick="swalMal()">
-        <input type="submit" value="ပစ်မယ်" onclick="pyitMal()">
+    <div class="action" id="action-2">
+
+        <input type="submit" value="စားမယ်" onclick="sarMaluser2()">
+        <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
+        <!-- <input type="submit" value="ပစ်မယ်" onclick="pyitMaluser2()"> -->
     </div>
     <div id="user2_remove"></div>
 
@@ -91,11 +94,11 @@
 
     <div id="user3_winnerCard"></div>
 
-    <div class="action">
-        <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCard()">
-        <input type="submit" value="စားမယ်" onclick="sarMal()">
-        <input type="submit" value="ဆွဲမယ်" onclick="swalMal()">
-        <input type="submit" value="ပစ်မယ်" onclick="pyitMal()">
+    <div class="action" id="action-3">
+
+        <input type="submit" value="စားမယ်" onclick="sarMaluser3()">
+        <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
+        <!-- <input type="submit" value="ပစ်မယ်" onclick="pyitMaluser3()"> -->
     </div>
     <div id="user3_remove"></div>
 
@@ -106,12 +109,12 @@
 
     <div id="user4_winnerCard"></div>
 
-    <div class="action">
-        <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCard()">
-        <input type="submit" value="စားမယ်" onclick="sarMal()">
-        <input type="submit" value="ဆွဲမယ်" onclick="swalMal()">
-        <input type="submit" value="ပစ်မယ်" onclick="pyitMal()">
-        <input type="submit" value="စီမယ်" onclick="selfArrange()">
+    <div class="action" id="action-4">
+
+        <input type="submit" value="စားမယ်" onclick="sarMaluser4()">
+        <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
+        <!-- <input type="submit" value="ပစ်မယ်" onclick="pyitMaluser4()"> -->
+        <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
 
     </div>
     <div id="user4_remove"></div>
@@ -176,7 +179,7 @@
         package.shuffle();
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"  src="' + "./cards/" + item + ".png" + '"/>';
 
         })
         document.getElementById('saMal').value = 'မွှေမယ်';
@@ -195,6 +198,7 @@
         user3_sarPhel = [],
         user4_sarPhel = [],
         showCard = [],
+        showCardType = '',
         user1_winnerCard = [],
         user2_winnerCard = [],
         user3_winnerCard = [],
@@ -202,6 +206,9 @@
 
     function wayMal() {
 
+        if (user1.length == 13) {
+            return false;
+        }
         user1.push(package.pop());
         user1.sort();
         document.getElementById('user1').innerHTML = '';
@@ -211,170 +218,642 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user1').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user1').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/" + item + ".png" + '"/>';
 
         })
 
         user2.push(package.pop());
         document.getElementById('user2').innerHTML = '';
         user2.forEach(function(item) {
-            if (player == "player2") {
+            if (player == "player1") {
                 img = "./cards/" + item + ".png";
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user2').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user2').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/" + item + ".png" + '"/>';
 
         })
 
         user3.push(package.pop());
         document.getElementById('user3').innerHTML = '';
         user3.forEach(function(item) {
-            if (player == "player3") {
+            if (player == "player1") {
                 img = "./cards/" + item + ".png";
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user3').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user3').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/" + item + ".png" + '"/>';
 
         })
 
         user4.push(package.pop());
         document.getElementById('user4').innerHTML = '';
         user4.forEach(function(item) {
-            if (player == "player4") {
+            if (player == "player1") {
                 img = "./cards/" + item + ".png";
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user4').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user4').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/" + item + ".png" + '"/>';
 
         })
 
     }
 
+    var countShowCarduser1 = 0;
+    var countShowCarduser2 = 0;
+    var countShowCarduser3 = 0;
+    var countShowCarduser4 = 0;
+    var showCarduser1 = [];
+    var showCarduser2 = [];
+    var showCarduser3 = [];
+    var showCarduser4 = [];
+
+    function removeItem(arr, item) {
+        return arr.filter(f => f !== item)
+    }
+
     function showFirstCard() {
+        if (showCard.length >= 1) {
+            return false;
+        }
         showCard.push(package.pop());
         document.getElementById('showCard').innerHTML = '';
         showCard.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('showCard').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('showCard').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
 
         })
+        showCardType = showCard[0][0];
+        if (showCarduser1.length == 0) {
+            user1.forEach(element => {
+                if (element.startsWith(showCardType)) {
+                    showCarduser1.push(element)
+                }
+            });
+        }
+        if (showCarduser2.length == 0) {
+            user2.forEach(function(element) {
+                if (element.startsWith(showCardType)) {
+                    showCarduser2.push(element)
+                }
+            });
+        }
+        if (showCarduser3.length == 0) {
+            user3.forEach(function(element) {
+                if (element.startsWith(showCardType)) {
+                    showCarduser3.push(element)
+                }
+            });
+        }
+        if (showCarduser4.length == 0) {
+            user4.forEach(function(element) {
+                if (element.startsWith(showCardType)) {
+                    showCarduser4.push(element)
+                }
+            });
+        }
+        if (showCarduser1.length) {
+            document.getElementById("action-1").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser1()">'
+        }
+        if (showCarduser2.length) {
+            document.getElementById("action-2").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser2()">'
+        }
+        if (showCarduser3.length) {
+            document.getElementById("action-3").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser3()">'
+
+        }
+        if (showCarduser4.length) {
+            document.getElementById("action-4").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser4()">'
+        }
     }
 
-    var countShowCard = 0;
-
-    function showWinnerCard() {
-        user2_winnerCard.push(user2[countShowCard])
-        document.getElementById("user2_winnerCard").innerHTML = '';
-        user2_winnerCard.forEach(item => {
-            document.getElementById("user2_winnerCard").innerHTML += '<img src="./cards/' + item + ".png" + '"/>';
-        });
-        countShowCard++;
-        document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoser()" />';
-        document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinner()" />';
+    function showWinnerCarduser1() {
+        // if (showCarduser1.length == 0) {
+        //     user1.forEach(element => {
+        //         if (element.startsWith(showCardType)) {
+        //             showCarduser1.push(element)
+        //         }
+        //     });
+        // }
+        showCarduser1 = showCarduser1.sort().reverse();
+        if (showCarduser1.length) {
+            if (showCarduser1.includes(showCard[0])) {
+                user1_winnerCard.push(showCard[0])
+                showCarduser1 = removeItem(showCarduser1, showCard[0]);
+            } else if (showCarduser1.includes(showCardType + '01')) {
+                user1_winnerCard.push(showCardType + '01')
+                showCarduser1 = removeItem(showCarduser1, (showCardType + '01'));
+            } else {
+                user1_winnerCard.push(showCarduser1[0])
+                showCarduser1 = removeItem(showCarduser1, showCarduser1[0])
+            }
+            document.getElementById("user1_winnerCard").innerHTML = '';
+            user1_winnerCard.forEach(item => {
+                document.getElementById("user1_winnerCard").innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="./cards/' + item + ".png" + '"/>';
+            });
+            document.getElementById("user1_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser1()" />';
+            document.getElementById("user1_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser1()" />';
+        }
     }
 
-    function firstCardWinner() {
+    function showWinnerCarduser2() {
+        // if (showCarduser2.length == 0) {
+        //     user2.forEach(function(element) {
+        //         if (element.startsWith(showCardType)) {
+        //             showCarduser2.push(element)
+        //         }
+        //     });
+        // }
+        showCarduser2 = showCarduser2.sort().reverse();
+        if (showCarduser2.length) {
+            if (showCarduser2.includes(showCard[0])) {
+                user2_winnerCard.push(showCard[0])
+                showCarduser2 = removeItem(showCarduser1, showCard[0]);
+            } else if (showCarduser2.includes(showCardType + '01')) {
+                user2_winnerCard.push(showCardType + '01')
+                showCarduser2 = removeItem(showCarduser2, (showCardType + '01'));
+            } else {
+                user2_winnerCard.push(showCarduser2[0])
+                showCarduser2 = removeItem(showCarduser2, showCarduser2[0])
+            }
+            document.getElementById("user2_winnerCard").innerHTML = '';
+            user2_winnerCard.forEach(item => {
+                document.getElementById("user2_winnerCard").innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="./cards/' + item + ".png" + '"/>';
+            });
+            document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser2()" />';
+            document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser2()" />';
+        }
+    }
+
+    function showWinnerCarduser3() {
+        // if (showCarduser3.length == 0) {
+        //     user3.forEach(function(element) {
+        //         if (element.startsWith(showCardType)) {
+        //             showCarduser3.push(element)
+        //         }
+        //     });
+        // }
+        showCarduser3 = showCarduser3.sort().reverse();
+
+        if (showCarduser3.length) {
+
+            if (showCarduser3.includes(showCard[0])) {
+                user3_winnerCard.push(showCard[0])
+                showCarduser3 = removeItem(showCarduser3, showCard[0]);
+            } else if (showCarduser3.includes(showCardType + '01')) {
+                user3_winnerCard.push(showCardType + '01')
+                showCarduser3 = removeItem(showCarduser3, (showCardType + '01'));
+            } else {
+                user3_winnerCard.push(showCarduser3[0])
+                showCarduser3 = removeItem(showCarduser3, showCarduser3[0])
+            }
+            document.getElementById("user3_winnerCard").innerHTML = '';
+            user3_winnerCard.forEach(item => {
+                document.getElementById("user3_winnerCard").innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="./cards/' + item + ".png" + '"/>';
+            });
+            document.getElementById("user3_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser3()" />';
+            document.getElementById("user3_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser3()" />';
+        }
+    }
+
+    function showWinnerCarduser4() {
+        // if (showCarduser4.length == 0) {
+        //     user4.forEach(function(element) {
+        //         if (element.startsWith(showCardType)) {
+        //             showCarduser4.push(element)
+        //         }
+        //     });
+        // }
+        showCarduser4 = showCarduser4.sort().reverse();
+        if (showCarduser4.length) {
+
+            if (showCarduser4.includes(showCard[0])) {
+                user4_winnerCard.push(showCard[0])
+                showCarduser4 = removeItem(showCarduser4, showCard[0]);
+            } else if (showCarduser4.includes(showCardType + '01')) {
+                user4_winnerCard.push(showCardType + '01')
+                showCarduser4 = removeItem(showCarduser4, (showCardType + '01'))
+            } else {
+                user4_winnerCard.push(showCarduser4[0])
+                showCarduser4 = removeItem(showCarduser4, showCarduser4[0])
+            }
+
+            document.getElementById("user4_winnerCard").innerHTML = '';
+            user4_winnerCard.forEach(item => {
+                document.getElementById("user4_winnerCard").innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="./cards/' + item + ".png" + '"/>';
+            });
+            document.getElementById("user4_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser4()" />';
+            document.getElementById("user4_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinner4()" />';
+        }
+    }
+
+    function firstCardWinneruser1() {
+        user1_winnerCard = [];
+        showCarduser1 = [];
+        document.getElementById("user1_winnerCard").innerHTML = '';
+        alert("I m winner yayyyyyyy");
+
+    }
+
+    function firstCardWinneruser2() {
         user2_winnerCard = [];
+        showCarduser2 = [];
         document.getElementById("user2_winnerCard").innerHTML = '';
         alert("I m winner yayyyyyyy");
 
     }
 
-    function firstCardLoser() {
+    function firstCardWinneruser3() {
+        user3_winnerCard = [];
+        showCarduser3 = [];
+        document.getElementById("user3_winnerCard").innerHTML = '';
+        alert("I m winner yayyyyyyy");
+
+    }
+
+    function firstCardWinneruser4() {
+        user4_winnerCard = [];
+        showCarduser4 = [];
+        document.getElementById("user4_winnerCard").innerHTML = '';
+        alert("I m winner yayyyyyyy");
+
+    }
+
+    function firstCardLoseruser1() {
+        user1_winnerCard = [];
+        showCarduser1 = [];
+        document.getElementById("user1_winnerCard").innerHTML = '';
+        alert("I am loser huuuuuu");
+
+    }
+
+    function firstCardLoseruser2() {
         user2_winnerCard = [];
+        showCarduser2 = [];
         document.getElementById("user2_winnerCard").innerHTML = '';
         alert("I am loser huuuuuu");
 
     }
 
-    function swalMal() {
+    function firstCardLoseruser3() {
+        user3_winnerCard = [];
+        showCarduser3 = [];
+        document.getElementById("user3_winnerCard").innerHTML = '';
+        alert("I am loser huuuuuu");
+
+    }
+
+    function firstCardLoseruser4() {
+        user4_winnerCard = [];
+        showCarduser4 = [];
+        document.getElementById("user4_winnerCard").innerHTML = '';
+        alert("I am loser huuuuuu");
+
+    }
+
+    function swalMaluser1() {
+        if (user1.length > 13) {
+            return false;
+        }
         user1.push(package.pop());
         user1.sort();
         document.getElementById('user1').innerHTML = '';
         user1.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user1').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
+
+        })
+    }
+
+    function swalMaluser2() {
+        if (user2.length > 13) {
+            return false;
+        }
+        user2.push(package.pop());
+        user2.sort();
+        document.getElementById('user2').innerHTML = '';
+        user2.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user2').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('output').innerHTML = '';
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
 
         })
 
     }
 
-    function sarMal() {
-        sarPhel = user1_remove.pop();
+    function swalMaluser3() {
+        if (user3.length > 13) {
+            return false;
+        }
+        user3.push(package.pop());
+        user3.sort();
+        document.getElementById('user3').innerHTML = '';
+        user3.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user3').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('output').innerHTML = '';
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
+
+        })
+
+    }
+
+    function swalMaluser4() {
+        if (user4.length > 13) {
+            return false;
+        }
+        user4.push(package.pop());
+        user4.sort();
+        document.getElementById('user4').innerHTML = '';
+        user4.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user4').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('output').innerHTML = '';
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
+
+        })
+
+    }
+
+    var initial = true;
+
+    function sarMaluser1() {
+        if (user1.length > 13) {
+            return false
+        } else if (user1_sarPhel.length == 3) {
+            confirm("Ready To game over???")
+        }
+        if (initial) {
+            sarPhel = showCard.pop();
+            showCard = [];
+            document.getElementById('showCard').innerHTML += '';
+            initial = false
+
+        } else {
+            sarPhel = user4_remove.pop();
+        }
+
         user1.push(sarPhel);
         user1_sarPhel.push(sarPhel);
-        user1.sort();
+        // user1.sort();
         document.getElementById('user1').innerHTML = '';
         user1.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user1').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
         document.getElementById('user1_sarPhel').innerHTML = '';
         user1_sarPhel.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1_sarPhel').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user1_sarPhel').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
         document.getElementById('user1_remove').innerHTML = '';
         user1_remove.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1_remove').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user1_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
     }
 
-    function pyitMal() {
-        user1_remove.push(user1.pop());
+    function sarMaluser2() {
+        if (user2.length > 13) {
+            return false
+        } else if (user2_sarPhel.length == 3) {
+            confirm("Ready To game over???")
+        }
+        if (initial) {
+            sarPhel = showCard.pop();
+            showCard = [];
+            document.getElementById('showCard').innerHTML += '';
+            initial = false
+
+        } else {
+            sarPhel = user1_remove.pop();
+        }
+
+        user2.push(sarPhel);
+        user2_sarPhel.push(sarPhel);
+        // user2.sort();
+        document.getElementById('user2').innerHTML = '';
+        user2.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user2').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('user2_sarPhel').innerHTML = '';
+        user2_sarPhel.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user2_sarPhel').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('user2_remove').innerHTML = '';
+        user2_remove.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user2_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+    }
+
+    function sarMaluser3() {
+        if (user3.length > 13) {
+            return false
+        } else if (user3_sarPhel.length == 3) {
+            confirm("Ready To game over???")
+        }
+        if (initial) {
+            sarPhel = showCard.pop();
+            showCard = [];
+            document.getElementById('showCard').innerHTML += '';
+            initial = false
+
+        } else {
+            sarPhel = user2_remove.pop();
+        }
+
+        user3.push(sarPhel);
+        user3_sarPhel.push(sarPhel);
+        // user3.sort();
+        document.getElementById('user3').innerHTML = '';
+        user3.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user3').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('user3_sarPhel').innerHTML = '';
+        user3_sarPhel.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user3_sarPhel').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('user3_remove').innerHTML = '';
+        user3_remove.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user3_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+    }
+
+    function sarMaluser4() {
+        if (user4.length > 13) {
+            return false
+        } else if (user4_sarPhel.length == 3) {
+            confirm("Ready To game over???")
+        }
+        if (initial) {
+            sarPhel = showCard.pop();
+            showCard = [];
+            document.getElementById('showCard').innerHTML += '';
+            initial = false
+
+        } else {
+            sarPhel = user3_remove.pop();
+        }
+
+        user4.push(sarPhel);
+        user4_sarPhel.push(sarPhel);
+        // user4.sort();
+        document.getElementById('user4').innerHTML = '';
+        user4.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user4').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('user4_sarPhel').innerHTML = '';
+        user4_sarPhel.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user4_sarPhel').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('user4_remove').innerHTML = '';
+        user4_remove.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user4_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+    }
+
+    function pyitMaluser1(x) {
+        cardName = x.src.match(/\/(\w+)\.png/)[1];
+        user1 = removeItem(user1, cardName)
+        user1_remove.push(cardName);
         document.getElementById('user1_remove').innerHTML = '';
         user1_remove.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1_remove').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user1_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
         document.getElementById('user1').innerHTML = '';
         user1.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user1').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+
+    }
+
+    function pyitMaluser2(x) {
+        cardName = x.src.match(/\/(\w+)\.png/)[1];
+        user2 = removeItem(user2, cardName)
+        user2_remove.push(cardName);
+        document.getElementById('user2_remove').innerHTML = '';
+        user2_remove.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user2_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('user2').innerHTML = '';
+        user2.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user2').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+
+    }
+
+    function pyitMaluser3(x) {
+        cardName = x.src.match(/\/(\w+)\.png/)[1];
+        user3 = removeItem(user3, cardName)
+        user3_remove.push(cardName);
+        document.getElementById('user3_remove').innerHTML = '';
+        user3_remove.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user3_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('user3').innerHTML = '';
+        user3.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user3').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+
+    }
+
+    function pyitMaluser4(x) {
+        cardName = x.src.match(/\/(\w+)\.png/)[1];
+        user4 = removeItem(user4, cardName)
+        user4_remove.push(cardName);
+        document.getElementById('user4_remove').innerHTML = '';
+        user4_remove.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user4_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+
+        })
+        document.getElementById('user4').innerHTML = '';
+        user4.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('user4').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
 
@@ -408,13 +887,13 @@
         document.getElementById('user1').innerHTML = '';
         user1.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1').innerHTML += '<img src="' + img + '"/>';
+            document.getElementById('user1').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
 
         })
     }
@@ -440,6 +919,35 @@
         })(imgs)
         /* I want to display the value here ( outside the function ) as below */
     document.getElementById("demo").innerHTML = (imgs); /* returns [object HTMLCollection] */
+
+    function bigImg(x) {
+        // x.style.height = "64px";
+        x.style.width = "10%";
+
+    }
+
+    function normalImg(x) {
+        // x.style.height = "32px";
+        x.style.width = "7%";
+        // cardName = x.src.match(/\/(\w+)\.png/)[1];
+        // parentId = x.parentNode.id;
+        // id = parentId + "_" + cardName;
+        // div = document.getElementById(id)
+        // document.getElementById(parentId).removeChild(div);
+    }
+
+    function readyToPyit(x) {
+        const div = document.createElement("div")
+        cardName = x.src.match(/\/(\w+)\.png/)[1];
+        x.id = cardName
+        parentId = x.parentNode.id;
+        div.id = parentId + "_" + cardName;
+        funcName = 'pyitMal' +
+            parentId + '(' + cardName + ')';
+        document.getElementById(parentId).appendChild(div);
+        document.getElementById(div.id).innerHTML = '<input type="submit" value="ပစ်မယ်" onclick="' + funcName + '" />';
+
+    }
 </script>
 
 </html>
