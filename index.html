@@ -6,6 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js">
+    </script>
+
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js">
+    </script>
     <style>
         body {
             margin: 0;
@@ -47,7 +54,56 @@
         #user4_remove {
             /* float: left; */
         }
+        
+        #user1 {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+        
+        #user1 div {
+            margin: 0 4px 4px 4px;
+            padding: 0.4em;
+            display: inline-block;
+        }
+        /* Output order styling */
+        
+        #outputvalues {
+            margin: 0 2px 2px 2px;
+            padding: 0.4em;
+            padding-left: 1.5em;
+            /* width: 250px; */
+            border: 2px solid dark-green;
+            background: gray;
+        }
+        
+        .listitemClass {
+            border: 1px solid #006400;
+            /* width: 350px; */
+        }
+        
+        .height {
+            height: 10px;
+        }
     </style>
+    <script>
+        $(function() {
+            $("#user1").sortable({
+                update: function(event, ui) {
+                        getIdsOfImages();
+                    } //end update		
+            });
+        });
+
+        function getIdsOfImages() {
+            var values = [];
+            $('img').each(function(index) {
+                values.push(this.src.match(/\/(\w+)\.png/)[1]);
+            });
+
+            $('#outputvalues').val(values);
+        }
+    </script>
 </head>
 
 <body>
@@ -59,7 +115,7 @@
 
     <div id="showCard"></div>
     <div id="output"></div>
-    <div id="user1">
+    <div class="container" id="user1test">
 
     </div>
     <div id="user1_sarPhel"></div>
@@ -71,7 +127,7 @@
     </div>
     <div id="user1_remove"></div>
 
-    <div id="user2">
+    <div class="container" id="user2">
 
     </div>
     <div id="user2_sarPhel"></div>
@@ -87,7 +143,7 @@
     <div id="user2_remove"></div>
 
 
-    <div id="user3">
+    <div class="container" id="user3">
 
     </div>
     <div id="user3_sarPhel"></div>
@@ -102,7 +158,7 @@
     </div>
     <div id="user3_remove"></div>
 
-    <div id="user4">
+    <div class="container" id="user4">
 
     </div>
     <div id="user4_sarPhel"></div>
@@ -118,6 +174,43 @@
 
     </div>
     <div id="user4_remove"></div>
+
+    <h1 style="color:green">GeeksforGeeks</h1>
+
+    <b>Drag and drop using jQuery UI Sortable</b>
+
+    <div class="height"></div><br>
+
+    <div id="user1">
+        <div id="imageNo1" class="listitemClass">
+            <img src="./cards/a01.png" alt="">
+        </div>
+
+        <div id="imageNo2" class="listitemClass">
+            <img src="./cards/a02.png" alt="">
+        </div>
+
+        <div id="imageNo3" class="listitemClass">
+            <img src="./cards/a03.png" alt="">
+        </div>
+
+        <div id="imageNo4" class="listitemClass">
+            <img src="./cards/a04.png" alt="">
+        </div>
+
+        <div id="imageNo5" class="listitemClass">
+            <img src="./cards/a05.png" alt="">
+        </div>
+
+        <div id="imageNo6" class="listitemClass">
+            <img src="./cards/a06.png" alt="">
+        </div>
+    </div>
+
+    <div id="outputDiv">
+        <b>Output of ID's of images : </b>
+        <input id="outputvalues" type="text" value="" />
+    </div>
 
 
 </body>
@@ -218,8 +311,10 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user1').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
-
+            document.getElementById('user1').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick = "readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ' +
+                '</div>';
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
@@ -236,7 +331,7 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user2').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user2').innerHTML += '<img onclick = "readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ';
 
         })
         document.getElementById('output').innerHTML = '';
@@ -254,7 +349,7 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user3').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user3').innerHTML += '<img onclick = "readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ';
 
         })
         document.getElementById('output').innerHTML = '';
@@ -272,7 +367,7 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user4').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user4').innerHTML += '<img onclick = "readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ';
 
         })
         document.getElementById('output').innerHTML = '';
@@ -859,6 +954,16 @@
 
     }
 
+    function maPyitBu(x) {
+        normalImg(x)
+        cardName = x.src.match(/\/(\w+)\.png/)[1];
+        parentId = x.parentNode.id;
+        id = parentId + "_" + cardName;
+        div = document.getElementById(id)
+        document.getElementById(parentId).removeChild(div);
+
+    }
+
     const el = document.getElementById('container');
 
     const hiddenDiv = document.getElementById('hidden-div');
@@ -936,16 +1041,21 @@
         // document.getElementById(parentId).removeChild(div);
     }
 
+    var readyToPyitMal = false;
+
     function readyToPyit(x) {
+        x.onmouseout = "bigImg(" + x + ")";
         const div = document.createElement("div")
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         x.id = cardName
         parentId = x.parentNode.id;
         div.id = parentId + "_" + cardName;
-        funcName = 'pyitMal' +
+        pyitMalFuncName = 'pyitMal' +
             parentId + '(' + cardName + ')';
+        maPyitBuFuncName = 'maPyitBu' + '(' + cardName + ')';
         document.getElementById(parentId).appendChild(div);
-        document.getElementById(div.id).innerHTML = '<input type="submit" value="ပစ်မယ်" onclick="' + funcName + '" />';
+        document.getElementById(div.id).innerHTML = '<input type="submit" value="ပစ်မယ်" onclick="' + pyitMalFuncName + '" />';
+        document.getElementById(div.id).innerHTML += '<input type="submit" value="မပစ်ဘူး" onclick="' + maPyitBuFuncName + '" />';
 
     }
 </script>
