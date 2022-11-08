@@ -25,32 +25,32 @@
             float: left;
         }
         
+        #output {
+            margin-left: 10px;
+            padding-left: 10px;
+            border: 1px solid green;
+            display: relative;
+        }
+        
         img {
             width: 7%;
-            margin-left: -90px;
-            display: none;
-            /* height: 144px; */
-            /* backface-visibility: hidden; */
+            margin-left: -6.145%;
         }
         
         img:first-child {
-            margin-left: 0;
+            margin-left: .5%;
         }
         
         #user1,
         #user2,
         #user3,
         #user4 {
-            display: block;
-            /* float: right; */
+            margin-left: 10px;
+            padding-left: 10px;
+            border: 1px solid green;
+            display: relative;
         }
         
-        .listitemClass img {
-            display: block;
-            width: 2%;
-            /* float: right; */
-        }
-
         .action {
             clear: both;
         }
@@ -59,136 +59,25 @@
         #user2_remove,
         #user3_remove,
         #user4_remove {
-            /* float: left; */
-        }
-        
-        #user1 {
-            margin: 0;
-            padding: 0;
-            list-style-type: none;
-        }
-/*         
-        #user1 div {
-            margin: 0 4px 4px 4px;
-            padding: 0.4em;
-            display: inline-block;
-            display: inline;
-        } */
-        /* .listitemClass {
-            display: inline;
-            background-color: #0a0a23;
-            position: relative;
-        }
-
-        .listitemClass img {
-            display: inline;
-            width: 2%;
-            left: 50%;
-        } */
-
-        .listitemClass {    
-            /* height: 480px;?\ */
-            width: 2%;
-            display: inline-block;
-        }
-
-        .listitemClass img{
-            height: 100%;
-            width: 100%;
-        }
-        /* Output order styling */
-        
-        #outputvalues1,
-        #outputvalues2,
-        #outputvalues3,
-        #outputvalues4 {
-            margin: 0 2px 2px 2px;
-            padding: 0.4em;
-            padding-left: 1.5em;
-            /* width: 250px; */
-            border: 2px solid dark-green;
-            background: gray;
+            margin-left: 10px;
+            padding-left: 10px;
+            border: 1px solid green;
+            display: relative;
         }
         
         .listitemClass {
+            display: inline-block;
             border: 1px solid #006400;
-            /* width: 350px; */
+            width: 7%;
+            margin-left: -.6%;
+            display: relative;
         }
         
-        .height {
-            height: 10px;
+        .listitemClass img {
+            width: 100%;
         }
     </style>
     <script>
-        $(function() {
-            $("#user1").sortable({
-                update: function(event, ui) {
-                       manualSortuser1();
-                    }		
-            });
-        });
-        $(function() {
-            $("#user2").sortable({
-                update: function(event, ui) {
-                       manualSortuser2();
-                    }		
-            });
-        });
-        $(function() {
-            $("#user3").sortable({
-                update: function(event, ui) {
-                       manualSortuser3();
-                    }		
-            });
-        });
-        $(function() {
-            $("#user4").sortable({
-                update: function(event, ui) {
-                       manualSortuser4();
-                    }		
-            });
-        });
-
-        function manualSortuser1() {
-            const temp = [];
-            var images = document.querySelectorAll('#user1 > .listitemClass > img');
-            images.forEach(function(imgae){
-                temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-            });
-            user1 = temp;
-            $('#outputvalues1').val(user1);
-            
-        }
-        function manualSortuser2() {
-            const temp = [];
-            var images = document.querySelectorAll('#user2 > .listitemClass > img');
-            images.forEach(function(imgae){
-                temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-            });
-            user2 = temp;
-            $('#outputvalues2').val(user2);
-            
-        }
-        function manualSortuser3() {
-            const temp = [];
-            var images = document.querySelectorAll('#user3 > .listitemClass > img');
-            images.forEach(function(imgae){
-                temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-            });
-            user3 = temp;
-            $('#outputvalues3').val(user3);
-            
-        }
-        function manualSortuser4() {
-            const temp = [];
-            var images = document.querySelectorAll('#user4 > .listitemClass > img');
-            images.forEach(function(imgae){
-                temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-            });
-            user4 = temp;
-            $('#outputvalues4').val(user4);
-            
-        }
     </script>
 </head>
 
@@ -196,100 +85,51 @@
     <input id="saMal" type="submit" value="စမယ်" onclick="saMal()">
     <input type="submit" value="ဝေမယ်" onclick="wayMal()">
     <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
-    <div id="demo"></div>
 
-
-    <div id="showCard"></div>
+    <div id="showCard">လှန်ဖဲ</div>
     <div id="output"></div>
-    <div class="container" id="user1">
-
-    </div>
-    <div id="user1_sarPhel"></div>
+    <div class="container" id="user1"></div>
+    <div id="user1_sarPhel">USER-1 စားဖဲ</div>
     <div id="user1_winnerCard"></div>
     <div class="action" id="action-1">
         <input type="submit" value="စားမယ်" onclick="sarMaluser1()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
-        <!-- <input type="submit" value="ပစ်မယ်" onclick="pyitMaluser1()"> -->
+        <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
     </div>
-    <div id="user1_remove"></div>
+    <div id="user1_remove">USER-1 ပစ်ဖဲ</div>
 
-    <div class="container" id="user2">
-
-    </div>
-    <div id="user2_sarPhel"></div>
-
+    <div class="container" id="user2"></div>
+    <div id="user2_sarPhel">USER-2 စားဖဲ</div>
     <div id="user2_winnerCard"></div>
-
     <div class="action" id="action-2">
-
         <input type="submit" value="စားမယ်" onclick="sarMaluser2()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
-        <!-- <input type="submit" value="ပစ်မယ်" onclick="pyitMaluser2()"> -->
+        <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
     </div>
-    <div id="user2_remove"></div>
+    <div id="user2_remove">USER-2 ပစ်ဖဲ</div>
 
 
-    <div class="container" id="user3">
-
-    </div>
-    <div id="user3_sarPhel"></div>
-
+    <div class="container" id="user3"></div>
+    <div id="user3_sarPhel">USER-3 စားဖဲ</div>
     <div id="user3_winnerCard"></div>
-
     <div class="action" id="action-3">
-
         <input type="submit" value="စားမယ်" onclick="sarMaluser3()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
-        <!-- <input type="submit" value="ပစ်မယ်" onclick="pyitMaluser3()"> -->
+        <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
     </div>
-    <div id="user3_remove"></div>
+    <div id="user3_remove">USER-3 ပစ်ဖဲ</div>
 
-    <div class="container" id="user4">
-
-    </div>
-    <div id="user4_sarPhel"></div>
-
+    <div class="container" id="user4"></div>
+    <div id="user4_sarPhel">USER-4 စားဖဲ</div>
     <div id="user4_winnerCard"></div>
-
     <div class="action" id="action-4">
-
         <input type="submit" value="စားမယ်" onclick="sarMaluser4()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
-        <!-- <input type="submit" value="ပစ်မယ်" onclick="pyitMaluser4()"> -->
         <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
-
     </div>
-    <div id="user4_remove"></div>
-
+    <div id="user4_remove">USER-4 ပစ်ဖဲ</div>
+    <!-- 
     <b>Drag and drop using jQuery UI Sortable</b>
-
-    <div class="height"></div><br>
-
-    <!-- <div id="user1test">
-        <div id="imageNo1" class="listitemClass">
-            <img src="./cards/a01.png" alt="">
-        </div>
-
-        <div id="imageNo2" class="listitemClass">
-            <img src="./cards/a02.png" alt="">
-        </div>
-
-        <div id="imageNo3" class="listitemClass">
-            <img src="./cards/a03.png" alt="">
-        </div>
-
-        <div id="imageNo4" class="listitemClass">
-            <img src="./cards/a04.png" alt="">
-        </div>
-
-        <div id="imageNo5" class="listitemClass">
-            <img src="./cards/a05.png" alt="">
-        </div>
-
-        <div id="imageNo6" class="listitemClass">
-            <img src="./cards/a06.png" alt="">
-        </div>
-    </div> -->
 
     <div id="outputDiv">
         <b>Output of ID's of images : </b>
@@ -297,12 +137,13 @@
         <input id="outputvalues2" type="text" value="" />
         <input id="outputvalues3" type="text" value="" />
         <input id="outputvalues4" type="text" value="" />
-    </div>
+    </div>  -->
 
 
 </body>
 
 <script>
+    var initial = true;
     var player = "player1";
 
     var a1 = ['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', 'a10', 'a11', 'a12', 'a13'];
@@ -316,54 +157,10 @@
     var d1 = ['d01', 'd02', 'd03', 'd04', 'd05', 'd06', 'd07', 'd08', 'd09', 'd10', 'd11', 'd12', 'd13'];
     var d2 = ['d01', 'd02', 'd03', 'd04', 'd05', 'd06', 'd07', 'd08', 'd09', 'd10', 'd11', 'd12', 'd13'];
 
-    var j1 = ['j1', 'j2'];
-    var j2 = ['j1', 'j2'];
+    var joker1 = ['j1', 'j2'];
+    var joker2 = ['j1', 'j2'];
 
-    // var package = [a1, a2, b1, b2, c1, c2, d1, d2, j1, j2];
-
-    var package = a1.concat(a2, b1, b2, c1, c2, d1, d2, j1, j2)
-
-    // function shuffle(array) {
-    //     let currentIndex = array.length,
-    //         randomIndex;
-
-    //     // While there remain elements to shuffle.
-    //     while (currentIndex != 0) {
-
-    //         // Pick a remaining element.
-    //         randomIndex = Math.floor(Math.random() * currentIndex);
-    //         currentIndex--;
-
-    //         // And swap it with the current element.
-    //         [array[currentIndex], array[randomIndex]] = [
-    //             array[randomIndex], array[currentIndex]
-    //         ];
-    //     }
-
-    //     return array;
-    // }
-
-    Array.prototype.shuffle = function() {
-        let m = this.length,
-            i;
-        while (m) {
-            i = (Math.random() * m--) >>> 0;
-            [this[m], this[i]] = [this[i], this[m]]
-        }
-        return this;
-    }
-
-    function saMal() {
-        document.getElementById('output').innerHTML = '';
-        // shuffle(package);
-        package.shuffle();
-        package.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"  src="' + "./cards/" + item + ".png" + '"/>';
-
-        })
-        document.getElementById('saMal').value = 'မွှေမယ်';
-    };
+    var package = a1.concat(a2, b1, b2, c1, c2, d1, d2, joker1, joker2);
 
     var user1 = [],
         user2 = [],
@@ -384,13 +181,43 @@
         user3_winnerCard = [],
         user4_winnerCard = [];
 
+    var countShowCarduser1 = 0;
+    var countShowCarduser2 = 0;
+    var countShowCarduser3 = 0;
+    var countShowCarduser4 = 0;
+    var showCarduser1 = [];
+    var showCarduser2 = [];
+    var showCarduser3 = [];
+    var showCarduser4 = [];
+
+    Array.prototype.shuffle = function() {
+        let m = this.length,
+            i;
+        while (m) {
+            i = (Math.random() * m--) >>> 0;
+            [this[m], this[i]] = [this[i], this[m]]
+        }
+        return this;
+    }
+
+    function saMal() {
+        document.getElementById('output').innerHTML = '';
+        // shuffle(package);
+        package.shuffle();
+        package.forEach(function(item) {
+            img = "./cards/" + item + ".png";
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/" + item + ".png" + '"/>';
+
+        })
+        document.getElementById('saMal').value = 'မွှေမယ်';
+    };
+
     function wayMal() {
 
         if (user1.length == 13) {
             return false;
         }
         user1.push(package.pop());
-        user1.sort();
         document.getElementById('user1').innerHTML = '';
         user1.forEach(function(item) {
             if (player == "player1") {
@@ -400,13 +227,13 @@
             }
             document.getElementById('user1').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img onclick="readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/" + item + ".png" + '"/>';
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/" + item + ".png" + '"/>';
 
         })
 
@@ -418,16 +245,16 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user2').innerHTML += 
-            '<div class="listitemClass">' +
-                '<img onclick="readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ' +
-            '</div>';
+            document.getElementById('user2').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/" + item + ".png" + '"/>';
+            document.getElementById('output').innerHTML += '<img  src="' + "./cards/" + item + ".png" + '"/>';
 
         })
 
@@ -439,16 +266,16 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user3').innerHTML += 
-            '<div class="listitemClass">' +
-                '<img onclick="readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ' +
-            '</div>';
+            document.getElementById('user3').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/" + item + ".png" + '"/>';
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/" + item + ".png" + '"/>';
 
         })
 
@@ -460,29 +287,20 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user4').innerHTML += 
-            '<div class="listitemClass">' +
-                '<img onclick="readyToPyit('+this+')" onmouseover = "bigImg('+this+')" onmouseout = "normalImg('+this+')" src = "' + img + '" / > ' +
-            '</div>';
+            document.getElementById('user4').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/" + item + ".png" + '"/>';
+            document.getElementById('output').innerHTML += '<img  src="' + "./cards/" + item + ".png" + '"/>';
 
         })
 
     }
-
-    var countShowCarduser1 = 0;
-    var countShowCarduser2 = 0;
-    var countShowCarduser3 = 0;
-    var countShowCarduser4 = 0;
-    var showCarduser1 = [];
-    var showCarduser2 = [];
-    var showCarduser3 = [];
-    var showCarduser4 = [];
 
     function removeItem(arr, item) {
         return arr.filter(f => f !== item)
@@ -496,13 +314,13 @@
         document.getElementById('showCard').innerHTML = '';
         showCard.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('showCard').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('showCard').innerHTML += '<img src="' + img + '"/>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
 
         })
         showCardType = showCard[0][0];
@@ -571,7 +389,7 @@
             }
             document.getElementById("user1_winnerCard").innerHTML = '';
             user1_winnerCard.forEach(item => {
-                document.getElementById("user1_winnerCard").innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="./cards/' + item + ".png" + '"/>';
+                document.getElementById("user1_winnerCard").innerHTML += '<img src="./cards/' + item + ".png" + '"/>';
             });
             document.getElementById("user1_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser1()" />';
             document.getElementById("user1_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser1()" />';
@@ -600,7 +418,7 @@
             }
             document.getElementById("user2_winnerCard").innerHTML = '';
             user2_winnerCard.forEach(item => {
-                document.getElementById("user2_winnerCard").innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="./cards/' + item + ".png" + '"/>';
+                document.getElementById("user2_winnerCard").innerHTML += '<img src="./cards/' + item + ".png" + '"/>';
             });
             document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser2()" />';
             document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser2()" />';
@@ -631,7 +449,7 @@
             }
             document.getElementById("user3_winnerCard").innerHTML = '';
             user3_winnerCard.forEach(item => {
-                document.getElementById("user3_winnerCard").innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="./cards/' + item + ".png" + '"/>';
+                document.getElementById("user3_winnerCard").innerHTML += '<img src="./cards/' + item + ".png" + '"/>';
             });
             document.getElementById("user3_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser3()" />';
             document.getElementById("user3_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser3()" />';
@@ -662,7 +480,7 @@
 
             document.getElementById("user4_winnerCard").innerHTML = '';
             user4_winnerCard.forEach(item => {
-                document.getElementById("user4_winnerCard").innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="./cards/' + item + ".png" + '"/>';
+                document.getElementById("user4_winnerCard").innerHTML += '<img src="./cards/' + item + ".png" + '"/>';
             });
             document.getElementById("user4_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser4()" />';
             document.getElementById("user4_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinner4()" />';
@@ -734,26 +552,30 @@
     }
 
     function swalMaluser1() {
+        initial = false
         if (user1.length > 13) {
             return false;
         }
         user1.push(package.pop());
-        user1.sort();
         document.getElementById('user1').innerHTML = '';
         user1.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user1').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img  src="' + "./cards/back.png" + '"/>';
 
         })
     }
 
     function swalMaluser2() {
+        initial = false
         if (user2.length > 13) {
             return false;
         }
@@ -762,19 +584,23 @@
         document.getElementById('user2').innerHTML = '';
         user2.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user2').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user2').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
 
         })
 
     }
 
     function swalMaluser3() {
+        initial = false
         if (user3.length > 13) {
             return false;
         }
@@ -783,19 +609,23 @@
         document.getElementById('user3').innerHTML = '';
         user3.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user3').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user3').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src ="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
 
         })
 
     }
 
     function swalMaluser4() {
+        initial = false
         if (user4.length > 13) {
             return false;
         }
@@ -804,19 +634,20 @@
         document.getElementById('user4').innerHTML = '';
         user4.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user4').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user4').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
 
         })
 
     }
-
-    var initial = true;
 
     function sarMaluser1() {
         if (user1.length > 13) {
@@ -824,14 +655,16 @@
         } else if (user1_sarPhel.length == 3) {
             confirm("Ready To game over???")
         }
-        if (initial) {
+        if (initial && showCard.length == 1) {
             sarPhel = showCard.pop();
             showCard = [];
             document.getElementById('showCard').innerHTML += '';
             initial = false
 
-        } else {
+        } else if (user4_remove.length) {
             sarPhel = user4_remove.pop();
+        } else {
+            return false
         }
 
         user1.push(sarPhel);
@@ -840,19 +673,22 @@
         document.getElementById('user1').innerHTML = '';
         user1.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user1').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('user1_sarPhel').innerHTML = '';
         user1_sarPhel.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1_sarPhel').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user1_sarPhel').innerHTML += '<img  src="' + img + '"/>';
 
         })
         document.getElementById('user1_remove').innerHTML = '';
         user1_remove.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user1_remove').innerHTML += '<img src="' + img + '"/>';
 
         })
     }
@@ -863,14 +699,16 @@
         } else if (user2_sarPhel.length == 3) {
             confirm("Ready To game over???")
         }
-        if (initial) {
+        if (initial && showCard.length == 1) {
             sarPhel = showCard.pop();
             showCard = [];
             document.getElementById('showCard').innerHTML += '';
             initial = false
 
-        } else {
+        } else if (user1_remove.length) {
             sarPhel = user1_remove.pop();
+        } else {
+            return false
         }
 
         user2.push(sarPhel);
@@ -879,19 +717,22 @@
         document.getElementById('user2').innerHTML = '';
         user2.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user2').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user2').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('user2_sarPhel').innerHTML = '';
         user2_sarPhel.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user2_sarPhel').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user2_sarPhel').innerHTML += '<img src="' + img + '"/>';
 
         })
         document.getElementById('user2_remove').innerHTML = '';
         user2_remove.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user2_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user2_remove').innerHTML += '<img src="' + img + '"/>';
 
         })
     }
@@ -902,14 +743,16 @@
         } else if (user3_sarPhel.length == 3) {
             confirm("Ready To game over???")
         }
-        if (initial) {
+        if (initial && showCard.length == 1) {
             sarPhel = showCard.pop();
             showCard = [];
             document.getElementById('showCard').innerHTML += '';
             initial = false
 
-        } else {
+        } else if (user2_remove.length) {
             sarPhel = user2_remove.pop();
+        } else {
+            return false
         }
 
         user3.push(sarPhel);
@@ -918,19 +761,22 @@
         document.getElementById('user3').innerHTML = '';
         user3.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user3').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user3').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('user3_sarPhel').innerHTML = '';
         user3_sarPhel.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user3_sarPhel').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user3_sarPhel').innerHTML += '<img src="' + img + '"/>';
 
         })
         document.getElementById('user3_remove').innerHTML = '';
         user3_remove.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user3_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user3_remove').innerHTML += '<img src="' + img + '"/>';
 
         })
     }
@@ -941,14 +787,16 @@
         } else if (user4_sarPhel.length == 3) {
             confirm("Ready To game over???")
         }
-        if (initial) {
+        if (initial && showCard.length == 1) {
             sarPhel = showCard.pop();
             showCard = [];
             document.getElementById('showCard').innerHTML += '';
             initial = false
 
-        } else {
+        } else if (user3_remove.length) {
             sarPhel = user3_remove.pop();
+        } else {
+            return false
         }
 
         user4.push(sarPhel);
@@ -957,94 +805,113 @@
         document.getElementById('user4').innerHTML = '';
         user4.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user4').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user4').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
         document.getElementById('user4_sarPhel').innerHTML = '';
         user4_sarPhel.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user4_sarPhel').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user4_sarPhel').innerHTML += '<img src="' + img + '"/>';
 
         })
         document.getElementById('user4_remove').innerHTML = '';
         user4_remove.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user4_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user4_remove').innerHTML += '<img src="' + img + '"/>';
 
         })
     }
 
     function pyitMaluser1(x) {
+        alert(x)
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         user1 = removeItem(user1, cardName)
         user1_remove.push(cardName);
         document.getElementById('user1_remove').innerHTML = '';
         user1_remove.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user1_remove').innerHTML += '<img src="' + img + '"/>';
 
         })
         document.getElementById('user1').innerHTML = '';
         user1.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user1').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user1').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
 
     }
 
     function pyitMaluser2(x) {
+        alert(x)
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         user2 = removeItem(user2, cardName)
         user2_remove.push(cardName);
         document.getElementById('user2_remove').innerHTML = '';
         user2_remove.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user2_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user2_remove').innerHTML += '<img src="' + img + '"/>';
 
         })
         document.getElementById('user2').innerHTML = '';
         user2.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user2').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user2').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
 
     }
 
     function pyitMaluser3(x) {
+        alert(x)
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         user3 = removeItem(user3, cardName)
         user3_remove.push(cardName);
         document.getElementById('user3_remove').innerHTML = '';
         user3_remove.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user3_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user3_remove').innerHTML += '<img src="' + img + '"/>';
 
         })
         document.getElementById('user3').innerHTML = '';
         user3.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user3').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user3').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
 
     }
 
     function pyitMaluser4(x) {
+        alert(x)
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         user4 = removeItem(user4, cardName)
         user4_remove.push(cardName);
         document.getElementById('user4_remove').innerHTML = '';
         user4_remove.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user4_remove').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user4_remove').innerHTML += '<img src="' + img + '"/>';
 
         })
         document.getElementById('user4').innerHTML = '';
         user4.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('user4').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
+            document.getElementById('user4').innerHTML +=
+                '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '</div>';
 
         })
 
@@ -1053,98 +920,31 @@
     function maPyitBu(x) {
         normalImg(x)
         cardName = x.src.match(/\/(\w+)\.png/)[1];
-        parentId = x.parentNode.id;
+        parentClass = x.parentNode;
+        parentId = parentClass.parentNode.id;
         id = parentId + "_" + cardName;
         div = document.getElementById(id)
         document.getElementById(parentId).removeChild(div);
 
     }
 
-    const el = document.getElementById('container');
-
-    const hiddenDiv = document.getElementById('hidden-div');
-
-    // ✅ Show hidden DIV on hover
-    el.addEventListener('mouseover', function handleMouseOver() {
-        hiddenDiv.style.visibility = 'visible';
-    });
-
-    // ✅ (optionally) Hide DIV on mouse out
-    el.addEventListener('mouseout', function handleMouseOut() {
-        // 👇️ if you used visibility property to hide div
-        hiddenDiv.style.visibility = 'hidden';
-    });
-
-
-    function selfArrange() {
-        const fromIndex = user1.lastIndexOf(); // 👉️ 0
-        const toIndex = 1;
-
-        const element = user1.splice(fromIndex, 1)[0];
-        console.log(element); // ['css']
-
-        user1.splice(toIndex, 0, element);
-
-        document.getElementById('user1').innerHTML = '';
-        user1.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('user1').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + img + '"/>';
-
-        })
-        document.getElementById('output').innerHTML = '';
-        package.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)"    src="' + "./cards/back.png" + '"/>';
-
-        })
-    }
-
-
-
-    console.log(arr); // 👉️ ['js', 'ts', 'css']
-
-
-    const imgs = document.getElementsByTagName('img');
-    const map = fn => x => Array.prototype.map.call(x, fn);
-
-    // function x(z){ return z; }; /* Doesn't work */
-    // function x(z){alert(z); }; /* Does Work    */
-
-    map(img => {
-            img.addEventListener('mouseover', (e) => {
-                // imgs[e.target].onmouseover = x(e.target.src); /* function x(z) */
-                // document.getElementById("demo").innerHTML = x(e.target.src); /* Works Fine */
-                var x = e.target.src;
-                return x;
-            });
-        })(imgs)
-        /* I want to display the value here ( outside the function ) as below */
-    document.getElementById("demo").innerHTML = (imgs); /* returns [object HTMLCollection] */
-
     function bigImg(x) {
-        // x.style.height = "64px";
-        x.style.width = "100%";
-
+        x.style.width = "110%";
     }
 
     function normalImg(x) {
         // x.style.height = "32px";
         x.style.width = "100%";
-        // cardName = x.src.match(/\/(\w+)\.png/)[1];
-        // parentId = x.parentNode.id;
-        // id = parentId + "_" + cardName;
-        // div = document.getElementById(id)
-        // document.getElementById(parentId).removeChild(div);
     }
 
     var readyToPyitMal = false;
 
     function readyToPyit(x) {
-        x.onmouseout = "bigImg(" + x + ")";
         const div = document.createElement("div")
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         x.id = cardName
-        parentId = x.parentNode.id;
+        parentClass = x.parentNode;
+        parentId = parentClass.parentNode.id
         div.id = parentId + "_" + cardName;
         pyitMalFuncName = 'pyitMal' +
             parentId + '(' + cardName + ')';
@@ -1152,6 +952,82 @@
         document.getElementById(parentId).appendChild(div);
         document.getElementById(div.id).innerHTML = '<input type="submit" value="ပစ်မယ်" onclick="' + pyitMalFuncName + '" />';
         document.getElementById(div.id).innerHTML += '<input type="submit" value="မပစ်ဘူး" onclick="' + maPyitBuFuncName + '" />';
+
+    }
+
+    function selfArrangeuser1() {
+        $("#user1").sortable({
+            update: function(event, ui) {
+                manualSortuser1();
+            }
+        });
+    };
+
+    function selfArrangeuser2() {
+        $("#user2").sortable({
+            update: function(event, ui) {
+                manualSortuser2();
+            }
+        });
+    };
+
+    function selfArrangeuser3() {
+        $("#user3").sortable({
+            update: function(event, ui) {
+                manualSortuser3();
+            }
+        });
+    };
+
+    function selfArrangeuser4() {
+        $("#user4").sortable({
+            update: function(event, ui) {
+                manualSortuser4();
+            }
+        });
+    };
+
+    function manualSortuser1() {
+        const temp = [];
+        var images = document.querySelectorAll('#user1 > .listitemClass > img');
+        images.forEach(function(imgae) {
+            temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+        });
+        user1 = temp;
+        $('#outputvalues1').val(user1);
+
+    }
+
+    function manualSortuser2() {
+        const temp = [];
+        var images = document.querySelectorAll('#user2 > .listitemClass > img');
+        images.forEach(function(imgae) {
+            temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+        });
+        user2 = temp;
+        $('#outputvalues2').val(user2);
+
+    }
+
+    function manualSortuser3() {
+        const temp = [];
+        var images = document.querySelectorAll('#user3 > .listitemClass > img');
+        images.forEach(function(imgae) {
+            temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+        });
+        user3 = temp;
+        $('#outputvalues3').val(user3);
+
+    }
+
+    function manualSortuser4() {
+        const temp = [];
+        var images = document.querySelectorAll('#user4 > .listitemClass > img');
+        images.forEach(function(imgae) {
+            temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+        });
+        user4 = temp;
+        $('#outputvalues4').val(user4);
 
     }
 </script>
