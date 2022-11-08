@@ -28,8 +28,9 @@
         img {
             width: 7%;
             margin-left: -90px;
+            display: none;
             /* height: 144px; */
-            backface-visibility: hidden;
+            /* backface-visibility: hidden; */
         }
         
         img:first-child {
@@ -44,6 +45,12 @@
             /* float: right; */
         }
         
+        .listitemClass img {
+            display: block;
+            width: 2%;
+            /* float: right; */
+        }
+
         .action {
             clear: both;
         }
@@ -60,11 +67,34 @@
             padding: 0;
             list-style-type: none;
         }
-        
+/*         
         #user1 div {
             margin: 0 4px 4px 4px;
             padding: 0.4em;
             display: inline-block;
+            display: inline;
+        } */
+        /* .listitemClass {
+            display: inline;
+            background-color: #0a0a23;
+            position: relative;
+        }
+
+        .listitemClass img {
+            display: inline;
+            width: 2%;
+            left: 50%;
+        } */
+
+        .listitemClass {    
+            /* height: 480px;?\ */
+            width: 2%;
+            display: inline-block;
+        }
+
+        .listitemClass img{
+            height: 100%;
+            width: 100%;
         }
         /* Output order styling */
         
@@ -90,18 +120,20 @@
         $(function() {
             $("#user1").sortable({
                 update: function(event, ui) {
-                        getIdsOfImages();
+                       getIdsOfImages();
                     } //end update		
             });
         });
 
         function getIdsOfImages() {
-            var values = [];
-            $('img').each(function(index) {
-                values.push(this.src.match(/\/(\w+)\.png/)[1]);
+            const temp = [];
+            var images = document.querySelectorAll('#user1 > .listitemClass > img');
+            images.forEach(function(imgae){
+                temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
             });
-
-            $('#outputvalues').val(values);
+            user1 = temp;
+            $('#outputvalues').val(temp);
+            
         }
     </script>
 </head>
@@ -115,7 +147,7 @@
 
     <div id="showCard"></div>
     <div id="output"></div>
-    <div class="container" id="user1test">
+    <div class="container" id="user1">
 
     </div>
     <div id="user1_sarPhel"></div>
@@ -175,13 +207,11 @@
     </div>
     <div id="user4_remove"></div>
 
-    <h1 style="color:green">GeeksforGeeks</h1>
-
     <b>Drag and drop using jQuery UI Sortable</b>
 
     <div class="height"></div><br>
 
-    <div id="user1">
+    <!-- <div id="user1test">
         <div id="imageNo1" class="listitemClass">
             <img src="./cards/a01.png" alt="">
         </div>
@@ -205,7 +235,7 @@
         <div id="imageNo6" class="listitemClass">
             <img src="./cards/a06.png" alt="">
         </div>
-    </div>
+    </div> -->
 
     <div id="outputDiv">
         <b>Output of ID's of images : </b>
@@ -1027,13 +1057,13 @@
 
     function bigImg(x) {
         // x.style.height = "64px";
-        x.style.width = "10%";
+        x.style.width = "100%";
 
     }
 
     function normalImg(x) {
         // x.style.height = "32px";
-        x.style.width = "7%";
+        x.style.width = "100%";
         // cardName = x.src.match(/\/(\w+)\.png/)[1];
         // parentId = x.parentNode.id;
         // id = parentId + "_" + cardName;
