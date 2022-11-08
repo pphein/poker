@@ -98,7 +98,10 @@
         }
         /* Output order styling */
         
-        #outputvalues {
+        #outputvalues1,
+        #outputvalues2,
+        #outputvalues3,
+        #outputvalues4 {
             margin: 0 2px 2px 2px;
             padding: 0.4em;
             padding-left: 1.5em;
@@ -120,19 +123,70 @@
         $(function() {
             $("#user1").sortable({
                 update: function(event, ui) {
-                       getIdsOfImages();
-                    } //end update		
+                       manualSortuser1();
+                    }		
+            });
+        });
+        $(function() {
+            $("#user2").sortable({
+                update: function(event, ui) {
+                       manualSortuser2();
+                    }		
+            });
+        });
+        $(function() {
+            $("#user3").sortable({
+                update: function(event, ui) {
+                       manualSortuser3();
+                    }		
+            });
+        });
+        $(function() {
+            $("#user4").sortable({
+                update: function(event, ui) {
+                       manualSortuser4();
+                    }		
             });
         });
 
-        function getIdsOfImages() {
+        function manualSortuser1() {
             const temp = [];
             var images = document.querySelectorAll('#user1 > .listitemClass > img');
             images.forEach(function(imgae){
                 temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
             });
             user1 = temp;
-            $('#outputvalues').val(temp);
+            $('#outputvalues1').val(user1);
+            
+        }
+        function manualSortuser2() {
+            const temp = [];
+            var images = document.querySelectorAll('#user2 > .listitemClass > img');
+            images.forEach(function(imgae){
+                temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+            });
+            user2 = temp;
+            $('#outputvalues2').val(user2);
+            
+        }
+        function manualSortuser3() {
+            const temp = [];
+            var images = document.querySelectorAll('#user3 > .listitemClass > img');
+            images.forEach(function(imgae){
+                temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+            });
+            user3 = temp;
+            $('#outputvalues3').val(user3);
+            
+        }
+        function manualSortuser4() {
+            const temp = [];
+            var images = document.querySelectorAll('#user4 > .listitemClass > img');
+            images.forEach(function(imgae){
+                temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+            });
+            user4 = temp;
+            $('#outputvalues4').val(user4);
             
         }
     </script>
@@ -239,7 +293,10 @@
 
     <div id="outputDiv">
         <b>Output of ID's of images : </b>
-        <input id="outputvalues" type="text" value="" />
+        <input id="outputvalues1" type="text" value="" />
+        <input id="outputvalues2" type="text" value="" />
+        <input id="outputvalues3" type="text" value="" />
+        <input id="outputvalues4" type="text" value="" />
     </div>
 
 
@@ -343,7 +400,7 @@
             }
             document.getElementById('user1').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img onclick = "readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ' +
+                '<img onclick="readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ' +
                 '</div>';
         })
         document.getElementById('output').innerHTML = '';
@@ -361,7 +418,10 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user2').innerHTML += '<img onclick = "readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ';
+            document.getElementById('user2').innerHTML += 
+            '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ' +
+            '</div>';
 
         })
         document.getElementById('output').innerHTML = '';
@@ -379,7 +439,10 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user3').innerHTML += '<img onclick = "readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ';
+            document.getElementById('user3').innerHTML += 
+            '<div class="listitemClass">' +
+                '<img onclick="readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ' +
+            '</div>';
 
         })
         document.getElementById('output').innerHTML = '';
@@ -397,7 +460,10 @@
             } else {
                 img = "./cards/back.png";
             }
-            document.getElementById('user4').innerHTML += '<img onclick = "readyToPyit(this)" onmouseover = "bigImg(this)" onmouseout = "normalImg(this)" src = "' + img + '" / > ';
+            document.getElementById('user4').innerHTML += 
+            '<div class="listitemClass">' +
+                '<img onclick="readyToPyit('+this+')" onmouseover = "bigImg('+this+')" onmouseout = "normalImg('+this+')" src = "' + img + '" / > ' +
+            '</div>';
 
         })
         document.getElementById('output').innerHTML = '';
