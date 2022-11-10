@@ -69,12 +69,48 @@
             display: inline-block;
             border: 1px solid #006400;
             width: 7%;
-            margin-left: -.6%;
+            margin-left: .5%;
             display: relative;
         }
         
         .listitemClass img {
             width: 100%;
+        }
+        
+        #pp {
+            border: 1px solid gray;
+        }
+        
+        .item {
+            float: left;
+            cursor: move;
+            display: block;
+            padding: 10px;
+            margin: 5px 5px;
+            background: #eee;
+            list-style: none;
+            border: 1px solid #CCC;
+            background: #E0DEDF;
+            color: #FF3300;
+            font-size: 24px;
+            margin: 10px;
+            padding: 5px;
+            /* height: 38px; */
+            width: 10%;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            user-select: none;
+            position: relative;
+        }
+        
+        img {
+            width: 10%;
+            margin-left: 1%;
+        }
+        
+        div.inMotion {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
         }
     </style>
 </head>
@@ -136,6 +172,47 @@
         <input id="outputvalues3" type="text" value="" />
         <input id="outputvalues4" type="text" value="" />
     </div>  -->
+
+    <div id="user">
+        <div class="listitemClass">
+            <img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="./cards/a01.png" alt="">
+
+        </div>
+
+        <div class="listitemClass">
+            <img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="./cards/a02.png" alt="">
+
+        </div>
+        <div class="listitemClass">
+            <img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="./cards/a03.png" alt="">
+
+        </div>
+        <div class="listitemClass">
+            <img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="./cards/a04.png" alt="">
+
+        </div>
+
+    </div>
+    <div id="user5">
+        <div class="listitemClass">
+            <img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src=" ./cards/a01.png" alt=" ">
+
+        </div>
+
+        <div class=" listitemClass ">
+            <img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="./cards/a02.png" alt="">
+
+        </div>
+        <div class="listitemClass">
+            <img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src=" ./cards/a03.png " alt=" ">
+
+        </div>
+        <div class=" listitemClass ">
+            <img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="./cards/a04.png" alt="">
+
+        </div>
+
+    </div>
 
 </body>
 
@@ -226,7 +303,7 @@
             }
             document.getElementById('user1').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser1()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
         })
         document.getElementById('output').innerHTML = '';
@@ -246,7 +323,7 @@
             }
             document.getElementById('user2').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser2()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -267,7 +344,7 @@
             }
             document.getElementById('user3').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser3()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -288,7 +365,7 @@
             }
             document.getElementById('user4').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser4()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -563,7 +640,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user1').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser1()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -587,7 +664,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user2').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser2()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -612,7 +689,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user3').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser3()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src ="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src ="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -637,7 +714,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user4').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser4()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -676,7 +753,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user1').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser1()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -720,7 +797,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user2').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser2()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -764,7 +841,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user3').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser3()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -808,7 +885,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user4').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser4()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -872,7 +949,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user1').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser1()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -905,7 +982,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user2').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser2()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -938,7 +1015,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user3').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser3()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -971,7 +1048,7 @@
             img = "./cards/" + item + ".png";
             document.getElementById('user4').innerHTML +=
                 '<div class="listitemClass">' +
-                '<img ontouchmove="selfArrangeOnTouchuser4()" onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                '<img onclick=readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
 
         })
@@ -1092,56 +1169,83 @@
 
     }
 
-    function selfArrangeOnTouchuser1() {
-        $("#user1").sortable({
-            update: function(event, ui) {
-                manualSortuser1();
-            }
-        });
-    };
-
-    function selfArrangeOnTouchuser2() {
-        $("#user2").sortable({
-            update: function(event, ui) {
-                manualSortuser2();
-            }
-        });
-    };
-
-    function selfArrangeOnTouchuser3() {
-        $("#user3").sortable({
-            update: function(event, ui) {
-                manualSortuser3();
-            }
-        });
-    };
-
-    function selfArrangeOnTouchuser4() {
-        $("#user4").sortable({
-            update: function(event, ui) {
-                manualSortuser4();
-            }
-        });
-    };
-
-    function test() {
-        alert("hello")
-    }
-
     $(function() {
-        $('.listitemClass').sortable({
-            onComplete: function(a) {
-                a = a.originalEvent;
-                b = d(a.touches ? a.touches[0].target : a.target);
-                p = q.position().top;
-                r = p + q.innerHeight() + b.height();
-                g.css("position", "relative");
-                b.addClass("inMotion").css("z-index", 1);
-                k = !1;
-                a.touches ? (h = a.touches[0].pageY, d("body").on("touchmove.sortable", n).on("touchend.sortable", l).on("touchcancel.sortable",
-                    l)) : (h = a.pageY, d("body").on("mousemove.sortable", n).on("mouseup.sortable", l).on("mouseleave.sortable", l))
-            }
+        $('#user').sortable({
+            // updated: function list() {
+            //     var temp = [];
+            //     var images = document.querySelectorAll('#user > div');
+            //     images.forEach(function(imgae) {
+            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+            //     });
+            //     user = temp;
+            //     alert(temp)
+            // }
         });
+        $('#user5').touch_sortable({
+            // updated: function list() {
+            //     var temp = [];
+            //     var images = document.querySelectorAll('#user5 > div');
+            //     images.forEach(function(imgae) {
+            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+            //     });
+            //     user5 = temp;
+            //     alert(user5)
+            // }
+        });
+        $('#user1').touch_sortable({
+            // updated: function list() {
+            //     var temp = [];
+            //     var images = document.querySelectorAll('#user1 > div');
+            //     images.forEach(function(imgae) {
+            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+            //     });
+            //     user1 = temp;
+            //     alert(user1)
+            // }
+        });
+        $('#user2').touch_sortable({
+            // updated: function list() {
+            //     var temp = [];
+            //     var images = document.querySelectorAll('#user5 > div');
+            //     images.forEach(function(imgae) {
+            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+            //     });
+            //     user1 = temp;
+            //     alert(user1)
+            // }
+        });
+        $('#user3').touch_sortable({
+            // updated: function list() {
+            //     var temp = [];
+            //     var images = document.querySelectorAll('#user5 > div');
+            //     images.forEach(function(imgae) {
+            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+            //     });
+            //     user1 = temp;
+            //     alert(user1)
+            // }
+        });
+        $('#user4').sortable({
+            // updated: function list() {
+            //     var temp = [];
+            //     var images = document.querySelectorAll('#user5 > div');
+            //     images.forEach(function(imgae) {
+            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+            //     });
+            //     user1 = temp;
+            //     alert(user1)
+            // }
+        });
+
+        // function list() {
+        //     var temp = [];
+        //     var images = document.querySelectorAll('#user > img');
+        //     images.forEach(function(imgae) {
+        //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+        //     });
+        //     user4 = temp;
+        //     alert(user4);
+        // };
     });
 </script>
 

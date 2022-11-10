@@ -85,13 +85,13 @@
                 onComplete: function(a) {
                     a = a.originalEvent;
                     b = d(a.touches ? a.touches[0].target : a.target);
-                    p = q.position().top;
-                    r = p + q.innerHeight() + b.height();
+                    p = q.position().left;
+                    r = p + q.innerWidth() + b.width();
                     g.css("position", "relative");
                     b.addClass("inMotion").css("z-index", 1);
                     k = !1;
-                    a.touches ? (h = a.touches[0].pageY, d("body").on("touchmove.sortable", n).on("touchend.sortable", l).on("touchcancel.sortable",
-                        l)) : (h = a.pageY, d("body").on("mousemove.sortable", n).on("mouseup.sortable", l).on("mouseleave.sortable", l))
+                    a.touches ? (w = a.touches[0].pageX, d("body").on("touchmove.sortable", n).on("touchend.sortable", l).on("touchcancel.sortable",
+                        l)) : (w = a.pageX, d("body").on("mousemove.sortable", n).on("mouseup.sortable", l).on("mouseleave.sortable", l))
                 }
             });
         });

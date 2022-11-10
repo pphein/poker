@@ -1,6 +1,6 @@
 (function($) {
     "use strict";
-    $.fn.sortable = function(options) {
+    $.fn.touch_sortable = function(options) {
         options = options || {};
         var startEvent = ('ontouchstart' in document.documentElement) ? 'touchstart' : 'mousedown';
 
@@ -34,7 +34,7 @@
             function onStart(e) {
                 e = e.originalEvent.touches ? e.originalEvent : e;
                 el = $(e.touches ? e.touches[0].target : e.target);
-                if (!el.is('li')) el = el.closest('li');
+                if (!el.is('div')) el = el.closest('div');
                 parentLeft = parent.position().left;
                 parentRight = parentLeft + parent.innerWidth() + el.width();
 
@@ -72,7 +72,7 @@
                     positionDelta = positionNow - positionAtStart;
                     el.css('left', positionDelta);
                 } else {
-                    positionDelta = el.css('left').split('px')[0];
+                    positionDelta = el.css('left').split('%')[0];
                 }
 
                 /* Distance remaining to move, as a number of elDistances */
@@ -130,8 +130,11 @@
                     }, 150, function() {
                         el.css({ 'left': '', 'z-index': '' }).removeClass('inMotion');
                         els.css('position', '');
-                        if (options.onComplete) {
-                            options.onComplete(el);
+                        // if (options.onComplete) {
+                        //     options.onComplete(el);
+                        // }
+                        if (options.updated) {
+                            options.updated(el);
                         }
                     });
                 }
