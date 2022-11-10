@@ -1,34 +1,3 @@
-
-Skip to content
-Pull requests
-Issues
-Marketplace
-Explore
-@pphein
-docubuzz /
-touch-sortable.js
-Public
-
-Code
-Issues 2
-Pull requests
-Actions
-Projects
-Wiki
-Security
-
-    Insights
-
-touch-sortable.js/touch-sortable.js /
-@jieyanhuang
-jieyanhuang updated with iecompatibility changes
-Latest commit 0168613 Jun 14, 2013
-History
-3 contributors
-@jieyanhuang
-@ashishpuliyel
-@andreu86
-executable file 149 lines (129 sloc) 6.24 KB
 (function ($) {
     "use strict";
     $.fn.sortable = function (options) {

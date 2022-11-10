@@ -62,6 +62,7 @@
                 var vals = [];
                 for (var i = 0, l = lis.length; i < l; i++)
                     vals.push(lis[i].innerHTML);
+                vals.sort();
                 for (var i = 0, l = lis.length; i < l; i++)
                     lis[i].innerHTML = vals[i];
        }
