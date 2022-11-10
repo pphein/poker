@@ -825,18 +825,23 @@
         })
     }
 
-    function checkToRemove(sarPhel, htwetPehl, card) {
+    function checkToRemove(sarPhel, htwetPhel, card) {
+        sarPhelMi = false;
+        htwetPhelShi = false;
         result = false;
         sarPhel.forEach(function (el) {
             if(el.endsWith(card)){
-                result = true;
+                sarPhelMi = true;
             }
         })
-        htwetPehl.forEach(function (el) {
+        htwetPhel.forEach(function (el) {
             if(el.endsWith(card)){
-                result = true;
+                htwetPhelShi = true;
             }
         })
+        if(sarPhelMi && !htwetPhelShi){
+            result = true
+        }
         return result;
     }
 
@@ -946,7 +951,7 @@
             confirm("Are you sure?");
         }
         cardNumber = cardName.slice(1);
-        if (checkToRemove(user2_sarPhel,cardNumber)) {
+        if (checkToRemove(user1_sarPhel,user1_remove,cardNumber)) {
             alert("Your card is not allowed");
             return false;
         } else(
