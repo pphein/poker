@@ -46,7 +46,7 @@
         #user3,
         #user4 {
             margin-left: 10px;
-            padding-left: 10px;
+            /* padding-left: 10px; */
             border: 1px solid green;
             display: relative;
         }
@@ -55,81 +55,134 @@
             clear: both;
         }
         
-        #user1_remove,
-        #user2_remove,
-        #user3_remove,
-        #user4_remove {
-            margin-left: 10px;
-            padding-left: 10px;
-            border: 1px solid green;
-            display: relative;
-        }
-        
         .listitemClass {
             display: inline-block;
             border: 1px solid #006400;
             width: 7%;
-            margin-left: .5%;
+            margin-left: -.4%;
             display: relative;
         }
         
         .listitemClass img {
             width: 100%;
+            margin-left: -.2%;
         }
         
         div.inMotion {
             box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
         }
+        
+        .show {
+            margin-left: 10px;
+            /* padding-left: 10px; */
+            border: 1px solid green;
+            display: relative;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+        }
+        
+        #user1_remove,
+        #user2_remove,
+        #user3_remove,
+        #user4_remove {
+            background-color: gray;
+        }
+        
+        #user1_sarPhel,
+        #user2_sarPhel,
+        #user3_sarPhel,
+        #user4_sarPhel {
+            background-color: beige;
+        }
+        
+        .action,
+        .header {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        input:hover {
+            background-color: gray;
+        }
+        
+        input:focus {
+            background-color: green;
+        }
+        
+        .private {
+            border: 2px solid red;
+            margin: 1%;
+        }
     </style>
 </head>
 
 <body>
-    <input id="saMal" type="submit" value="စမယ်" onclick="saMal()">
-    <input type="submit" value="ဝေမယ်" onclick="wayMal()">
-    <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
+
+    <div class="header">
+        <input id="saMal" type="submit" value="စမယ်" onclick="saMal()">
+        <input type="submit" value="ဝေမယ်" onclick="wayMal()">
+        <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
+    </div>
 
     <div id="showCard"></div>
     <div id="output"></div>
-    <div class="container" id="user1"></div>
-    <div id="user1_sarPhel"></div>
-    <div id="user1_winnerCard"></div>
-    <div class="action" id="action-1">
-        <input type="submit" value="စားမယ်" onclick="sarMaluser1()">
-        <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
-        <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
+    <div class="show">
+        <div id="user4_remove"></div>
+        <div id="user1_winnerCard"></div>
+        <div id="user1_sarPhel"></div>
     </div>
-    <div id="user1_remove"></div>
-
-    <div class="container" id="user2"></div>
-    <div id="user2_sarPhel"></div>
-    <div id="user2_winnerCard"></div>
-    <div class="action" id="action-2">
-        <input type="submit" value="စားမယ်" onclick="sarMaluser2()">
-        <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
-        <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
+    <div class="private">
+        <div class="container" id="user1"></div>
+        <div class="action" id="action-1">
+            <input type="submit" value="စားမယ်" onclick="sarMaluser1()">
+            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
+            <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
+        </div>
     </div>
-    <div id="user2_remove"></div>
 
-
-    <div class="container" id="user3"></div>
-    <div id="user3_sarPhel"></div>
-    <div id="user3_winnerCard"></div>
-    <div class="action" id="action-3">
-        <input type="submit" value="စားမယ်" onclick="sarMaluser3()">
-        <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
-        <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
+    <div class="show">
+        <div id="user1_remove"></div>
+        <div id="user2_winnerCard"></div>
+        <div id="user2_sarPhel"></div>
     </div>
-    <div id="user3_remove"></div>
-
-    <div class="container" id="user4"></div>
-    <div id="user4_sarPhel"></div>
-    <div id="user4_winnerCard"></div>
-    <div class="action" id="action-4">
-        <input type="submit" value="စားမယ်" onclick="sarMaluser4()">
-        <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
-        <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
+    <div class="private">
+        <div class="container" id="user2"></div>
+        <div class="action" id="action-2">
+            <input type="submit" value="စားမယ်" onclick="sarMaluser2()">
+            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
+            <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
+        </div>
     </div>
-    <div id="user4_remove"></div>
+
+    <div class="show">
+        <div id="user2_remove"></div>
+        <div id="user3_winnerCard"></div>
+        <div id="user3_sarPhel"></div>
+    </div>
+    <div class="private">
+        <div class="container" id="user3"></div>
+        <div class="action" id="action-3">
+            <input type="submit" value="စားမယ်" onclick="sarMaluser3()">
+            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
+            <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
+        </div>
+    </div>
+
+    <div class="show">
+        <div id="user3_remove"></div>
+        <div id="user4_winnerCard"></div>
+
+        <div id="user4_sarPhel"></div>
+    </div>
+    <div class="private">
+        <div class="container" id="user4"></div>
+        <div class="action" id="action-4">
+            <input type="submit" value="စားမယ်" onclick="sarMaluser4()">
+            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
+            <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
+        </div>
+    </div>
     <!-- 
     <b>Drag and drop using jQuery UI Sortable</b>
 
@@ -250,7 +303,7 @@
         package.shuffle();
         package.forEach(function(item) {
             img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/" + item + ".png" + '"/>';
+            document.getElementById('output').innerHTML += '<img src="' + "./cards/" + 'back' + ".png" + '"/>';
 
         })
         document.getElementById('saMal').value = 'မွှေမယ်';
@@ -274,12 +327,6 @@
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
         })
-        document.getElementById('output').innerHTML = '';
-        package.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/" + item + ".png" + '"/>';
-
-        })
 
         user2.push(package.pop());
         document.getElementById('user2').innerHTML = '';
@@ -295,12 +342,6 @@
                 '</div>';
 
         })
-        document.getElementById('output').innerHTML = '';
-        package.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img  src="' + "./cards/" + item + ".png" + '"/>';
-
-        })
 
         user3.push(package.pop());
         document.getElementById('user3').innerHTML = '';
@@ -314,12 +355,6 @@
                 '<div class="listitemClass">' +
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
                 '</div>';
-
-        })
-        document.getElementById('output').innerHTML = '';
-        package.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img src="' + "./cards/" + item + ".png" + '"/>';
 
         })
 
@@ -339,8 +374,8 @@
         })
         document.getElementById('output').innerHTML = '';
         package.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('output').innerHTML += '<img  src="' + "./cards/" + item + ".png" + '"/>';
+            img = "./cards/" + "back" + ".png";
+            document.getElementById('output').innerHTML += '<img  src="' + img + '"/>';
 
         })
 
