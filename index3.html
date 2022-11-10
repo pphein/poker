@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TouchSort</title>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js">
+    </script>
+
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js">
+    </script>
+    <style>
+        li {
+            cursor: move;
+           display:block; 
+           padding:10px; 
+           margin:5px 0; 
+           background:#eee;
+           list-style: none;
+            border: 1px solid #CCC;
+            background: #E0DEDF;
+            color: #FF3300;
+            font-size: 24px;
+            margin: 10px;
+            padding: 5px;
+            height: 38px;
+            width: 280px;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            user-select: none;
+        }   
+        li.inMotion {
+            box-shadow:0 1px 3px rgba(0,0,0,.3);
+            
+        }
+    </style>
+</head>
+<body>
+    <ul class="sortable">
+        <li>Item 3</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+    </ul>
+    
+    <script src="./js/touch-sortable.js"></script>
+    <script>
+       $(function () {
+        $('.sortable').sortable({
+            onComplete: function() {
+                sort();
+            }
+        });
+       });
+       function sort() {
+        ul = document.getElementsByTagName('ul');
+                var lis = ul.getElementsByTagName('li');
+                var vals = [];
+                for (var i = 0, l = lis.length; i < l; i++)
+                    vals.push(lis[i].innerHTML);
+                for (var i = 0, l = lis.length; i < l; i++)
+                    lis[i].innerHTML = vals[i];
+       }
+    </script>
+</body>
+</html>
