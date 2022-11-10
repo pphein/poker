@@ -61,7 +61,7 @@
         <li>Item 4</li>
     </ul> -->
     <div class="sortable-row">
-        <div id="box" style="width: 200px; height: 200px; background-color: red;"></div>
+        <div id="box" style="width: 200px; height: 200px; background-color: blue;"></div>
     </div>
 
     <script src="./js/touch-sortable.js"></script>
@@ -82,38 +82,51 @@
         //     });
         // });
 
-        $(function() {
-            $('.sortable-row').sortable({
-                onComplete: function() {
-                    // find the element that you want to drag.
-                    var box = document.getElementById('box');
+        // $(function() {
+        //     $('.sortable-row').sortable({
+        //         onComplete: function(a) {
+        //             a = a.originalEvent;
+        //             b = d(a.touches ? a.touches[0].target : a.target);
+        //             p = q.position().left;
+        //             r = p + q.innerWidth() + b.width();
+        //             g.css("position", "relative");
+        //             b.addClass("inMotion").css("z-index", 1);
+        //             k = !1;
+        //             a.touches ? (w = a.touches[0].pageX, d("body").on("touchmove.sortable", n).on("touchend.sortable", l).on("touchcancel.sortable",
+        //                 l)) : (w = a.pageX, d("body").on("mousemove.sortable", n).on("mouseup.sortable", l).on("mouseleave.sortable", l))
+        //         }
 
-                    /* listen to the touchMove event,
-                    every time it fires, grab the location
-                    of touch and assign it to box */
+        //     });
+        // });
 
-                    box.addEventListener('touchmove', function(e) {
-                        // grab the location of touch
-                        var touchLocation = e.targetTouches[0];
+        window.load = function() {
+            // find the element that you want to drag.
+            var box = document.getElementById('box');
 
-                        // assign box new coordinates based on the touch.
-                        box.style.left = touchLocation.pageX + 'px';
-                        box.style.top = touchLocation.pageY + 'px';
-                    })
+            /* listen to the touchMove event,
+            every time it fires, grab the location
+            of touch and assign it to box */
 
-                    /* record the position of the touch
-                    when released using touchend event.
-                    This will be the drop position. */
+            box.addEventListener('touchmove', function(e) {
+                // grab the location of touch
+                var touchLocation = e.targetTouches[0];
 
-                    box.addEventListener('touchend', function(e) {
-                        // current box position.
-                        var x = parseInt(box.style.left);
-                        var y = parseInt(box.style.top);
-                    })
+                // assign box new coordinates based on the touch.
+                box.style.left = touchLocation.pageX + 'px';
+                box.style.top = touchLocation.pageY + 'px';
+            })
 
-                }
-            });
-        });
+            /* record the position of the touch
+            when released using touchend event.
+            This will be the drop position. */
+
+            box.addEventListener('touchend', function(e) {
+                // current box position.
+                var x = parseInt(box.style.left);
+                var y = parseInt(box.style.top);
+            })
+
+        }
 
         function sort() {
             ul = document.getElementsByTagName('ul');
