@@ -304,7 +304,7 @@
     function removeItem(arr, item) {
         index = arr.indexOf(item)
         arr.splice(index, 1)
-        return arr;        
+        return arr;
     }
 
     function showFirstCard() {
@@ -830,17 +830,17 @@
         sarPhelMi = false;
         htwetPhelShi = false;
         result = false;
-        sarPhel.forEach(function (el) {
-            if(el.endsWith(card)){
+        sarPhel.forEach(function(el) {
+            if (el.endsWith(card)) {
                 sarPhelMi = true;
             }
         })
-        htwetPhel.forEach(function (el) {
-            if(el.endsWith(card)){
+        htwetPhel.forEach(function(el) {
+            if (el.endsWith(card)) {
                 htwetPhelShi = true;
             }
         })
-        if(sarPhelMi && !htwetPhelShi){
+        if (sarPhelMi && !htwetPhelShi) {
             result = true
         }
         return result;
@@ -919,7 +919,7 @@
             confirm("Are you sure?");
         }
         cardNumber = cardName.slice(1);
-        if (checkToRemove(user4_sarPhel, user4_remove,cardNumber)) {
+        if (checkToRemove(user4_sarPhel, user4_remove, cardNumber)) {
             alert("Your card is not allowed");
             return false;
         } else(
@@ -952,7 +952,7 @@
             confirm("Are you sure?");
         }
         cardNumber = cardName.slice(1);
-        if (checkToRemove(user1_sarPhel,user1_remove,cardNumber)) {
+        if (checkToRemove(user1_sarPhel, user1_remove, cardNumber)) {
             alert("Your card is not allowed");
             return false;
         } else(
@@ -1127,6 +1127,22 @@
     function test() {
         alert("hello")
     }
+
+    $(function() {
+        $('.listitemClass').sortable({
+            onComplete: function(a) {
+                a = a.originalEvent;
+                b = d(a.touches ? a.touches[0].target : a.target);
+                p = q.position().top;
+                r = p + q.innerHeight() + b.height();
+                g.css("position", "relative");
+                b.addClass("inMotion").css("z-index", 1);
+                k = !1;
+                a.touches ? (h = a.touches[0].pageY, d("body").on("touchmove.sortable", n).on("touchend.sortable", l).on("touchcancel.sortable",
+                    l)) : (h = a.pageY, d("body").on("mousemove.sortable", n).on("mouseup.sortable", l).on("mouseleave.sortable", l))
+            }
+        });
+    });
 </script>
 
 </html>
