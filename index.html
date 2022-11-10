@@ -77,8 +77,6 @@
             width: 100%;
         }
     </style>
-    <script>
-    </script>
 </head>
 
 <body>
@@ -86,48 +84,48 @@
     <input type="submit" value="ဝေမယ်" onclick="wayMal()">
     <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
 
-    <div id="showCard">လှန်ဖဲ</div>
+    <div id="showCard"></div>
     <div id="output"></div>
     <div class="container" id="user1"></div>
-    <div id="user1_sarPhel">USER-1 စားဖဲ</div>
+    <div id="user1_sarPhel"></div>
     <div id="user1_winnerCard"></div>
     <div class="action" id="action-1">
         <input type="submit" value="စားမယ်" onclick="sarMaluser1()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
         <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
     </div>
-    <div id="user1_remove">USER-1 ပစ်ဖဲ</div>
+    <div id="user1_remove"></div>
 
     <div class="container" id="user2"></div>
-    <div id="user2_sarPhel">USER-2 စားဖဲ</div>
+    <div id="user2_sarPhel"></div>
     <div id="user2_winnerCard"></div>
     <div class="action" id="action-2">
         <input type="submit" value="စားမယ်" onclick="sarMaluser2()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
         <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
     </div>
-    <div id="user2_remove">USER-2 ပစ်ဖဲ</div>
+    <div id="user2_remove"></div>
 
 
     <div class="container" id="user3"></div>
-    <div id="user3_sarPhel">USER-3 စားဖဲ</div>
+    <div id="user3_sarPhel"></div>
     <div id="user3_winnerCard"></div>
     <div class="action" id="action-3">
         <input type="submit" value="စားမယ်" onclick="sarMaluser3()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
         <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
     </div>
-    <div id="user3_remove">USER-3 ပစ်ဖဲ</div>
+    <div id="user3_remove"></div>
 
     <div class="container" id="user4"></div>
-    <div id="user4_sarPhel">USER-4 စားဖဲ</div>
+    <div id="user4_sarPhel"></div>
     <div id="user4_winnerCard"></div>
     <div class="action" id="action-4">
         <input type="submit" value="စားမယ်" onclick="sarMaluser4()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
         <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
     </div>
-    <div id="user4_remove">USER-4 ပစ်ဖဲ</div>
+    <div id="user4_remove"></div>
     <!-- 
     <b>Drag and drop using jQuery UI Sortable</b>
 
@@ -828,6 +826,19 @@
     function pyitMaluser1(x) {
         alert(x)
         cardName = x.src.match(/\/(\w+)\.png/)[1];
+        if (cardName.startsWith('j')) {
+            alert("Your card is JOKER");
+            confirm("Are you sure?");
+        }
+        cardNumber = cardName.slice(1);
+        if (user2_sarPhel.find((el) => {
+                el == cardNumber
+            })) {
+            alert("Your card is not allowed");
+            return false;
+        } else(
+            confirm("Are you sure")
+        )
         user1 = removeItem(user1, cardName)
         user1_remove.push(cardName);
         document.getElementById('user1_remove').innerHTML = '';
