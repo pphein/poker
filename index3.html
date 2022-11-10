@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,11 +16,11 @@
     <style>
         li {
             cursor: move;
-           display:block; 
-           padding:10px; 
-           margin:5px 0; 
-           background:#eee;
-           list-style: none;
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background: #eee;
+            list-style: none;
             border: 1px solid #CCC;
             background: #E0DEDF;
             color: #FF3300;
@@ -32,13 +33,14 @@
             -moz-border-radius: 10px;
             -webkit-border-radius: 10px;
             user-select: none;
-        }   
+        }
+        
         li.inMotion {
-            box-shadow:0 1px 3px rgba(0,0,0,.3);
-            
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
         }
     </style>
 </head>
+
 <body>
     <ul class="sortable">
         <li>Item 3</li>
@@ -46,36 +48,59 @@
         <li>Item 3</li>
         <li>Item 4</li>
     </ul>
-    
+
+    <ul class="sortable-row">
+        <li>Item 3</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+    </ul>
+
     <script src="./js/touch-sortable.js"></script>
     <script>
-       $(function () {
-        $('.sortable').sortable({
-            onComplete: function (a) {
-            a = a.originalEvent;
-            b = d(a.touches ? a.touches[0].target : a.target);
-            p = q.position().top;
-            r = p + q.innerHeight() + b.height();
-            g.css("position", "relative");
-            b.addClass("inMotion").css("z-index", 1);
-            k = !1;
-            a.touches ? (h = a.touches[0].pageY, d("body").on("touchmove.sortable", n).on("touchend.sortable", l).on("touchcancel.sortable",
-                l)) : (h = a.pageY, d("body").on("mousemove.sortable", n).on("mouseup.sortable", l).on("mouseleave.sortable", l))
-         }
+        $(function() {
+            $('.sortable').sortable({
+                onComplete: function(a) {
+                    a = a.originalEvent;
+                    b = d(a.touches ? a.touches[0].target : a.target);
+                    p = q.position().top;
+                    r = p + q.innerHeight() + b.height();
+                    g.css("position", "relative");
+                    b.addClass("inMotion").css("z-index", 1);
+                    k = !1;
+                    a.touches ? (h = a.touches[0].pageY, d("body").on("touchmove.sortable", n).on("touchend.sortable", l).on("touchcancel.sortable",
+                        l)) : (h = a.pageY, d("body").on("mousemove.sortable", n).on("mouseup.sortable", l).on("mouseleave.sortable", l))
+                }
+            });
         });
-       });
-       function sort() {
-        ul = document.getElementsByTagName('ul');
-                var lis = ul.getElementsByTagName('li');
-                var vals = [];
-                for (var i = 0, l = lis.length; i < l; i++)
-                    vals.push(lis[i].innerHTML);
-                vals.sort();
-                for (var i = 0, l = lis.length; i < l; i++)
-                    lis[i].innerHTML = vals[i];
-       }
 
-       
+        $(function() {
+            $('.sortable-row').sortable({
+                onComplete: function(a) {
+                    a = a.originalEvent;
+                    b = d(a.touches ? a.touches[0].target : a.target);
+                    p = q.position().left;
+                    r = p + q.innerWidth + b.width();
+                    g.css("position", "relative");
+                    b.addClass("inMotion").css("z-index", 1);
+                    k = !1;
+                    a.touches ? (h = a.touches[0].pageX, d("body").on("touchmove.sortable", n).on("touchend.sortable", l).on("touchcancel.sortable",
+                        l)) : (h = a.pageX, d("body").on("mousemove.sortable", n).on("mouseup.sortable", l).on("mouseleave.sortable", l))
+                }
+            });
+        });
+
+        function sort() {
+            ul = document.getElementsByTagName('ul');
+            var lis = ul.getElementsByTagName('li');
+            var vals = [];
+            for (var i = 0, l = lis.length; i < l; i++)
+                vals.push(lis[i].innerHTML);
+            vals.sort();
+            for (var i = 0, l = lis.length; i < l; i++)
+                lis[i].innerHTML = vals[i];
+        }
     </script>
 </body>
+
 </html>
