@@ -301,7 +301,9 @@
     }
 
     function removeItem(arr, item) {
-        return arr.filter(f => f !== item)
+        index = arr.indexOf(item)
+        arr.splice(index, 1)
+        return arr;        
     }
 
     function showFirstCard() {
@@ -823,17 +825,29 @@
         })
     }
 
+    function checkToRemove(sarPhel, htwetPehl, card) {
+        result = false;
+        sarPhel.forEach(function (el) {
+            if(el.endsWith(card)){
+                result = true;
+            }
+        })
+        htwetPehl.forEach(function (el) {
+            if(el.endsWith(card)){
+                result = true;
+            }
+        })
+        return result;
+    }
+
     function pyitMaluser1(x) {
-        alert(x)
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         if (cardName.startsWith('j')) {
             alert("Your card is JOKER");
             confirm("Are you sure?");
         }
         cardNumber = cardName.slice(1);
-        if (user2_sarPhel.find((el) => {
-                el == cardNumber
-            })) {
+        if (checkToRemove(user2_sarPhel, user2_remove, cardNumber)) {
             alert("Your card is not allowed");
             return false;
         } else(
@@ -860,8 +874,18 @@
     }
 
     function pyitMaluser2(x) {
-        alert(x)
         cardName = x.src.match(/\/(\w+)\.png/)[1];
+        if (cardName.startsWith('j')) {
+            alert("Your card is JOKER");
+            confirm("Are you sure?");
+        }
+        cardNumber = cardName.slice(1);
+        if (checkToRemove(user3_sarPhel, user3_remove, cardNumber)) {
+            alert("Your card is not allowed");
+            return false;
+        } else(
+            confirm("Are you sure")
+        )
         user2 = removeItem(user2, cardName)
         user2_remove.push(cardName);
         document.getElementById('user2_remove').innerHTML = '';
@@ -883,8 +907,18 @@
     }
 
     function pyitMaluser3(x) {
-        alert(x)
         cardName = x.src.match(/\/(\w+)\.png/)[1];
+        if (cardName.startsWith('j')) {
+            alert("Your card is JOKER");
+            confirm("Are you sure?");
+        }
+        cardNumber = cardName.slice(1);
+        if (checkToRemove(user4_sarPhel, user4_remove,cardNumber)) {
+            alert("Your card is not allowed");
+            return false;
+        } else(
+            confirm("Are you sure")
+        )
         user3 = removeItem(user3, cardName)
         user3_remove.push(cardName);
         document.getElementById('user3_remove').innerHTML = '';
@@ -906,8 +940,18 @@
     }
 
     function pyitMaluser4(x) {
-        alert(x)
         cardName = x.src.match(/\/(\w+)\.png/)[1];
+        if (cardName.startsWith('j')) {
+            alert("Your card is JOKER");
+            confirm("Are you sure?");
+        }
+        cardNumber = cardName.slice(1);
+        if (checkToRemove(user2_sarPhel,cardNumber)) {
+            alert("Your card is not allowed");
+            return false;
+        } else(
+            confirm("Are you sure")
+        )
         user4 = removeItem(user4, cardName)
         user4_remove.push(cardName);
         document.getElementById('user4_remove').innerHTML = '';
