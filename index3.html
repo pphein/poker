@@ -51,9 +51,17 @@
     <script>
        $(function () {
         $('.sortable').sortable({
-            onComplete: function() {
-                sort();
-            }
+            onComplete: function (a) {
+            a = a.originalEvent;
+            b = d(a.touches ? a.touches[0].target : a.target);
+            p = q.position().top;
+            r = p + q.innerHeight() + b.height();
+            g.css("position", "relative");
+            b.addClass("inMotion").css("z-index", 1);
+            k = !1;
+            a.touches ? (h = a.touches[0].pageY, d("body").on("touchmove.sortable", n).on("touchend.sortable", l).on("touchcancel.sortable",
+                l)) : (h = a.pageY, d("body").on("mousemove.sortable", n).on("mouseup.sortable", l).on("mouseleave.sortable", l))
+         }
         });
        });
        function sort() {
@@ -66,6 +74,8 @@
                 for (var i = 0, l = lis.length; i < l; i++)
                     lis[i].innerHTML = vals[i];
        }
+
+       
     </script>
 </body>
 </html>
