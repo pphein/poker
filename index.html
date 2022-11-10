@@ -137,6 +137,7 @@
         <input id="outputvalues4" type="text" value="" />
     </div>  -->
 
+    <input type='button' onLongTouch='test();' value="Test On Long Touch"/>
 
 </body>
 
@@ -1013,6 +1014,10 @@
         document.getElementById(div.id).innerHTML = '<input type="submit" value="ပစ်မယ်" onclick="' + pyitMalFuncName + '" />';
         document.getElementById(div.id).innerHTML += '<input type="submit" value="မပစ်ဘူး" onclick="' + maPyitBuFuncName + '" />';
 
+    }
+
+    function test(){
+        alert("hi");
     }
 
     function selfArrangeuser1() {
