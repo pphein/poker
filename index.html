@@ -895,65 +895,66 @@
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         if (cardName.startsWith('j')) {
             alert("Your card is JOKER");
-            confirm("Are you sure?");
+            confirm("Are you sure to remove Joker?");
         }
         cardNumber = cardName.slice(1);
         if (checkToRemove(user2_sarPhel, user2_remove, cardNumber)) {
             alert("Your card is not allowed");
             return false;
-        } else(
-            confirm("Are you sure")
-        )
-        user1 = removeItem(user1, cardName)
-        user1_remove.push(cardName);
-        document.getElementById('user1_remove').innerHTML = '';
-        user1_remove.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('user1_remove').innerHTML += '<img src="' + img + '"/>';
+        } else if (confirm("Are you sure to remove this")) {
+            user1 = removeItem(user1, cardName)
+            user1_remove.push(cardName);
+            document.getElementById('user1_remove').innerHTML = '';
+            user1_remove.forEach(function(item) {
+                img = "./cards/" + item + ".png";
+                document.getElementById('user1_remove').innerHTML += '<img src="' + img + '"/>';
 
-        })
-        document.getElementById('user1').innerHTML = '';
-        user1.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('user1').innerHTML +=
-                '<div class="listitemClass">' +
-                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
-                '</div>';
+            })
+            document.getElementById('user1').innerHTML = '';
+            user1.forEach(function(item) {
+                img = "./cards/" + item + ".png";
+                document.getElementById('user1').innerHTML +=
+                    '<div class="listitemClass">' +
+                    '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                    '</div>';
 
-        })
-
+            })
+        } else {
+            maPyitBu(x);
+        }
     }
 
     function pyitMaluser2(x) {
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         if (cardName.startsWith('j')) {
             alert("Your card is JOKER");
-            confirm("Are you sure?");
+            confirm("Are you sure to remove Joker?");
         }
         cardNumber = cardName.slice(1);
         if (checkToRemove(user3_sarPhel, user3_remove, cardNumber)) {
             alert("Your card is not allowed");
             return false;
-        } else(
-            confirm("Are you sure")
-        )
-        user2 = removeItem(user2, cardName)
-        user2_remove.push(cardName);
-        document.getElementById('user2_remove').innerHTML = '';
-        user2_remove.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('user2_remove').innerHTML += '<img src="' + img + '"/>';
+        } else if (confirm("Are you sure to remove this")) {
+            user2 = removeItem(user2, cardName)
+            user2_remove.push(cardName);
+            document.getElementById('user2_remove').innerHTML = '';
+            user2_remove.forEach(function(item) {
+                img = "./cards/" + item + ".png";
+                document.getElementById('user2_remove').innerHTML += '<img src="' + img + '"/>';
 
-        })
-        document.getElementById('user2').innerHTML = '';
-        user2.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('user2').innerHTML +=
-                '<div class="listitemClass">' +
-                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
-                '</div>';
+            })
+            document.getElementById('user2').innerHTML = '';
+            user2.forEach(function(item) {
+                img = "./cards/" + item + ".png";
+                document.getElementById('user2').innerHTML +=
+                    '<div class="listitemClass">' +
+                    '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                    '</div>';
 
-        })
+            })
+        } else {
+            maPyitBu(x);
+        }
 
     }
 
@@ -961,66 +962,67 @@
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         if (cardName.startsWith('j')) {
             alert("Your card is JOKER");
-            confirm("Are you sure?");
+            confirm("Are you sure to remove Joker?");
         }
         cardNumber = cardName.slice(1);
         if (checkToRemove(user4_sarPhel, user4_remove, cardNumber)) {
             alert("Your card is not allowed");
             return false;
-        } else(
-            confirm("Are you sure")
-        )
-        user3 = removeItem(user3, cardName)
-        user3_remove.push(cardName);
-        document.getElementById('user3_remove').innerHTML = '';
-        user3_remove.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('user3_remove').innerHTML += '<img src="' + img + '"/>';
+        } else if (confirm("Are you sure to remove this")) {
+            user3 = removeItem(user3, cardName)
+            user3_remove.push(cardName);
+            document.getElementById('user3_remove').innerHTML = '';
+            user3_remove.forEach(function(item) {
+                img = "./cards/" + item + ".png";
+                document.getElementById('user3_remove').innerHTML += '<img src="' + img + '"/>';
 
-        })
-        document.getElementById('user3').innerHTML = '';
-        user3.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('user3').innerHTML +=
-                '<div class="listitemClass">' +
-                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
-                '</div>';
+            })
+            document.getElementById('user3').innerHTML = '';
+            user3.forEach(function(item) {
+                img = "./cards/" + item + ".png";
+                document.getElementById('user3').innerHTML +=
+                    '<div class="listitemClass">' +
+                    '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                    '</div>';
 
-        })
-
+            })
+        } else {
+            maPyitBu(x);
+        }
     }
 
     function pyitMaluser4(x) {
         cardName = x.src.match(/\/(\w+)\.png/)[1];
         if (cardName.startsWith('j')) {
             alert("Your card is JOKER");
-            confirm("Are you sure?");
+            confirm("Are you sure to remove Joker?");
         }
         cardNumber = cardName.slice(1);
         if (checkToRemove(user1_sarPhel, user1_remove, cardNumber)) {
             alert("Your card is not allowed");
             return false;
-        } else(
-            confirm("Are you sure")
-        )
-        user4 = removeItem(user4, cardName)
-        user4_remove.push(cardName);
-        document.getElementById('user4_remove').innerHTML = '';
-        user4_remove.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('user4_remove').innerHTML += '<img src="' + img + '"/>';
+        } else if (confirm("Are you sure to remove this")) {
 
-        })
-        document.getElementById('user4').innerHTML = '';
-        user4.forEach(function(item) {
-            img = "./cards/" + item + ".png";
-            document.getElementById('user4').innerHTML +=
-                '<div class="listitemClass">' +
-                '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
-                '</div>';
+            user4 = removeItem(user4, cardName)
+            user4_remove.push(cardName);
+            document.getElementById('user4_remove').innerHTML = '';
+            user4_remove.forEach(function(item) {
+                img = "./cards/" + item + ".png";
+                document.getElementById('user4_remove').innerHTML += '<img src="' + img + '"/>';
 
-        })
+            })
+            document.getElementById('user4').innerHTML = '';
+            user4.forEach(function(item) {
+                img = "./cards/" + item + ".png";
+                document.getElementById('user4').innerHTML +=
+                    '<div class="listitemClass">' +
+                    '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" / > ' +
+                    '</div>';
 
+            })
+        } else {
+            maPyitBu(x);
+        }
     }
 
     function maPyitBu(x) {
