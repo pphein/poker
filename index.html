@@ -96,7 +96,7 @@
     <div class="action" id="action-1">
         <input type="submit" value="စားမယ်" onclick="sarMaluser1()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
-        <!-- <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()"> -->
+        <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
     </div>
     <div id="user1_remove"></div>
 
@@ -106,7 +106,7 @@
     <div class="action" id="action-2">
         <input type="submit" value="စားမယ်" onclick="sarMaluser2()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
-        <!-- <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()"> -->
+        <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
     </div>
     <div id="user2_remove"></div>
 
@@ -117,7 +117,7 @@
     <div class="action" id="action-3">
         <input type="submit" value="စားမယ်" onclick="sarMaluser3()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
-        <!-- <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()"> -->
+        <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
     </div>
     <div id="user3_remove"></div>
 
@@ -127,7 +127,7 @@
     <div class="action" id="action-4">
         <input type="submit" value="စားမယ်" onclick="sarMaluser4()">
         <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
-        <!-- <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()"> -->
+        <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
     </div>
     <div id="user4_remove"></div>
     <!-- 
@@ -1061,160 +1061,160 @@
 
     }
 
-    // function selfArrangeuser1() {
-    //     $("#user1").touch_sortable({
-    //         updated: function(event, ui) {
-    //             manualSortuser1();
-    //         }
+    function selfArrangeuser1() {
+        $("#user1").touch_sortable({
+            updated: function(event, ui) {
+                manualSortuser1();
+            }
+        });
+    };
+
+    function selfArrangeuser2() {
+        $("#user2").touch_sortable({
+            updated: function(event, ui) {
+                manualSortuser2();
+            }
+        });
+    };
+
+    function selfArrangeuser3() {
+        $("#user3").touch_sortable({
+            updated: function(event, ui) {
+                manualSortuser3();
+            }
+        });
+    };
+
+    function selfArrangeuser4() {
+        $("#user4").touch_sortable({
+            updated: function(event, ui) {
+                manualSortuser4();
+            }
+        });
+    };
+
+    function manualSortuser1() {
+        const temp = [];
+        var images = document.querySelectorAll('#user1 > .listitemClass > img');
+        images.forEach(function(imgae) {
+            temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+        });
+        user1 = temp;
+        $('#outputvalues1').val(user1);
+
+    }
+
+    function manualSortuser2() {
+        const temp = [];
+        var images = document.querySelectorAll('#user2 > .listitemClass > img');
+        images.forEach(function(imgae) {
+            temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+        });
+        user2 = temp;
+        $('#outputvalues2').val(user2);
+
+    }
+
+    function manualSortuser3() {
+        const temp = [];
+        var images = document.querySelectorAll('#user3 > .listitemClass > img');
+        images.forEach(function(imgae) {
+            temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+        });
+        user3 = temp;
+        $('#outputvalues3').val(user3);
+
+    }
+
+    function manualSortuser4() {
+        const temp = [];
+        var images = document.querySelectorAll('#user4 > .listitemClass > img');
+        images.forEach(function(imgae) {
+            temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+        });
+        user4 = temp;
+        $('#outputvalues4').val(user4);
+
+    }
+
+    // $(function() {
+    //     $('#user').touch_sortable({
+    //         // updated: function list() {
+    //         //     var temp = [];
+    //         //     var images = document.querySelectorAll('#user > div');
+    //         //     images.forEach(function(imgae) {
+    //         //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+    //         //     });
+    //         //     user = temp;
+    //         //     alert(temp)
+    //         // }
     //     });
-    // };
-
-    // function selfArrangeuser2() {
-    //     $("#user2").touch_sortable({
-    //         updated: function(event, ui) {
-    //             manualSortuser2();
-    //         }
+    //     $('#user5').touch_sortable({
+    //         // updated: function list() {
+    //         //     var temp = [];
+    //         //     var images = document.querySelectorAll('#user5 > div');
+    //         //     images.forEach(function(imgae) {
+    //         //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+    //         //     });
+    //         //     user5 = temp;ခသည
+    //         //     alert(user5)
+    //         // }
     //     });
-    // };
-
-    // function selfArrangeuser3() {
-    //     $("#user3").touch_sortable({
-    //         updated: function(event, ui) {
-    //             manualSortuser3();
-    //         }
+    //     $('#user1').touch_sortable({
+    //         // updated: function list() {
+    //         //     var temp = [];
+    //         //     var images = document.querySelectorAll('#user1 > div');
+    //         //     images.forEach(function(imgae) {
+    //         //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+    //         //     });
+    //         //     user1 = temp;
+    //         //     alert(user1)
+    //         // }
     //     });
-    // };
-
-    // function selfArrangeuser4() {
-    //     $("#user4").touch_sortable({
-    //         updated: function(event, ui) {
-    //             manualSortuser4();
-    //         }
+    //     $('#user2').touch_sortable({
+    //         // updated: function list() {
+    //         //     var temp = [];
+    //         //     var images = document.querySelectorAll('#user5 > div');
+    //         //     images.forEach(function(imgae) {
+    //         //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+    //         //     });
+    //         //     user1 = temp;
+    //         //     alert(user1)
+    //         // }
     //     });
-    // };
-
-    // function manualSortuser1() {
-    //     const temp = [];
-    //     var images = document.querySelectorAll('#user1 > .listitemClass > img');
-    //     images.forEach(function(imgae) {
-    //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+    //     $('#user3').touch_sortable({
+    //         // updated: function list() {
+    //         //     var temp = [];
+    //         //     var images = document.querySelectorAll('#user5 > div');
+    //         //     images.forEach(function(imgae) {
+    //         //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+    //         //     });
+    //         //     user1 = temp;
+    //         //     alert(user1)
+    //         // }
     //     });
-    //     user1 = temp;
-    //     $('#outputvalues1').val(user1);
-
-    // }
-
-    // function manualSortuser2() {
-    //     const temp = [];
-    //     var images = document.querySelectorAll('#user2 > .listitemClass > img');
-    //     images.forEach(function(imgae) {
-    //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+    //     $('#user4').touch_sortable({
+    //         // updated: function list() {
+    //         //     var temp = [];
+    //         //     var images = document.querySelectorAll('#user5 > div');
+    //         //     images.forEach(function(imgae) {
+    //         //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
+    //         //     });
+    //         //     user1 = temp;
+    //         //     alert(user1)
+    //         // }
     //     });
-    //     user2 = temp;
-    //     $('#outputvalues2').val(user2);
 
-    // }
-
-    // function manualSortuser3() {
-    //     const temp = [];
-    //     var images = document.querySelectorAll('#user3 > .listitemClass > img');
-    //     images.forEach(function(imgae) {
-    //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-    //     });
-    //     user3 = temp;
-    //     $('#outputvalues3').val(user3);
-
-    // }
-
-    // function manualSortuser4() {
-    //     const temp = [];
-    //     var images = document.querySelectorAll('#user4 > .listitemClass > img');
+    // function list() {
+    //     var temp = [];
+    //     var images = document.querySelectorAll('#user > img');
     //     images.forEach(function(imgae) {
     //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
     //     });
     //     user4 = temp;
-    //     $('#outputvalues4').val(user4);
-
-    // }
-
-    $(function() {
-        $('#user').touch_sortable({
-            // updated: function list() {
-            //     var temp = [];
-            //     var images = document.querySelectorAll('#user > div');
-            //     images.forEach(function(imgae) {
-            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-            //     });
-            //     user = temp;
-            //     alert(temp)
-            // }
-        });
-        $('#user5').touch_sortable({
-            // updated: function list() {
-            //     var temp = [];
-            //     var images = document.querySelectorAll('#user5 > div');
-            //     images.forEach(function(imgae) {
-            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-            //     });
-            //     user5 = temp;
-            //     alert(user5)
-            // }
-        });
-        $('#user1').touch_sortable({
-            // updated: function list() {
-            //     var temp = [];
-            //     var images = document.querySelectorAll('#user1 > div');
-            //     images.forEach(function(imgae) {
-            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-            //     });
-            //     user1 = temp;
-            //     alert(user1)
-            // }
-        });
-        $('#user2').touch_sortable({
-            // updated: function list() {
-            //     var temp = [];
-            //     var images = document.querySelectorAll('#user5 > div');
-            //     images.forEach(function(imgae) {
-            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-            //     });
-            //     user1 = temp;
-            //     alert(user1)
-            // }
-        });
-        $('#user3').touch_sortable({
-            // updated: function list() {
-            //     var temp = [];
-            //     var images = document.querySelectorAll('#user5 > div');
-            //     images.forEach(function(imgae) {
-            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-            //     });
-            //     user1 = temp;
-            //     alert(user1)
-            // }
-        });
-        $('#user4').touch_sortable({
-            // updated: function list() {
-            //     var temp = [];
-            //     var images = document.querySelectorAll('#user5 > div');
-            //     images.forEach(function(imgae) {
-            //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-            //     });
-            //     user1 = temp;
-            //     alert(user1)
-            // }
-        });
-
-        // function list() {
-        //     var temp = [];
-        //     var images = document.querySelectorAll('#user > img');
-        //     images.forEach(function(imgae) {
-        //         temp.push(imgae.src.match(/\/(\w+)\.png/)[1])
-        //     });
-        //     user4 = temp;
-        //     alert(user4);
-        // };
-    });
+    //     alert(user4);
+    // };
+    // });
 </script>
 
 </html>
