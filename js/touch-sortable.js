@@ -1,10 +1,10 @@
-(function ($) {
+(function($) {
     "use strict";
-    $.fn.sortable = function (options) {
+    $.fn.sortable = function(options) {
         options = options || {};
         var startEvent = ('ontouchstart' in document.documentElement) ? 'touchstart' : 'mousedown';
 
-        return this.each(function () {
+        return this.each(function() {
             var parent = $(this);
             var els = parent.children()
                 .on(startEvent, onStart)
@@ -22,28 +22,32 @@
 
             /* assumes the distance between the first and second element is the same as 
                the distance between each other element and the next element */
-            var elDistance = els.filter(':nth-child(2)').offset().top - els.filter(':first').offset().top;
+            // var elDistance = els.filter(':nth-child(2)').offset().top - els.filter(':first').offset().top;
+            var elDistance = els.filter(':nth-child(2)').offset().left - els.filter(':first').offset().left;
+
 
             /* Set with each onStart and updated on move if necessary */
-            var el, parentTop, parentBtm, positionAtStart, hasQueuedAni;
+            // var el, parentTop, parentBtm, positionAtStart, hasQueuedAni;
+            var el, parentLeft, parentRight, positionAtStart, hasQueuedAni;
+
 
             function onStart(e) {
                 e = e.originalEvent.touches ? e.originalEvent : e;
                 el = $(e.touches ? e.touches[0].target : e.target);
                 if (!el.is('li')) el = el.closest('li');
-                parentTop = parent.position().top;
-                parentBtm = parentTop + parent.innerHeight() + el.height();
+                parentLeft = parent.position().left;
+                parentRight = parentLeft + parent.innerWidth() + el.width();
 
-                els.css('position','relative');
-                el.addClass('inMotion').css( 'z-index', 1);
+                els.css('position', 'relative');
+                el.addClass('inMotion').css('z-index', 1);
                 hasQueuedAni = false;
 
                 /* Bind respective events based on start trigger */
                 if (e.touches) {
-                    positionAtStart = e.touches[0].pageY;
+                    positionAtStart = e.touches[0].pageX;
                     $('body').on('touchmove.sortable', onMove).on('touchend.sortable', onEnd).on('touchcancel.sortable', onEnd);
                 } else {
-                    positionAtStart = e.pageY;
+                    positionAtStart = e.pageX;
                     $('body').on('mousemove.sortable', onMove).on('mouseup.sortable', onEnd).on('mouseleave.sortable', onEnd);
                 }
             }
@@ -52,23 +56,23 @@
                 var positionDelta;
                 if (e) {
                     e = e.originalEvent.touches ? e.originalEvent : e;
-                    var positionNow = (e.touches) ? e.touches[0].pageY : e.pageY;
+                    var positionNow = (e.touches) ? e.touches[0].pageX : e.pageX;
 
                     /* Constrain dragging to limits of parent */
-                    positionNow = Math.min(Math.max(parentTop, positionNow), parentBtm);
+                    positionNow = Math.min(Math.max(parentLeft, positionNow), parentRight);
 
                     /* If the cursor is near document boundary, scroll the page */
-                    if (50 >= (positionNow - $(window).scrollTop())) {
+                    if (50 >= (positionNow - $(window).scrollLeft())) {
                         window.scrollBy(0, -5);
-                    } else if (50 >= $(window).height() + $(window).scrollTop()) {
+                    } else if (50 >= $(window).width() + $(window).scrollLeft()) {
                         window.scrollBy(0, 5);
                     }
 
                     /* Move item  */
                     positionDelta = positionNow - positionAtStart;
-                    el.css('top', positionDelta);
+                    el.css('left', positionDelta);
                 } else {
-                    positionDelta = el.css('top').split('px')[0];
+                    positionDelta = el.css('left').split('px')[0];
                 }
 
                 /* Distance remaining to move, as a number of elDistances */
@@ -79,15 +83,15 @@
 
                     if (!els.filter(':animated').length) {
                         hasQueuedAni = true;
-                        
+
                         /* Animate and swap */
                         sel = el.prevAll().slice(0, mvUnits);
                         sel.animate({
-                            'top': elDistance
-                        }, 150).promise().done(function () {
+                            'left': elDistance
+                        }, 150).promise().done(function() {
                             positionAtStart = positionAtStart - elDistance * mvUnits;
-                            el.insertBefore(sel.last()).css('top', '+=' + (elDistance * mvUnits));
-                            sel.css('top','');
+                            el.insertBefore(sel.last()).css('left', '+=' + (elDistance * mvUnits));
+                            sel.css('left', '');
                             onMove();
                         });
                     }
@@ -95,15 +99,15 @@
 
                     if (!els.filter(':animated').length) {
                         hasQueuedAni = true;
-                        
+
                         /* Animate and swap */
                         sel = el.nextAll().slice(0, mvUnits);
                         sel.animate({
-                            'top': -elDistance
-                        }, 150).promise().done(function () {
+                            'left': -elDistance
+                        }, 150).promise().done(function() {
                             positionAtStart = positionAtStart + elDistance * mvUnits;
-                            el.insertAfter(sel.last()).css('top', '-=' + (elDistance * mvUnits));
-                            sel.css('top','');
+                            el.insertAfter(sel.last()).css('left', '-=' + (elDistance * mvUnits));
+                            sel.css('left', '');
                             onMove();
                         });
                     }
@@ -119,13 +123,13 @@
 
             function onEnd() {
                 $('body').off('.sortable');
-                
+
                 function complete() {
                     el.animate({
-                        'top': "-=" + el.css('top')
-                    }, 150, function () {
-                        el.css({'top':'', 'z-index':''}).removeClass('inMotion');
-                        els.css('position','');                        
+                        'left': "-=" + el.css('left')
+                    }, 150, function() {
+                        el.css({ 'left': '', 'z-index': '' }).removeClass('inMotion');
+                        els.css('position', '');
                         if (options.onComplete) {
                             options.onComplete(el);
                         }
@@ -137,7 +141,7 @@
                 animation to be queued up */
                 var aniEls = els.filter(':animated');
                 if (aniEls.length || hasQueuedAni) {
-                    setTimeout(function () {
+                    setTimeout(function() {
                         aniEls.promise().done(onEnd);
                     }, 1);
                 } else {
