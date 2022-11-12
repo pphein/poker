@@ -41,9 +41,9 @@
         Trinkets Held
       </div>
       <div id="trinkets-held" style="text-align: center">
-        <img alt="trinket1" id="trinket1" src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/100px-Disc_Plain_red.svg.png" class="trinket">
-        <img alt="trinket2" id="trinket2" src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Disc_Plain_green_dark.svg/100px-Disc_Plain_green_dark.svg.png" class="trinket">
-        <img alt="trinket3" id="trinket3" src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disc_Plain_blue.svg/100px-Disc_Plain_blue.svg.png" class="trinket">
+        <img alt="trinket1" ontouchmove="checkscore(1)" id="trinket1" src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/100px-Disc_Plain_red.svg.png" class="trinket">
+        <img alt="trinket2" ontouchmove="checkscore(2)" id="trinket2" src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Disc_Plain_green_dark.svg/100px-Disc_Plain_green_dark.svg.png" class="trinket">
+        <img alt="trinket3" ontouchmove="checkscore(3)" id="trinket3" src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disc_Plain_blue.svg/100px-Disc_Plain_blue.svg.png" class="trinket">
       </div>
       
       <br>
@@ -59,21 +59,17 @@
 
       <script>
         function checkscore(i) {
-            if (confirm("GAME OVER") === true) {
-                moveTrinket(i);
-            } else {
-                reset();
-            }
+            moveTrinket(i)
         }
 
         function moveTrinket(i) {
             var trinketsLost = document.getElementById('trinkets-lost');
-            var trinketsHeld = document.getElementById('trinkets-held');
+            //var trinketsHeld = document.getElementById('trinkets-held');
             var trinketOrig = document.getElementById('trinket' + i);
 
             // clone the element (wee need the clone for positioning)
             var trinketClone = trinketOrig.cloneNode();
-            trinketClone.style.visibility = 'hidden';
+            //trinketClone.style.visibility = 'hidden';
             trinketsLost.appendChild(trinketClone);
 
             // calculate the new position, relative to the current position
