@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .trinket, .trinket-placeholder {
+            width: 100px;
+            height: 100px;
+
+            /* the animation */
+            transition: all 1.5s;
+
+            /* we need relative positions for the position transitions */
+            position: relative;
+        }
+
+        .trinket-placeholder {
+            display: inline-block;
+            /* the negative margin adjusts the original trinket */
+            margin-left: -100px;
+            /* only keep transitions for the width, so we can remove the margin without transitions */
+            transition: width 1.5s;
+        }
+
+        .trinket {
+            top: 0;
+            left: 0;
+        }
+
+        #trinkets-lost {
+            /* add a height to the wrapper, so there is no flickering after moving the element */
+            min-height: 110px
+        }
+    </style>
+</head>
+<body>
+    <div id="trinkets-held-text">
+        Trinkets Held
+      </div>
+      <div id="trinkets-held" style="text-align: center">
+        <img alt="trinket1" onclick="checkscore(this)" ontouchmove="checkscore(this)" id="trinket1" src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/100px-Disc_Plain_red.svg.png" class="trinket">
+        <img alt="trinket2" onclick="checkscore(this)" ontouchmove="checkscore(this)" id="trinket2" src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Disc_Plain_green_dark.svg/100px-Disc_Plain_green_dark.svg.png" class="trinket">
+        <img alt="trinket3" onclick="checkscore(this)" ontouchmove="checkscore(this)" id="trinket3" src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disc_Plain_blue.svg/100px-Disc_Plain_blue.svg.png" class="trinket">
+      </div>
+      
+      <br>
+      
+      <div id="trinkets-lost-text">
+        Trinkets Lost
+      </div>
+      <div id="trinkets-lost" style="text-align: center"></div>
+      
+      <input type="button" onclick="checkscore(1)" value="Check Score (red)">
+      <input type="button" onclick="checkscore(2)" value="Check Score (green)">
+      <input type="button" onclick="checkscore(3)" value="Check Score (blue)">
+
+      <script>
+        function checkscore(i) {
+            moveTrinket(i)
+        }
+        function moveTrinket(i) {
+            alert(i.parentNode.id);
+           if(i.parentNode.id == 'trinkets-held') {
+            var trinketsLost = document.getElementById('trinkets-lost');
+            var trinketsHeld = document.getElementById('trinkets-held');
+            var trinketOrig = document.getElementById(i.id);
+
+            // clone the element (wee need the clone for positioning)
+            var trinketClone = trinketOrig.cloneNode();
+            //trinketClone.style.visibility = 'hidden';
+            trinketsLost.appendChild(trinketClone);
+
+            // calculate the new position, relative to the current position
+            var trinketOrigTop = trinketOrig.getBoundingClientRect().top;
+            var trinketOrigLeft = trinketOrig.getBoundingClientRect().left;
+            var trinketCloneTop = trinketClone.getBoundingClientRect().top;
+            var trinketCloneLeft = trinketClone.getBoundingClientRect().left;
+            var newPositionTop = (trinketCloneTop - trinketOrigTop);
+            var newPositionLeft = (trinketCloneLeft - trinketOrigLeft);
+
+            // remove the clone (we do not need it anymore)
+            trinketClone.parentNode.removeChild(trinketClone);
+
+            // create a placeholder to prevent other elements from changing their position
+            var placeholder = document.createElement('div');
+            placeholder.classList.add('trinket-placeholder');
+            trinketOrig.parentNode.insertBefore(placeholder, trinketOrig.nextSibling);
+
+            // position the original at the clone's position (this triggers the transition)
+            trinketOrig.style.zIndex = 1000;
+            trinketOrig.style.top = newPositionTop + 'px';
+            trinketOrig.style.left = newPositionLeft + 'px';
+
+            // this will be triggered after the transition finished
+            trinketOrig.addEventListener('transitionend', function() {
+                // reset the positioning
+                this.style.position = 'scroll';
+                this.style.top = 0;
+                this.style.left = 0;
+
+                // shrink the placeholder to re-center the held trinkets
+                placeholder.style.width = 0;
+                placeholder.style.marginLeft = 0;
+
+                // when the placeholder transition has finished, remove the placeholder
+                placeholder.addEventListener('transitionend', function (){
+                    this.parentnode.removeChild(this);
+
+                    // removing the placeholder is the last action,
+                    // after that you can do any following actions
+                    roundreset();
+                });
+
+                // move the trinket element in the DOM (from held to lost)
+                trinketsLost.appendChild(this);
+            });
+           }
+           if(i.parentNode.id == 'trinkets-lost') {
+                // var trinketsHeld = document.getElementById('trinkets-lost');
+                var trinketsHeld = document.getElementById('trinkets-held');
+                var trinketOrig = document.getElementById(i.id);
+
+                // clone the element (wee need the clone for positioning)
+                var trinketClone = trinketOrig.cloneNode();
+                //trinketClone.style.visibility = 'hidden';
+                trinketsHeld.appendChild(trinketClone);
+
+                // calculate the new position, relative to the current position
+                var trinketOrigTop = trinketOrig.getBoundingClientRect().top;
+                var trinketOrigLeft = trinketOrig.getBoundingClientRect().left;
+                var trinketCloneTop = trinketClone.getBoundingClientRect().top;
+                var trinketCloneLeft = trinketClone.getBoundingClientRect().left;
+                var newPositionTop = (trinketCloneTop - trinketOrigTop);
+                var newPositionLeft = (trinketCloneLeft - trinketOrigLeft);
+
+                // remove the clone (we do not need it anymore)
+                trinketClone.parentNode.removeChild(trinketClone);
+
+                // create a placeholder to prevent other elements from changing their position
+                var placeholder = document.createElement('div');
+                placeholder.classList.add('trinket-placeholder');
+                trinketOrig.parentNode.insertBefore(placeholder, trinketOrig.nextSibling);
+
+                // position the original at the clone's position (this triggers the transition)
+                trinketOrig.style.zIndex = 1000;
+                trinketOrig.style.top = newPositionTop + 'px';
+                trinketOrig.style.left = newPositionLeft + 'px';
+
+                // this will be triggered after the transition finished
+                trinketOrig.addEventListener('transitionend', function() {
+                    // reset the positioning
+                    this.style.position = 'scroll';
+                    this.style.top = 0;
+                    this.style.left = 0;
+
+                    // shrink the placeholder to re-center the held trinkets
+                    placeholder.style.width = 0;
+                    placeholder.style.marginLeft = 0;
+
+                    // when the placeholder transition has finished, remove the placeholder
+                    placeholder.addEventListener('transitionend', function (){
+                        this.parentnode.removeChild(this);
+
+                        // removing the placeholder is the last action,
+                        // after that you can do any following actions
+                        roundreset();
+                    });
+
+                    // move the trinket element in the DOM (from held to lost)
+                    trinketsHeld.appendChild(this);
+                });
+           }   
+           toggle = false;     
+        }
+      </script>
+      
+</body>
+</html>
