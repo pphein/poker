@@ -1,0 +1,130 @@
+<html>
+<head>
+<style>
+
+.dragAndDropContainer {
+  display: flex ;
+  justify-content: space-around;
+  font-family: Helvetica,Arial,Lucida,sans-serif ; 
+  font-size: 11px;
+}
+
+.dragItems {
+  display: flex ;
+  flex-direction: column;
+  text-align: center;
+  flex-grow: 1;
+  border: 1px solid rgb(160, 160, 160);
+}  
+
+.dragItem {
+  margin: 0px;
+  padding: 5px;
+  border: 1px solid white;
+  background-color: rgb(52,118,177);
+  color: white;
+}
+
+.dragItem:hover {
+  background: rgb(117, 168, 255);
+}
+
+.dropItems {
+  display: flex ;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
+  flex-grow: 1;
+} 
+
+ .dropItem {
+  margin: 0px;
+  padding: 5px;
+  border: 1px solid white;
+  background-color: rgb(190, 190, 190);
+  color: black;
+  font-weight: bold;
+}
+
+.dropItem:hover {
+  color: white;
+  background: rgb(73, 86, 92);
+}
+
+</style>
+<script>
+/* 
+
+Resources:
+https://www.w3schools.com/html/html5_draganddrop.asp
+https://codepen.io/fitri/pen/VbrZQm
+
+*/
+
+function allowDrop(ev) {
+  var dropID =  ev.currentTarget.id;
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("dragEventID", ev.currentTarget.id);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var dragID = ev.dataTransfer.getData("dragEventID");
+  var dropID =  ev.currentTarget.id;
+  var dropClass =  ev.currentTarget.getAttribute("class");
+  var maximumDragItemsPerDropArea = 1 ;
+
+if (dropClass == "dragItems") {
+
+    elementDropPoint = document.elementFromPoint(event.clientX, event.clientY);
+    // If drop area is the drag items container div, we add the dragged div to the end
+    if (elementDropPoint.className == "dragItems") {
+        document.getElementById(dropID).appendChild(document.getElementById(dragID));
+    }
+    // If drop area is between two drag item divs, we add the dragged div in the drop area, after the existing drag div
+    if (elementDropPoint.className == "dragItem") {
+      elementDropPoint.after(document.getElementById(dragID));
+    }
+  }
+
+  if (dropClass == "dropItem") {
+    if (document.getElementById(dropID).childElementCount < maximumDragItemsPerDropArea) {
+      document.getElementById(dropID).appendChild(document.getElementById(dragID));
+    } else {
+      console.log("maximum "+ maximumDragItemsPerDropArea) ;
+      console.log(document.getElementById(dropID).children) ;
+      // alert("max");
+    }
+  }
+}
+
+</script>
+</head>
+<body>
+
+<div id="dragAndDropContainer" class="dragAndDropContainer">
+
+
+<div id="dragItems" class="dragItems" ondrop="drop(event)" draggable="false" ondragover="allowDrop(event)">
+  <div id="dmDragItemID1" class="dragItem" draggable="true" ondragstart="drag(event)" > FileNotes021.png </div>
+<div id="dmDragItemID2" class="dragItem" draggable="true" ondragstart="drag(event)" > FileNotes025.png </div>
+<div id="dmDragItemID3" class="dragItem" draggable="true" ondragstart="drag(event)" > FileNotes019.png </div>
+<div id="dmDragItemID4" class="dragItem" draggable="true" ondragstart="drag(event)" > FileNotes015.png </div>
+</div>
+
+<div id="dropItems" class="dropItems">
+  <div id="dmDropItemID1" class="dropItem" ondrop="drop(event)" draggable="true" ondragover="allowDrop(event)">Song 1</div>
+<div id="dmDropItemID2" class="dropItem" ondrop="drop(event)" draggable="true" ondragover="allowDrop(event)">Song 2</div>
+<div id="dmDropItemID3" class="dropItem" ondrop="drop(event)" draggable="true" ondragover="allowDrop(event)">Song 3</div>
+<div id="dmDropItemID4" class="dropItem" ondrop="drop(event)" draggable="true" ondragover="allowDrop(event)">Song 4</div>
+<div id="dmDropItemID5" class="dropItem" ondrop="drop(event)" draggable="true" ondragover="allowDrop(event)">Song 5</div>
+<div id="dmDropItemID6" class="dropItem" ondrop="drop(event)" draggable="true" ondragover="allowDrop(event)">Song 6</div>
+</div>
+
+</div>
+
+</body>
+</html>

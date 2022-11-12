@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="trinkets-held-text">
+        Trinkets Held
+    </div>
+    <div id="trinkets-held" style="text-align: center">
+        <div style="width:100px;height:100px; display: inline-block;">
+            <img alt="trinket1" id="trinket1" src="./cards/a01.png" style="width:100px;height:100px">
+        </div>
+        <div style="width:100px;height:100px; display:inline-block;">
+            <img alt="trinket2" id="trinket2" src="./cards/a02.png" style="width:100px;height:100px">
+        </div>
+        <div style="width:100px;height:100px; display:inline-block;">
+            <img alt="trinket3" id="trinket3" src="./cards/a03.png" style="width:100px;height:100px">
+        </div>
+
+
+    </div>
+
+    <br>
+
+    <div id="trinkets-lost-text">
+        Trinkets Lost
+    </div>
+    <div id="trinkets-lost" style="text-align: center"></div>
+
+
+
+    <button onclick="checkscore('trinket1')">MOVE THE IMAGE</button>
+    <button onclick="checkscore('trinket2')">MOVE THE IMAGE</button>
+    <button onclick="checkscore('trinket3')">MOVE THE IMAGE</button>
+
+
+    <script>
+        function checkscore(id) {
+            var elem = document.getElementById(id);
+            var style = "margin-top";
+            var unit = "px";
+            var from = 0;
+            var to = 200;
+            var time = 1000;
+
+            //document.getElementById('trinkets-lost').appendChild(elem);
+            elem.style['position'] = "absolute";
+            elem.style['margin-left'] = "-50px";
+            var start = new Date().getTime(),
+                    timer = setInterval(function() {
+                        var step = Math.min(1, (new Date().getTime() - start) / time);
+                        //alert(step);
+                        var thestyle = (from + step * (to - from)) + unit;
+                        //alert(thestyle);
+                        elem.style[style] = thestyle;
+                        if (step == 1)
+                            clearInterval(timer);
+                    }, 25);
+            elem.style[style] = from + unit;
+        }
+    </script>
+</body>
+
+</html>
