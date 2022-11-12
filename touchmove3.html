@@ -83,6 +83,11 @@
             // remove the clone (we do not need it anymore)
             trinketClone.parentNode.removeChild(trinketClone);
 
+            // create a placeholder to prevent other elements from changing their position
+            var placeholder = document.createElement('div');
+            placeholder.classList.add('trinket-placeholder');
+            trinketOrig.parentNode.insertBefore(placeholder, trinketOrig.nextSibling);
+
             // position the original at the clone's position (this triggers the transition)
             trinketOrig.style.zIndex = 1000;
             trinketOrig.style.top = newPositionTop + 'px';
@@ -132,6 +137,11 @@
 
                 // remove the clone (we do not need it anymore)
                 trinketClone.parentNode.removeChild(trinketClone);
+
+                // create a placeholder to prevent other elements from changing their position
+                var placeholder = document.createElement('div');
+                placeholder.classList.add('trinket-placeholder');
+                trinketOrig.parentNode.insertBefore(placeholder, trinketOrig.nextSibling);
 
                 // position the original at the clone's position (this triggers the transition)
                 trinketOrig.style.zIndex = 1000;
