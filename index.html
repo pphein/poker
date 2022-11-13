@@ -183,7 +183,7 @@
             <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
         </div>
     </div>
-
+    <div id="user1"></div>
     <script src="./js/touch-sortable.js"></script>
     <script src="./js/move.js"></script>
 
@@ -341,10 +341,10 @@
             }
             showCard.push(package.pop());
             document.getElementById('showCard').innerHTML = '';
-            to = 'user1';
             showCard.forEach(function(item) {
+                to = "'user1'";
                 img = "./cards/" + item + ".png";
-                document.getElementById('showCard').innerHTML += '<img id="item" onclick="moveCard(this,to)" src="' + img + '"/>';
+                document.getElementById('showCard').innerHTML += '<img id="item" onclick="sarMaluser1()" src="' + img + '"/>';
 
             })
             document.getElementById('output').innerHTML = '';
@@ -674,12 +674,6 @@
 
             })
 
-        }
-
-        function sarMal(i) {
-            alert(i);
-            moveCard(i, 'user1');
-            sarMaluser1();
         }
 
         function sarMaluser1() {
@@ -1202,6 +1196,21 @@
         // });
         function downParP(i) {
 
+        }
+
+        function test(i, to) {
+            alert(i);
+            alert(to)
+            from = i.parentNode.id;
+            parent = document.getElementById(from);
+            removeImage = document.getElementById(i.id);
+            target = document.getElementById(to);
+            cloneImage = removeImage.cloneNode();
+            target.appendChild(cloneImage);
+            parent.removeChild(removeImage);
+            var clickfun = cloneImage.getAttribute("onclick");
+            var funcName = clickfun.substring(0, clickfun.indexOf("("));
+            cloneImage.setAttribute("onclick", funcName + "(this, '" + from + "')");
         }
     </script>
 </body>
