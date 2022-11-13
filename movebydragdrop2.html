@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #target {
+            width: 200px;
+            height: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p>Drag the ball.</p>
+
+    <div id="target">
+
+        <img src="https://en.js.cx/clipart/soccer-gate.svg" id="gate" class="droppable">
+
+    </div>
+
+    <div id="ball-area">
+        <img src="https://en.js.cx/clipart/ball.svg" id="ball" onclick="test(this,'target')">
+    </div>
+    <script>
+        function test(i, to) {
+            from = i.parentNode.id;
+            parent = document.getElementById(from);
+            removeImage = document.getElementById(i.id);
+            target = document.getElementById(to);
+            cloneImage = removeImage.cloneNode();
+            target.appendChild(cloneImage);
+            parent.removeChild(removeImage);
+            var clickfun = cloneImage.getAttribute("onclick");
+            var funcName = clickfun.substring(0, clickfun.indexOf("("));
+            cloneImage.setAttribute("onclick", funcName + "(this, '" + from + "')");
+        }
+    </script>
+
+
+</body>
+
+</html>
