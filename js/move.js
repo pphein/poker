@@ -35,7 +35,6 @@ function moveCard(i, to) {
         // move the trinket element in the DOM (from held to lost)
         trinketsLost.appendChild(this);
     });
-    alert(from)
     changeOnClickDirection(i, from);
 }
 
