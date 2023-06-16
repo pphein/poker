@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js">
+    </script>
+
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: gainsboro;
+        }
+
+        li {
+            list-style: none;
+            float: left;
+        }
+
+        #output {
+            margin-left: 10px;
+            padding-left: 10px;
+            border: 1px solid green;
+            display: relative;
+        }
+
+        img {
+            width: 7%;
+            margin-left: -6.145%;
+        }
+
+        img:first-child {
+            margin-left: .5%;
+        }
+
+        #user1,
+        #user2,
+        #user3,
+        #user4 {
+            margin-left: 10px;
+            /* padding-left: 10px; */
+            border: 1px solid green;
+            display: relative;
+        }
+
+        .action {
+            clear: both;
+        }
+
+        .listitemClass {
+            display: inline-block;
+            border: 1px solid #006400;
+            width: 7%;
+            margin-left: -.4%;
+            display: relative;
+        }
+
+        .listitemClass img {
+            width: 100%;
+            margin-left: -.2%;
+        }
+
+        div.inMotion {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        }
+
+        .show {
+            margin-left: 10px;
+            /* padding-left: 10px; */
+            border: 1px solid green;
+            display: relative;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+        }
+
+        #user1_remove,
+        #user2_remove,
+        #user3_remove,
+        #user4_remove {
+            background-color: gray;
+        }
+
+        #user1_sarPhel,
+        #user2_sarPhel,
+        #user3_sarPhel,
+        #user4_sarPhel {
+            background-color: beige;
+        }
+
+        .action,
+        .header {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        input:hover {
+            background-color: gray;
+        }
+
+        input:focus {
+            background-color: green;
+        }
+
+        .private {
+            border: 2px solid red;
+            margin: 1%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <input id="saMal" type="submit" value="စမယ်" onclick="saMal()">
+        <input type="submit" value="ဝေမယ်" onclick="wayMal()">
+        <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
+    </div>
+
+    <div id="showCard"></div>
+    <div id="output"></div>
+    <div class="show">
+        <div id="user4_remove"></div>
+        <div id="user1_winnerCard"></div>
+        <div id="user1_sarPhel"></div>
+    </div>
+    <div class="private">
+        <div class="container" id="user1"></div>
+        <div class="action" id="action-1">
+            <input type="submit" value="စားမယ်" onclick="sarMaluser1()">
+            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
+            <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
+        </div>
+    </div>
+
+    <div class="show">
+        <div id="user1_remove"></div>
+        <div id="user2_winnerCard"></div>
+        <div id="user2_sarPhel"></div>
+    </div>
+    <div class="private">
+        <div class="container" id="user2"></div>
+        <div class="action" id="action-2">
+            <input type="submit" value="စားမယ်" onclick="sarMaluser2()">
+            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
+            <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
+        </div>
+    </div>
+
+    <div class="show">
+        <div id="user2_remove"></div>
+        <div id="user3_winnerCard"></div>
+        <div id="user3_sarPhel"></div>
+    </div>
+    <div class="private">
+        <div class="container" id="user3"></div>
+        <div class="action" id="action-3">
+            <input type="submit" value="စားမယ်" onclick="sarMaluser3()">
+            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
+            <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
+        </div>
+    </div>
+
+    <div class="show">
+        <div id="user3_remove"></div>
+        <div id="user4_winnerCard"></div>
+
+        <div id="user4_sarPhel"></div>
+    </div>
+    <div class="private">
+        <div class="container" id="user4"></div>
+        <div class="action" id="action-4">
+            <input type="submit" value="စားမယ်" onclick="sarMaluser4()">
+            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
+            <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
+        </div>
+    </div>
+    <div id="user1"></div>
+    <script src="./js/touch-sortable.js"></script>
+    <script src="./js/move.js"></script>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
