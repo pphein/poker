@@ -238,6 +238,69 @@ function removeItem(arr, item) {
 }
 
 function showFirstCard() {
+    // if (showCard.length >= 1) {
+    //     return false;
+    // }
+    // showCard.push(package.pop());
+    // document.getElementById('showCard').innerHTML = '';
+    // showCard.forEach(function (item) {
+    //     to = "'user1'";
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('showCard').innerHTML += '<img id="item" onclick="sarMaluser1()" src="' + img + '" />';
+
+    // })
+    // document.getElementById('output').innerHTML = '';
+    // package.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+    // })
+    // showCardType = showCard[0][0];
+    // if (showCarduser1.length == 0) {
+    //     user1.forEach(element => {
+    //         if (element.startsWith(showCardType)) {
+    //             showCarduser1.push(element)
+    //         }
+    //     });
+    // }
+    // if (showCarduser2.length == 0) {
+    //     user2.forEach(function (element) {
+    //         if (element.startsWith(showCardType)) {
+    //             showCarduser2.push(element)
+    //         }
+    //     });
+    // }
+    // if (showCarduser3.length == 0) {
+    //     user3.forEach(function (element) {
+    //         if (element.startsWith(showCardType)) {
+    //             showCarduser3.push(element)
+    //         }
+    //     });
+    // }
+    // if (showCarduser4.length == 0) {
+    //     user4.forEach(function (element) {
+    //         if (element.startsWith(showCardType)) {
+    //             showCarduser4.push(element)
+    //         }
+    //     });
+    // }
+    // if (showCarduser1.length) {
+    //     document.getElementById("action-1").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser1()">'
+    // }
+    // if (showCarduser2.length) {
+    //     document.getElementById("action-2").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser2()">'
+    // }
+    // if (showCarduser3.length) {
+    //     document.getElementById("action-3").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser3()">'
+
+    // }
+    // if (showCarduser4.length) {
+    //     document.getElementById("action-4").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser4()">'
+    // }
+    socket.emit('showFirstCard');
+}
+
+socket.on('showFirstCard', function() {
     if (showCard.length >= 1) {
         return false;
     }
@@ -297,7 +360,7 @@ function showFirstCard() {
     if (showCarduser4.length) {
         document.getElementById("action-4").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser4()">'
     }
-}
+})
 
 function showWinnerCarduser1() {
     // if (showCarduser1.length == 0) {

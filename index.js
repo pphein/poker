@@ -23,4 +23,7 @@ io.on('connection', (socket) => {
         io.sockets.emit('wayMal', data);
     })
 
+    socket.on('showFirstCard', function () {
+        io.sockets.emit('showFirstCard');
+    })
 })
