@@ -26,4 +26,57 @@ io.on('connection', (socket) => {
     socket.on('showFirstCard', function () {
         io.sockets.emit('showFirstCard');
     })
+
+    socket.on('showWinnerCarduser1', function () {
+        io.sockets.emit('showWinnerCarduser1');
+    })
+
+    socket.on('showWinnerCarduser2', function () {
+        io.sockets.emit('showWinnerCarduser2');
+    })
+
+    socket.on('showWinnerCarduser3', function () {
+        io.sockets.emit('showWinnerCarduser3');
+    })
+
+    socket.on('showWinnerCarduser4', function () {
+        io.sockets.emit('showWinnerCarduser4');
+    })
+
+    socket.on('swalMaluser1', function () {
+        io.sockets.emit('swalMaluser1');
+    })
+
+    socket.on('swalMaluser2', function () {
+        io.sockets.emit('swalMaluser2');
+    })
+
+    socket.on('swalMaluser3', function () {
+        io.sockets.emit('swalMaluser3');
+    })
+
+    socket.on('swalMaluser4', function () {
+        io.sockets.emit('swalMaluser4');
+    })
+
+    socket.on('sarMaluser1', function () {
+        io.sockets.emit('sarMaluser1');
+    })
+
+    socket.on('sarMaluser2', function () {
+        io.sockets.emit('sarMaluser2');
+    })
+
+    socket.on('sarMaluser3', function () {
+        io.sockets.emit('sarMaluser3');
+    })
+
+    socket.on('sarMaluser4', function () {
+        io.sockets.emit('sarMaluser4');
+    })
+
+    socket.on('pyitMaluser1', function (data) {
+        io.sockets.emit('pyitMaluser1', data);
+    })
+
 })

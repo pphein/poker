@@ -58,7 +58,7 @@ Array.prototype.shuffle = function () {
 }
 
 function saMal() {
-    document.getElementById('output').innerHTML = '';
+    // document.getElementById('output').innerHTML = '';
     // // shuffle(package);
     package.shuffle();
     // package.forEach(function (item) {
@@ -71,9 +71,8 @@ function saMal() {
 };
 
 socket.on('saMal', function (data) {
-    // document.getElementById('output').innerHTML = '';
+    document.getElementById('output').innerHTML = '';
     // shuffle(package);
-    alert(data);
     // data = data.shuffle();
     // console.log(data);
     data.forEach(function (item) {
@@ -155,15 +154,15 @@ function wayMal() {
     //     document.getElementById('output').innerHTML += '<img src="' + img + '" />';
 
     // })
-    socket.emit('wayMal', package);
+    socket.emit('wayMal');
 
 }
 
-socket.on('wayMal', function (data) {
+socket.on('wayMal', function () {
     if (user1.length == 13) {
         return false;
     }
-    user1.push(data.pop());
+    user1.push(package.pop());
     document.getElementById('user1').innerHTML = '';
     user1.forEach(function (item) {
         if (player == "player1") {
@@ -177,7 +176,7 @@ socket.on('wayMal', function (data) {
             '</div>';
     })
 
-    user2.push(data.pop());
+    user2.push(package.pop());
     document.getElementById('user2').innerHTML = '';
     user2.forEach(function (item) {
         if (player == "player1") {
@@ -192,7 +191,7 @@ socket.on('wayMal', function (data) {
 
     })
 
-    user3.push(data.pop());
+    user3.push(package.pop());
     document.getElementById('user3').innerHTML = '';
     user3.forEach(function (item) {
         if (player == "player1") {
@@ -207,7 +206,7 @@ socket.on('wayMal', function (data) {
 
     })
 
-    user4.push(data.pop());
+    user4.push(package.pop());
     document.getElementById('user4').innerHTML = '';
     user4.forEach(function (item) {
         if (player == "player1") {
@@ -222,13 +221,12 @@ socket.on('wayMal', function (data) {
 
     })
     document.getElementById('output').innerHTML = '';
-    data.forEach(function (item) {
+    package.forEach(function (item) {
         img = "./cards/" + "back" + ".png";
         document.getElementById('output').innerHTML += '<img src="' + img + '" />';
 
     })
 
-    package = data;
 })
 
 function removeItem(arr, item) {
@@ -300,7 +298,7 @@ function showFirstCard() {
     socket.emit('showFirstCard');
 }
 
-socket.on('showFirstCard', function() {
+socket.on('showFirstCard', function () {
     if (showCard.length >= 1) {
         return false;
     }
@@ -363,13 +361,28 @@ socket.on('showFirstCard', function() {
 })
 
 function showWinnerCarduser1() {
-    // if (showCarduser1.length == 0) {
-    //     user1.forEach(element => {
-    //         if (element.startsWith(showCardType)) {
-    //             showCarduser1.push(element)
-    //         }
+    // showCarduser1 = showCarduser1.sort().reverse();
+    // if (showCarduser1.length) {
+    //     if (showCarduser1.includes(showCard[0])) {
+    //         user1_winnerCard.push(showCard[0])
+    //         showCarduser1 = removeItem(showCarduser1, showCard[0]);
+    //     } else if (showCarduser1.includes(showCardType + '01')) {
+    //         user1_winnerCard.push(showCardType + '01')
+    //         showCarduser1 = removeItem(showCarduser1, (showCardType + '01'));
+    //     } else {
+    //         user1_winnerCard.push(showCarduser1[0])
+    //         showCarduser1 = removeItem(showCarduser1, showCarduser1[0])
+    //     }
+    //     document.getElementById("user1_winnerCard").innerHTML = '';
+    //     user1_winnerCard.forEach(item => {
+    //         document.getElementById("user1_winnerCard").innerHTML += '<img src="./cards/' + item + ".png" + '"/>';
     //     });
-    // }
+    //     document.getElementById("user1_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser1()" />';
+    //     document.getElementById("user1_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser1()" />';
+    socket.emit('showWinnerCarduser1');
+}
+
+socket.on('showWinnerCarduser1', function () {
     showCarduser1 = showCarduser1.sort().reverse();
     if (showCarduser1.length) {
         if (showCarduser1.includes(showCard[0])) {
@@ -389,16 +402,32 @@ function showWinnerCarduser1() {
         document.getElementById("user1_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser1()" />';
         document.getElementById("user1_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser1()" />';
     }
-}
+})
 
 function showWinnerCarduser2() {
-    // if (showCarduser2.length == 0) {
-    //     user2.forEach(function(element) {
-    //         if (element.startsWith(showCardType)) {
-    //             showCarduser2.push(element)
-    //         }
+    // showCarduser2 = showCarduser2.sort().reverse();
+    // if (showCarduser2.length) {
+    //     if (showCarduser2.includes(showCard[0])) {
+    //         user2_winnerCard.push(showCard[0])
+    //         showCarduser2 = removeItem(showCarduser1, showCard[0]);
+    //     } else if (showCarduser2.includes(showCardType + '01')) {
+    //         user2_winnerCard.push(showCardType + '01')
+    //         showCarduser2 = removeItem(showCarduser2, (showCardType + '01'));
+    //     } else {
+    //         user2_winnerCard.push(showCarduser2[0])
+    //         showCarduser2 = removeItem(showCarduser2, showCarduser2[0])
+    //     }
+    //     document.getElementById("user2_winnerCard").innerHTML = '';
+    //     user2_winnerCard.forEach(item => {
+    //         document.getElementById("user2_winnerCard").innerHTML += '<img src="./cards/' + item + ".png" + '"/>';
     //     });
+    //     document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser2()" />';
+    //     document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser2()" />';
     // }
+    socket.emit('showWinnerCarduser2')
+}
+
+socket.on('showWinnerCarduser2', function () {
     showCarduser2 = showCarduser2.sort().reverse();
     if (showCarduser2.length) {
         if (showCarduser2.includes(showCard[0])) {
@@ -418,16 +447,34 @@ function showWinnerCarduser2() {
         document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser2()" />';
         document.getElementById("user2_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser2()" />';
     }
-}
+})
 
 function showWinnerCarduser3() {
-    // if (showCarduser3.length == 0) {
-    //     user3.forEach(function(element) {
-    //         if (element.startsWith(showCardType)) {
-    //             showCarduser3.push(element)
-    //         }
+    // showCarduser3 = showCarduser3.sort().reverse();
+
+    // if (showCarduser3.length) {
+
+    //     if (showCarduser3.includes(showCard[0])) {
+    //         user3_winnerCard.push(showCard[0])
+    //         showCarduser3 = removeItem(showCarduser3, showCard[0]);
+    //     } else if (showCarduser3.includes(showCardType + '01')) {
+    //         user3_winnerCard.push(showCardType + '01')
+    //         showCarduser3 = removeItem(showCarduser3, (showCardType + '01'));
+    //     } else {
+    //         user3_winnerCard.push(showCarduser3[0])
+    //         showCarduser3 = removeItem(showCarduser3, showCarduser3[0])
+    //     }
+    //     document.getElementById("user3_winnerCard").innerHTML = '';
+    //     user3_winnerCard.forEach(item => {
+    //         document.getElementById("user3_winnerCard").innerHTML += '<img src="./cards/' + item + ".png" + '"/>';
     //     });
+    //     document.getElementById("user3_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser3()" />';
+    //     document.getElementById("user3_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser3()" />';
     // }
+    socket.emit('showWinnerCarduser3');
+}
+
+socket.on('showWinnerCarduser3', function () {
     showCarduser3 = showCarduser3.sort().reverse();
 
     if (showCarduser3.length) {
@@ -449,16 +496,34 @@ function showWinnerCarduser3() {
         document.getElementById("user3_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser3()" />';
         document.getElementById("user3_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinneruser3()" />';
     }
-}
+})
 
 function showWinnerCarduser4() {
-    // if (showCarduser4.length == 0) {
-    //     user4.forEach(function(element) {
-    //         if (element.startsWith(showCardType)) {
-    //             showCarduser4.push(element)
-    //         }
+    // showCarduser4 = showCarduser4.sort().reverse();
+    // if (showCarduser4.length) {
+
+    //     if (showCarduser4.includes(showCard[0])) {
+    //         user4_winnerCard.push(showCard[0])
+    //         showCarduser4 = removeItem(showCarduser4, showCard[0]);
+    //     } else if (showCarduser4.includes(showCardType + '01')) {
+    //         user4_winnerCard.push(showCardType + '01')
+    //         showCarduser4 = removeItem(showCarduser4, (showCardType + '01'))
+    //     } else {
+    //         user4_winnerCard.push(showCarduser4[0])
+    //         showCarduser4 = removeItem(showCarduser4, showCarduser4[0])
+    //     }
+
+    //     document.getElementById("user4_winnerCard").innerHTML = '';
+    //     user4_winnerCard.forEach(item => {
+    //         document.getElementById("user4_winnerCard").innerHTML += '<img src="./cards/' + item + ".png" + '"/>';
     //     });
+    //     document.getElementById("user4_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser4()" />';
+    //     document.getElementById("user4_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinner4()" />';
     // }
+    socket.emit('showWinnerCarduser4');
+}
+
+socket.on('showWinnerCarduser4', function () {
     showCarduser4 = showCarduser4.sort().reverse();
     if (showCarduser4.length) {
 
@@ -480,7 +545,7 @@ function showWinnerCarduser4() {
         document.getElementById("user4_winnerCard").innerHTML += '<input type="submit" value="lose" onclick="firstCardLoseruser4()" />';
         document.getElementById("user4_winnerCard").innerHTML += '<input type="submit" value="win" onclick="firstCardWinner4()" />';
     }
-}
+})
 
 function firstCardWinneruser1() {
     user1_winnerCard = [];
@@ -560,6 +625,30 @@ function firstCardLoseruser4() {
 }
 
 function swalMaluser1() {
+    // initial = false
+    // if (user1.length > 13) {
+    //     return false;
+    // }
+    // user1.push(package.pop());
+    // document.getElementById('user1').innerHTML = '';
+    // user1.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user1').innerHTML +=
+    //         '<div class="listitemClass">' +
+    //         '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //         '</div>';
+
+    // })
+    // document.getElementById('output').innerHTML = '';
+    // package.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+    // })
+    socket.emit('swalMaluser1');
+}
+
+socket.on('swalMaluser1', function () {
     initial = false
     if (user1.length > 13) {
         return false;
@@ -580,9 +669,33 @@ function swalMaluser1() {
         document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
 
     })
-}
+})
 
 function swalMaluser2() {
+    // initial = false
+    // if (user2.length > 13) {
+    //     return false;
+    // }
+    // user2.push(package.pop());
+    // document.getElementById('user2').innerHTML = '';
+    // user2.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user2').innerHTML +=
+    //         '<div class="listitemClass">' +
+    //         '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //         '</div>';
+
+    // })
+    // document.getElementById('output').innerHTML = '';
+    // package.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+
+    // })
+    socket.emit('swalMaluser2')
+}
+
+socket.on('swalMaluser2', function () {
     initial = false
     if (user2.length > 13) {
         return false;
@@ -603,10 +716,32 @@ function swalMaluser2() {
         document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
 
     })
-
-}
+})
 
 function swalMaluser3() {
+    // initial = false
+    // if (user3.length > 13) {
+    //     return false;
+    // }
+    // user3.push(package.pop());
+    // document.getElementById('user3').innerHTML = '';
+    // user3.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user3').innerHTML +=
+    //         '<div class="listitemClass">' +
+    //         '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //         '</div>';
+
+    // })
+    // document.getElementById('output').innerHTML = '';
+    // package.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+    // })
+    socket.emit('swalMaluser3');
+}
+
+socket.on('swalMaluser3', function () {
     initial = false
     if (user3.length > 13) {
         return false;
@@ -625,12 +760,33 @@ function swalMaluser3() {
     package.forEach(function (item) {
         img = "./cards/" + item + ".png";
         document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
-
     })
-
-}
+})
 
 function swalMaluser4() {
+    // initial = false
+    // if (user4.length > 13) {
+    //     return false;
+    // }
+    // user4.push(package.pop());
+    // document.getElementById('user4').innerHTML = '';
+    // user4.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user4').innerHTML +=
+    //         '<div class="listitemClass">' +
+    //         '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //         '</div>';
+
+    // })
+    // document.getElementById('output').innerHTML = '';
+    // package.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
+    // })
+    socket.emit('swalMaluser4');
+}
+
+socket.on('swalMaluser4', function () {
     initial = false
     if (user4.length > 13) {
         return false;
@@ -649,12 +805,47 @@ function swalMaluser4() {
     package.forEach(function (item) {
         img = "./cards/" + item + ".png";
         document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
-
     })
-
-}
+})
 
 function sarMaluser1() {
+    // if (user1.length > 13) {
+    //     return false
+    // } else if (user1_sarPhel.length == 3) {
+    //     confirm("Ready To game over???")
+    // }
+    // if (initial && showCard.length == 1) {
+    //     sarPhel = showCard.pop();
+    //     showCard = [];
+    //     document.getElementById('showCard').innerHTML += '';
+    //     initial = false
+
+    // } else if (user4_remove.length) {
+    //     sarPhel = user4_remove.pop();
+    // } else {
+    //     return false
+    // }
+
+    // user1.push(sarPhel);
+    // user1_sarPhel.push(sarPhel);
+    // document.getElementById('user1').innerHTML = '';
+    // user1.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user1').innerHTML +=
+    //         '<div class="listitemClass">' +
+    //         '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //         '</div>';
+
+    // })
+    // document.getElementById('user1_sarPhel').innerHTML = '';
+    // user1_sarPhel.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user1_sarPhel').innerHTML += '<img src="' + img + '" />';
+    // })
+    socket.emit('sarMaluser1');
+}
+
+socket.on('sarMaluser1', function () {
     if (user1.length > 13) {
         return false
     } else if (user1_sarPhel.length == 3) {
@@ -687,17 +878,47 @@ function sarMaluser1() {
     user1_sarPhel.forEach(function (item) {
         img = "./cards/" + item + ".png";
         document.getElementById('user1_sarPhel').innerHTML += '<img src="' + img + '" />';
-
     })
-    // document.getElementById('user1_remove').innerHTML = '';
-    // user1_remove.forEach(function(item) {
-    //     img = "./cards/" + item + ".png";
-    //     document.getElementById('user1_remove').innerHTML += '<img src="' + img + '"/>';
-
-    // })
-}
+})
 
 function sarMaluser2() {
+    // if (user2.length > 13) {
+    //     return false
+    // } else if (user2_sarPhel.length == 3) {
+    //     confirm("Ready To game over???")
+    // }
+    // if (initial && showCard.length == 1) {
+    //     sarPhel = showCard.pop();
+    //     showCard = [];
+    //     document.getElementById('showCard').innerHTML += '';
+    //     initial = false
+
+    // } else if (user1_remove.length) {
+    //     sarPhel = user1_remove.pop();
+    // } else {
+    //     return false
+    // }
+
+    // user2.push(sarPhel);
+    // user2_sarPhel.push(sarPhel);
+    // document.getElementById('user2').innerHTML = '';
+    // user2.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user2').innerHTML +=
+    //         '<div class="listitemClass">' +
+    //         '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //         '</div>';
+
+    // })
+    // document.getElementById('user2_sarPhel').innerHTML = '';
+    // user2_sarPhel.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user2_sarPhel').innerHTML += '<img src="' + img + '" />';
+    // })
+    socket.emit('sarMaluser2');
+}
+
+socket.on('sarMaluser2', function () {
     if (user2.length > 13) {
         return false
     } else if (user2_sarPhel.length == 3) {
@@ -730,17 +951,47 @@ function sarMaluser2() {
     user2_sarPhel.forEach(function (item) {
         img = "./cards/" + item + ".png";
         document.getElementById('user2_sarPhel').innerHTML += '<img src="' + img + '" />';
-
     })
-    // document.getElementById('user2_remove').innerHTML = '';
-    // user2_remove.forEach(function(item) {
-    //     img = "./cards/" + item + ".png";
-    //     document.getElementById('user2_remove').innerHTML += '<img src="' + img + '"/>';
-
-    // })
-}
+})
 
 function sarMaluser3() {
+    // if (user3.length > 13) {
+    //     return false
+    // } else if (user3_sarPhel.length == 3) {
+    //     confirm("Ready To game over???")
+    // }
+    // if (initial && showCard.length == 1) {
+    //     sarPhel = showCard.pop();
+    //     showCard = [];
+    //     document.getElementById('showCard').innerHTML += '';
+    //     initial = false
+
+    // } else if (user2_remove.length) {
+    //     sarPhel = user2_remove.pop();
+    // } else {
+    //     return false
+    // }
+
+    // user3.push(sarPhel);
+    // user3_sarPhel.push(sarPhel);
+    // document.getElementById('user3').innerHTML = '';
+    // user3.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user3').innerHTML +=
+    //         '<div class="listitemClass">' +
+    //         '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //         '</div>';
+
+    // })
+    // document.getElementById('user3_sarPhel').innerHTML = '';
+    // user3_sarPhel.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user3_sarPhel').innerHTML += '<img src="' + img + '" />';
+    // })
+    socket.emit('sarMaluser3');
+}
+
+socket.on('sarMaluser3', function () {
     if (user3.length > 13) {
         return false
     } else if (user3_sarPhel.length == 3) {
@@ -773,17 +1024,47 @@ function sarMaluser3() {
     user3_sarPhel.forEach(function (item) {
         img = "./cards/" + item + ".png";
         document.getElementById('user3_sarPhel').innerHTML += '<img src="' + img + '" />';
-
     })
-    // document.getElementById('user3_remove').innerHTML = '';
-    // user3_remove.forEach(function(item) {
-    //     img = "./cards/" + item + ".png";
-    //     document.getElementById('user3_remove').innerHTML += '<img src="' + img + '"/>';
-
-    // })
-}
+})
 
 function sarMaluser4() {
+    // if (user4.length > 13) {
+    //     return false
+    // } else if (user4_sarPhel.length == 3) {
+    //     confirm("Ready To game over???")
+    // }
+    // if (initial && showCard.length == 1) {
+    //     sarPhel = showCard.pop();
+    //     showCard = [];
+    //     document.getElementById('showCard').innerHTML += '';
+    //     initial = false
+
+    // } else if (user3_remove.length) {
+    //     sarPhel = user3_remove.pop();
+    // } else {
+    //     return false
+    // }
+
+    // user4.push(sarPhel);
+    // user4_sarPhel.push(sarPhel);
+    // document.getElementById('user4').innerHTML = '';
+    // user4.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user4').innerHTML +=
+    //         '<div class="listitemClass">' +
+    //         '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //         '</div>';
+
+    // })
+    // document.getElementById('user4_sarPhel').innerHTML = '';
+    // user4_sarPhel.forEach(function (item) {
+    //     img = "./cards/" + item + ".png";
+    //     document.getElementById('user4_sarPhel').innerHTML += '<img src="' + img + '" />';
+    // })
+    socket.emit('sarMaluser4');
+}
+
+socket.on('sarMaluser4', function () {
     if (user4.length > 13) {
         return false
     } else if (user4_sarPhel.length == 3) {
@@ -816,15 +1097,8 @@ function sarMaluser4() {
     user4_sarPhel.forEach(function (item) {
         img = "./cards/" + item + ".png";
         document.getElementById('user4_sarPhel').innerHTML += '<img src="' + img + '" />';
-
     })
-    // document.getElementById('user4_remove').innerHTML = '';
-    // user4_remove.forEach(function(item) {
-    //     img = "./cards/" + item + ".png";
-    //     document.getElementById('user4_remove').innerHTML += '<img src="' + img + '"/>';
-
-    // })
-}
+})
 
 function checkToRemove(sarPhel, htwetPhel, card) {
     sarPhelMi = false;
@@ -847,7 +1121,41 @@ function checkToRemove(sarPhel, htwetPhel, card) {
 }
 
 function pyitMaluser1(x) {
-    cardName = x.src.match(/\/(\w+)\.png/)[1];
+    // cardName = x.src.match(/\/(\w+)\.png/)[1];
+    // if (cardName.startsWith('j')) {
+    //     alert("Your card is JOKER");
+    //     confirm("Are you sure to remove Joker?");
+    // }
+    // cardNumber = cardName.slice(1);
+    // if (checkToRemove(user2_sarPhel, user2_remove, cardNumber)) {
+    //     alert("Your card is not allowed");
+    //     return false;
+    // } else if (confirm("Are you sure to remove this")) {
+    //     user1 = removeItem(user1, cardName)
+    //     user1_remove.push(cardName);
+    //     document.getElementById('user1_remove').innerHTML = '';
+    //     user1_remove.forEach(function (item) {
+    //         img = "./cards/" + item + ".png";
+    //         document.getElementById('user1_remove').innerHTML += '<img src="' + img + '" />';
+
+    //     })
+    //     document.getElementById('user1').innerHTML = '';
+    //     user1.forEach(function (item) {
+    //         img = "./cards/" + item + ".png";
+    //         document.getElementById('user1').innerHTML +=
+    //             '<div class="listitemClass">' +
+    //             '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //             '</div>';
+    //     })
+    // } else {
+    //     maPyitBu(x);
+    // }
+    socket.emit('pyitMaluser1', x.src)
+}
+
+socket.on('pyitMaluser1', function (x) {
+    // cardName = x.src.match(/\/(\w+)\.png/)[1];
+    cardName = x.match(/\/(\w+)\.png/)[1];
     if (cardName.startsWith('j')) {
         alert("Your card is JOKER");
         confirm("Are you sure to remove Joker?");
@@ -872,12 +1180,11 @@ function pyitMaluser1(x) {
                 '<div class="listitemClass">' +
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
                 '</div>';
-
         })
     } else {
         maPyitBu(x);
     }
-}
+})
 
 function pyitMaluser2(x) {
     cardName = x.src.match(/\/(\w+)\.png/)[1];
