@@ -580,49 +580,64 @@ function firstCardWinneruser4() {
 }
 
 function firstCardLoseruser1() {
+    // user1_winnerCard = [];
+    // showCarduser1 = [];
+    // document.getElementById("user1_winnerCard").innerHTML = '';
+    // alert("I am loser huuuuuu");
+    socket.emit('firstCardLoseruser1');
+}
+
+socket.on('firstCardLoseruser1', function () {
     user1_winnerCard = [];
     showCarduser1 = [];
     document.getElementById("user1_winnerCard").innerHTML = '';
     alert("I am loser huuuuuu");
-
-}
-
-socket.on('restart', function () {
-    io.sockets.emit('restart');
-});
-
-socket.on('increase', function () {
-    io.sockets.emit('increase');
-});
-
-socket.on('decrease', function () {
-    io.sockets.emit('decrease');
-});
-
+})
 
 function firstCardLoseruser2() {
+    // user2_winnerCard = [];
+    // showCarduser2 = [];
+    // document.getElementById("user2_winnerCard").innerHTML = '';
+    // alert("I am loser huuuuuu");
+    socket.emit('firstCardLoseruser2');
+}
+
+socket.on('firstCardLoseruser2', function () {
     user2_winnerCard = [];
     showCarduser2 = [];
     document.getElementById("user2_winnerCard").innerHTML = '';
     alert("I am loser huuuuuu");
-
-}
+})
 
 function firstCardLoseruser3() {
+    // user3_winnerCard = [];
+    // showCarduser3 = [];
+    // document.getElementById("user3_winnerCard").innerHTML = '';
+    // alert("I am loser huuuuuu");
+    socket.emit('firstCardLoseruser3');
+}
+
+socket.on('firstCardLoseruser3', function () {
     user3_winnerCard = [];
     showCarduser3 = [];
     document.getElementById("user3_winnerCard").innerHTML = '';
     alert("I am loser huuuuuu");
-
-}
+})
 
 function firstCardLoseruser4() {
+    // user4_winnerCard = [];
+    // showCarduser4 = [];
+    // document.getElementById("user4_winnerCard").innerHTML = '';
+    // alert("I am loser huuuuuu");
+    socket.emit('firstCardLoseruser4');
+}
+
+socket.on('firstCardLoseruser4', function () {
     user4_winnerCard = [];
     showCarduser4 = [];
     document.getElementById("user4_winnerCard").innerHTML = '';
     alert("I am loser huuuuuu");
-
-}
+})
 
 function swalMaluser1() {
     // initial = false
@@ -1187,7 +1202,41 @@ socket.on('pyitMaluser1', function (x) {
 })
 
 function pyitMaluser2(x) {
-    cardName = x.src.match(/\/(\w+)\.png/)[1];
+    // cardName = x.src.match(/\/(\w+)\.png/)[1];
+    // if (cardName.startsWith('j')) {
+    //     alert("Your card is JOKER");
+    //     confirm("Are you sure to remove Joker?");
+    // }
+    // cardNumber = cardName.slice(1);
+    // if (checkToRemove(user3_sarPhel, user3_remove, cardNumber)) {
+    //     alert("Your card is not allowed");
+    //     return false;
+    // } else if (confirm("Are you sure to remove this")) {
+    //     user2 = removeItem(user2, cardName)
+    //     user2_remove.push(cardName);
+    //     document.getElementById('user2_remove').innerHTML = '';
+    //     user2_remove.forEach(function (item) {
+    //         img = "./cards/" + item + ".png";
+    //         document.getElementById('user2_remove').innerHTML += '<img src="' + img + '" />';
+
+    //     })
+    //     document.getElementById('user2').innerHTML = '';
+    //     user2.forEach(function (item) {
+    //         img = "./cards/" + item + ".png";
+    //         document.getElementById('user2').innerHTML +=
+    //             '<div class="listitemClass">' +
+    //             '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //             '</div>';
+    //     })
+    // } else {
+    //     maPyitBu(x);
+    // }
+    socket.emit('pyitMaluser2', x.src)
+}
+
+socket.on('pyitMaluser2', function (x) {
+    // cardName = x.src.match(/\/(\w+)\.png/)[1];
+    cardName = x.match(/\/(\w+)\.png/)[1]
     if (cardName.startsWith('j')) {
         alert("Your card is JOKER");
         confirm("Are you sure to remove Joker?");
@@ -1212,16 +1261,48 @@ function pyitMaluser2(x) {
                 '<div class="listitemClass">' +
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
                 '</div>';
-
         })
     } else {
         maPyitBu(x);
     }
-
-}
+})
 
 function pyitMaluser3(x) {
-    cardName = x.src.match(/\/(\w+)\.png/)[1];
+    // cardName = x.src.match(/\/(\w+)\.png/)[1];
+    // if (cardName.startsWith('j')) {
+    //     alert("Your card is JOKER");
+    //     confirm("Are you sure to remove Joker?");
+    // }
+    // cardNumber = cardName.slice(1);
+    // if (checkToRemove(user4_sarPhel, user4_remove, cardNumber)) {
+    //     alert("Your card is not allowed");
+    //     return false;
+    // } else if (confirm("Are you sure to remove this")) {
+    //     user3 = removeItem(user3, cardName)
+    //     user3_remove.push(cardName);
+    //     document.getElementById('user3_remove').innerHTML = '';
+    //     user3_remove.forEach(function (item) {
+    //         img = "./cards/" + item + ".png";
+    //         document.getElementById('user3_remove').innerHTML += '<img src="' + img + '" />';
+
+    //     })
+    //     document.getElementById('user3').innerHTML = '';
+    //     user3.forEach(function (item) {
+    //         img = "./cards/" + item + ".png";
+    //         document.getElementById('user3').innerHTML +=
+    //             '<div class="listitemClass">' +
+    //             '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //             '</div>';
+    //     })
+    // } else {
+    //     maPyitBu(x);
+    // }
+    socket.emit('pyitMaluser3', x.src)
+}
+
+socket.on('pyitMaluser3', function (x) {
+    // cardName = x.src.match(/\/(\w+)\.png/)[1];
+    cardName = x.match(/\/(\w+)\.png/)[1];
     if (cardName.startsWith('j')) {
         alert("Your card is JOKER");
         confirm("Are you sure to remove Joker?");
@@ -1246,15 +1327,49 @@ function pyitMaluser3(x) {
                 '<div class="listitemClass">' +
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
                 '</div>';
-
         })
     } else {
         maPyitBu(x);
     }
-}
+})
 
 function pyitMaluser4(x) {
-    cardName = x.src.match(/\/(\w+)\.png/)[1];
+    // cardName = x.src.match(/\/(\w+)\.png/)[1];
+    // if (cardName.startsWith('j')) {
+    //     alert("Your card is JOKER");
+    //     confirm("Are you sure to remove Joker?");
+    // }
+    // cardNumber = cardName.slice(1);
+    // if (checkToRemove(user1_sarPhel, user1_remove, cardNumber)) {
+    //     alert("Your card is not allowed");
+    //     return false;
+    // } else if (confirm("Are you sure to remove this")) {
+
+    //     user4 = removeItem(user4, cardName)
+    //     user4_remove.push(cardName);
+    //     document.getElementById('user4_remove').innerHTML = '';
+    //     user4_remove.forEach(function (item) {
+    //         img = "./cards/" + item + ".png";
+    //         document.getElementById('user4_remove').innerHTML += '<img src="' + img + '" />';
+
+    //     })
+    //     document.getElementById('user4').innerHTML = '';
+    //     user4.forEach(function (item) {
+    //         img = "./cards/" + item + ".png";
+    //         document.getElementById('user4').innerHTML +=
+    //             '<div class="listitemClass">' +
+    //             '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
+    //             '</div>';
+    //     })
+    // } else {
+    //     maPyitBu(x);
+    // }
+    socket.emit('pyitMaluser4', x.src)
+}
+
+socket.on('pyitMaluser4', function (x) {
+    // cardName = x.src.match(/\/(\w+)\.png/)[1];
+    cardName = x.match(/\/(\w+)\.png/)[1];
     if (cardName.startsWith('j')) {
         alert("Your card is JOKER");
         confirm("Are you sure to remove Joker?");
@@ -1280,12 +1395,11 @@ function pyitMaluser4(x) {
                 '<div class="listitemClass">' +
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
                 '</div>';
-
         })
     } else {
         maPyitBu(x);
     }
-}
+})
 
 function maPyitBu(x) {
     normalImg(x)

@@ -79,4 +79,32 @@ io.on('connection', (socket) => {
         io.sockets.emit('pyitMaluser1', data);
     })
 
+    socket.on('pyitMaluser2', function (data) {
+        io.sockets.emit('pyitMaluser2', data);
+    })
+
+    socket.on('pyitMaluser3', function (data) {
+        io.sockets.emit('pyitMaluser3', data);
+    })
+
+    socket.on('pyitMaluser4', function (data) {
+        io.sockets.emit('pyitMaluser4', data);
+    })
+
+    socket.on('firstCardLoseruser1', function (data) {
+        io.sockets.emit('firstCardLoseruser1', data);
+    })
+
+    socket.on('firstCardLoseruser2', function (data) {
+        io.sockets.emit('firstCardLoseruser2', data);
+    })
+
+    socket.on('firstCardLoseruser3', function (data) {
+        io.sockets.emit('firstCardLoseruser3', data);
+    })
+
+    socket.on('firstCardLoseruser4', function (data) {
+        io.sockets.emit('firstCardLoseruser4', data);
+    })
+
 })
