@@ -1,4 +1,4 @@
-var socket = io.connect('https://poker-norc.onrender.com');
+var socket = io.connect('https://poker-iyrv.onrender.com/');
 
 var initial = true;
 var player = "player1";

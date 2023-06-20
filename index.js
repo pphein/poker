@@ -4,7 +4,7 @@ var socket = require('socket.io');
 // App setup
 var app = express();
 var server = app.listen(80, function () {
-    console.log('listening for requests on port 80, https://poker-norc.onrender.com');
+    console.log('listening for requests on port 80, https://poker-iyrv.onrender.com/');
 });
 
 // Static files
