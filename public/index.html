@@ -5,189 +5,452 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ဖဲဂိမ်း</title>
     <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-1.10.2.js">
-    </script>
-
-    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js">
-    </script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: gainsboro;
         }
 
-        li {
-            list-style: none;
-            float: left;
+        body {
+            background: #1a472a;
+            background-image: radial-gradient(ellipse at center, #2d6a4f 0%, #1a3a2a 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            color: #f0e6d3;
         }
 
-        #output {
-            margin-left: 10px;
-            padding-left: 10px;
-            border: 1px solid green;
-            display: relative;
+        /* ── TOP CONTROLS ── */
+        .header {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 20px;
+            background: rgba(0,0,0,0.4);
+            border-bottom: 2px solid rgba(255,215,0,0.3);
         }
 
-        img {
-            width: 7%;
-            margin-left: -6.145%;
+        .header input[type="submit"] {
+            padding: 10px 20px;
+            border: 2px solid #c9a84c;
+            border-radius: 8px;
+            background: linear-gradient(145deg, #8b6914, #c9a84c);
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
 
-        img:first-child {
-            margin-left: .5%;
+        .header input[type="submit"]:hover {
+            background: linear-gradient(145deg, #c9a84c, #f0d080);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.5);
         }
 
-        #user1,
-        #user2,
-        #user3,
-        #user4 {
-            margin-left: 10px;
-            /* padding-left: 10px; */
-            border: 1px solid green;
-            display: relative;
+        .header input[type="submit"]:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
-        .action {
-            clear: both;
+        /* ── GAME TABLE ── */
+        .table-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 14px 20px;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            flex-wrap: wrap;
+        }
+
+        .table-area-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 4px;
+        }
+
+        .deck-area, .show-card-area {
+            text-align: center;
+        }
+
+        #output, #showCard {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            min-height: 60px;
+            min-width: 60px;
+            background: rgba(0,0,0,0.3);
+            border: 2px dashed rgba(255,215,0,0.3);
+            border-radius: 10px;
+            padding: 6px 8px;
+            overflow: hidden;
+        }
+
+        #output img, #showCard img {
+            width: 42px;
+            margin-left: -28px;
+            border-radius: 3px;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            transition: transform 0.15s;
+        }
+
+        #output img:first-child, #showCard img:first-child {
+            margin-left: 0;
+        }
+
+        #showCard img {
+            width: 52px;
+            margin-left: 4px;
+        }
+
+        #showCard img:first-child {
+            margin-left: 0;
+        }
+
+        /* ── PLAYER SECTIONS ── */
+        .players-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 14px;
+        }
+
+        .player-panel {
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        }
+
+        .player-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 14px;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .player-name {
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            color: #f0d080;
+        }
+
+        .player-info {
+            display: flex;
+            gap: 12px;
+            padding: 6px 14px;
+            background: rgba(0,0,0,0.15);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            align-items: flex-start;
+            flex-wrap: wrap;
+            min-height: 50px;
+        }
+
+        .info-block {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .info-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: rgba(255,255,255,0.45);
+        }
+
+        .remove-area, .winner-area, .sar-phel-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            min-height: 36px;
+            align-items: center;
+        }
+
+        .remove-area img, .winner-area img, .sar-phel-area img {
+            width: 32px;
+            border-radius: 3px;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* ── HAND (private) ── */
+        .hand-area {
+            padding: 8px 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 64px;
+            padding: 4px 0;
         }
 
         .listitemClass {
             display: inline-block;
-            border: 1px solid #006400;
-            width: 7%;
-            margin-left: -.4%;
-            display: relative;
+            width: 50px;
+            margin-left: -16px;
+            position: relative;
+            transition: transform 0.1s;
+        }
+
+        .listitemClass:first-child {
+            margin-left: 0;
+        }
+
+        .listitemClass:hover {
+            transform: translateY(-6px);
+            z-index: 10;
         }
 
         .listitemClass img {
             width: 100%;
-            margin-left: -.2%;
+            border-radius: 4px;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+            cursor: pointer;
         }
 
+        /* ── ACTION BUTTONS ── */
+        .action {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 8px 10px;
+            background: rgba(0,0,0,0.2);
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .action button, .action input[type="submit"] {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.25);
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.15s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .action input[type="submit"]:nth-child(1) {
+            background: linear-gradient(145deg, #c0392b, #e74c3c);
+            color: #fff;
+            border-color: #c0392b;
+        }
+
+        .action input[type="submit"]:nth-child(2) {
+            background: linear-gradient(145deg, #1565c0, #1e88e5);
+            color: #fff;
+            border-color: #1565c0;
+        }
+
+        .action input[type="submit"]:nth-child(3) {
+            background: linear-gradient(145deg, #2e7d32, #43a047);
+            color: #fff;
+            border-color: #2e7d32;
+        }
+
+        .action input[type="submit"]:nth-child(4) {
+            background: linear-gradient(145deg, #6a1b9a, #8e24aa);
+            color: #fff;
+            border-color: #6a1b9a;
+        }
+
+        .action input[type="submit"]:hover {
+            filter: brightness(1.15);
+            transform: translateY(-1px);
+        }
+
+        .action input[type="submit"]:active {
+            transform: translateY(1px);
+            filter: brightness(0.9);
+        }
+
+        /* ── WIN/LOSE BUTTONS (injected dynamically) ── */
+        .winner-area input[type="submit"] {
+            padding: 4px 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        /* ── DRAG SHADOW ── */
         div.inMotion {
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            opacity: 0.9;
         }
 
-        .show {
-            margin-left: 10px;
-            /* padding-left: 10px; */
-            border: 1px solid green;
-            display: relative;
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-end;
-        }
-
-        #user1_remove,
-        #user2_remove,
-        #user3_remove,
-        #user4_remove {
-            background-color: gray;
-        }
-
-        #user1_sarPhel,
-        #user2_sarPhel,
-        #user3_sarPhel,
-        #user4_sarPhel {
-            background-color: beige;
-        }
-
-        .action,
-        .header {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        input:hover {
-            background-color: gray;
-        }
-
-        input:focus {
-            background-color: green;
-        }
-
-        .private {
-            border: 2px solid red;
-            margin: 1%;
+        /* ── RESPONSIVE ── */
+        @media (max-width: 700px) {
+            .players-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- TOP CONTROLS -->
     <div class="header">
         <input id="saMal" type="submit" value="စမယ်" onclick="saMal()">
         <input type="submit" value="ဝေမယ်" onclick="wayMal()">
         <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
     </div>
 
-    <div id="showCard"></div>
-    <div id="output"></div>
-    <div class="show">
-        <div id="user4_remove"></div>
-        <div id="user1_winnerCard"></div>
-        <div id="user1_sarPhel"></div>
-    </div>
-    <div class="private">
-        <div class="container" id="user1"></div>
-        <div class="action" id="action-1">
-            <input type="submit" value="စားမယ်" onclick="sarMaluser1()">
-            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
-            <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
+    <!-- TABLE CENTER: deck + show card -->
+    <div class="table-area">
+        <div class="deck-area">
+            <div class="table-area-label">ဖဲပုံ</div>
+            <div id="output"></div>
+        </div>
+        <div class="show-card-area">
+            <div class="table-area-label">လှန်ထားသောဖဲ</div>
+            <div id="showCard"></div>
         </div>
     </div>
 
-    <div class="show">
-        <div id="user1_remove"></div>
-        <div id="user2_winnerCard"></div>
-        <div id="user2_sarPhel"></div>
-    </div>
-    <div class="private">
-        <div class="container" id="user2"></div>
-        <div class="action" id="action-2">
-            <input type="submit" value="စားမယ်" onclick="sarMaluser2()">
-            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
-            <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
+    <!-- PLAYERS GRID -->
+    <div class="players-grid">
+
+        <!-- PLAYER 1 -->
+        <div class="player-panel">
+            <div class="player-header">
+                <span class="player-name">ကစားသမား ၁</span>
+            </div>
+            <div class="player-info">
+                <div class="info-block">
+                    <span class="info-label">ပစ်ထားသောဖဲ</span>
+                    <div class="remove-area" id="user4_remove"></div>
+                </div>
+                <div class="info-block">
+                    <span class="info-label">အနိုင်ဖဲ</span>
+                    <div class="winner-area" id="user1_winnerCard"></div>
+                </div>
+                <div class="info-block">
+                    <span class="info-label">စားထားသောဖဲ</span>
+                    <div class="sar-phel-area" id="user1_sarPhel"></div>
+                </div>
+            </div>
+            <div class="hand-area">
+                <div class="container" id="user1"></div>
+            </div>
+            <div class="action" id="action-1">
+                <input type="submit" value="စားမယ်" onclick="sarMaluser1()">
+                <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
+                <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
+            </div>
         </div>
+
+        <!-- PLAYER 2 -->
+        <div class="player-panel">
+            <div class="player-header">
+                <span class="player-name">ကစားသမား ၂</span>
+            </div>
+            <div class="player-info">
+                <div class="info-block">
+                    <span class="info-label">ပစ်ထားသောဖဲ</span>
+                    <div class="remove-area" id="user1_remove"></div>
+                </div>
+                <div class="info-block">
+                    <span class="info-label">အနိုင်ဖဲ</span>
+                    <div class="winner-area" id="user2_winnerCard"></div>
+                </div>
+                <div class="info-block">
+                    <span class="info-label">စားထားသောဖဲ</span>
+                    <div class="sar-phel-area" id="user2_sarPhel"></div>
+                </div>
+            </div>
+            <div class="hand-area">
+                <div class="container" id="user2"></div>
+            </div>
+            <div class="action" id="action-2">
+                <input type="submit" value="စားမယ်" onclick="sarMaluser2()">
+                <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
+                <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
+            </div>
+        </div>
+
+        <!-- PLAYER 3 -->
+        <div class="player-panel">
+            <div class="player-header">
+                <span class="player-name">ကစားသမား ၃</span>
+            </div>
+            <div class="player-info">
+                <div class="info-block">
+                    <span class="info-label">ပစ်ထားသောဖဲ</span>
+                    <div class="remove-area" id="user2_remove"></div>
+                </div>
+                <div class="info-block">
+                    <span class="info-label">အနိုင်ဖဲ</span>
+                    <div class="winner-area" id="user3_winnerCard"></div>
+                </div>
+                <div class="info-block">
+                    <span class="info-label">စားထားသောဖဲ</span>
+                    <div class="sar-phel-area" id="user3_sarPhel"></div>
+                </div>
+            </div>
+            <div class="hand-area">
+                <div class="container" id="user3"></div>
+            </div>
+            <div class="action" id="action-3">
+                <input type="submit" value="စားမယ်" onclick="sarMaluser3()">
+                <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
+                <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
+            </div>
+        </div>
+
+        <!-- PLAYER 4 -->
+        <div class="player-panel">
+            <div class="player-header">
+                <span class="player-name">ကစားသမား ၄</span>
+            </div>
+            <div class="player-info">
+                <div class="info-block">
+                    <span class="info-label">ပစ်ထားသောဖဲ</span>
+                    <div class="remove-area" id="user3_remove"></div>
+                </div>
+                <div class="info-block">
+                    <span class="info-label">အနိုင်ဖဲ</span>
+                    <div class="winner-area" id="user4_winnerCard"></div>
+                </div>
+                <div class="info-block">
+                    <span class="info-label">စားထားသောဖဲ</span>
+                    <div class="sar-phel-area" id="user4_sarPhel"></div>
+                </div>
+            </div>
+            <div class="hand-area">
+                <div class="container" id="user4"></div>
+            </div>
+            <div class="action" id="action-4">
+                <input type="submit" value="စားမယ်" onclick="sarMaluser4()">
+                <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
+                <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
+            </div>
+        </div>
+
     </div>
 
-    <div class="show">
-        <div id="user2_remove"></div>
-        <div id="user3_winnerCard"></div>
-        <div id="user3_sarPhel"></div>
-    </div>
-    <div class="private">
-        <div class="container" id="user3"></div>
-        <div class="action" id="action-3">
-            <input type="submit" value="စားမယ်" onclick="sarMaluser3()">
-            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
-            <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
-        </div>
-    </div>
-
-    <div class="show">
-        <div id="user3_remove"></div>
-        <div id="user4_winnerCard"></div>
-
-        <div id="user4_sarPhel"></div>
-    </div>
-    <div class="private">
-        <div class="container" id="user4"></div>
-        <div class="action" id="action-4">
-            <input type="submit" value="စားမယ်" onclick="sarMaluser4()">
-            <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
-            <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
-        </div>
-    </div>
-    <div id="user1"></div>
     <script src="./js/touch-sortable.js"></script>
     <script src="./js/move.js"></script>
-
     <script src="app.js"></script>
 </body>
 
