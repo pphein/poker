@@ -24,42 +24,87 @@
             min-height: 100vh;
             font-family: 'Segoe UI', sans-serif;
             color: #f0e6d3;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* ── TOP CONTROLS ── */
         .header {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 12px;
-            padding: 14px 20px;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
             background: rgba(0,0,0,0.4);
             border-bottom: 2px solid rgba(255,215,0,0.3);
         }
 
+        .header-game-btns {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
         .header input[type="submit"] {
-            padding: 10px 20px;
+            padding: 10px 16px;
             border: 2px solid #c9a84c;
             border-radius: 8px;
             background: linear-gradient(145deg, #8b6914, #c9a84c);
             color: #fff;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             cursor: pointer;
-            letter-spacing: 0.5px;
             transition: all 0.2s;
             box-shadow: 0 3px 8px rgba(0,0,0,0.4);
             text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            min-height: 44px;
+            touch-action: manipulation;
         }
 
         .header input[type="submit"]:hover {
             background: linear-gradient(145deg, #c9a84c, #f0d080);
             transform: translateY(-1px);
-            box-shadow: 0 5px 12px rgba(0,0,0,0.5);
         }
 
         .header input[type="submit"]:active {
             transform: translateY(1px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            filter: brightness(0.9);
+        }
+
+        /* ── BET INPUT ── */
+        .bet-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            background: rgba(255,215,0,0.08);
+            border: 1px solid rgba(255,215,0,0.25);
+            border-radius: 8px;
+        }
+
+        .bet-control label {
+            font-size: 12px;
+            color: #f0d080;
+            white-space: nowrap;
+        }
+
+        .bet-control input[type="number"] {
+            width: 72px;
+            padding: 6px 6px;
+            border-radius: 6px;
+            border: 1px solid #c9a84c;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            min-height: 36px;
+        }
+
+        .bet-control input[type="number"]:focus {
+            outline: none;
+            border-color: #f0d080;
         }
 
         /* ── GAME TABLE ── */
@@ -67,22 +112,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            padding: 14px 20px;
+            gap: 16px;
+            padding: 10px 12px;
             background: rgba(0,0,0,0.2);
             border-bottom: 1px solid rgba(255,255,255,0.1);
             flex-wrap: wrap;
         }
 
         .table-area-label {
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: rgba(255,255,255,0.5);
-            margin-bottom: 4px;
-        }
-
-        .deck-area, .show-card-area {
+            margin-bottom: 3px;
             text-align: center;
         }
 
@@ -90,21 +132,21 @@
             display: flex;
             flex-wrap: nowrap;
             align-items: center;
-            min-height: 60px;
-            min-width: 60px;
+            min-height: 56px;
+            min-width: 56px;
             background: rgba(0,0,0,0.3);
             border: 2px dashed rgba(255,215,0,0.3);
             border-radius: 10px;
-            padding: 6px 8px;
+            padding: 5px 7px;
             overflow: hidden;
+            max-width: calc(50vw - 30px);
         }
 
         #output img, #showCard img {
-            width: 42px;
-            margin-left: -28px;
+            width: 38px;
+            margin-left: -24px;
             border-radius: 3px;
             box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            transition: transform 0.15s;
             background-color: white;
         }
 
@@ -113,7 +155,7 @@
         }
 
         #showCard img {
-            width: 52px;
+            width: 48px;
             margin-left: 4px;
             background-color: white;
         }
@@ -122,59 +164,113 @@
             margin-left: 0;
         }
 
-        /* ── PLAYER SECTIONS ── */
+        /* ── PLAYERS GRID ── */
+        /* Mobile first: 1 column */
         .players-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            padding: 14px;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            padding: 10px;
         }
 
         .player-panel {
             background: rgba(0,0,0,0.35);
             border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 14px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 16px rgba(0,0,0,0.4);
         }
 
+        /* ── PLAYER HEADER ── */
         .player-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 14px;
+            gap: 8px;
+            padding: 8px 12px;
             background: rgba(0,0,0,0.3);
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            flex-wrap: wrap;
         }
 
         .player-name {
             font-size: 13px;
             font-weight: bold;
-            letter-spacing: 0.5px;
             color: #f0d080;
+            white-space: nowrap;
         }
 
+        /* ── WRONG COUNTER ── */
+        .wrong-counter {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .wrong-counter .wrong-label {
+            font-size: 10px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .wrong-counter .wrong-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: background 0.15s;
+            touch-action: manipulation;
+            flex-shrink: 0;
+        }
+
+        .wrong-counter .wrong-btn:active {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .wrong-counter .wrong-count {
+            min-width: 20px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .wrong-counter .wrong-total {
+            font-size: 11px;
+            color: #ffd700;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* ── PLAYER INFO ROW ── */
         .player-info {
             display: flex;
-            gap: 12px;
-            padding: 6px 14px;
+            gap: 10px;
+            padding: 6px 12px;
             background: rgba(0,0,0,0.15);
             border-bottom: 1px solid rgba(255,255,255,0.07);
             align-items: flex-start;
             flex-wrap: wrap;
-            min-height: 50px;
         }
 
         .info-block {
             display: flex;
             flex-direction: column;
             gap: 2px;
+            min-width: 0;
         }
 
         .info-label {
             font-size: 9px;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.5px;
             color: rgba(255,255,255,0.45);
         }
 
@@ -182,43 +278,44 @@
             display: flex;
             flex-wrap: wrap;
             gap: 2px;
-            min-height: 36px;
+            min-height: 32px;
             align-items: center;
         }
 
         .remove-area img, .winner-area img, .sar-phel-area img {
-            width: 32px;
+            width: 30px;
             border-radius: 3px;
             box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
             background-color: white;
         }
 
-        /* ── HAND (private) ── */
+        /* ── HAND ── */
         .hand-area {
-            padding: 8px 10px;
+            padding: 8px 10px 4px;
         }
 
         .container {
             display: flex;
             flex-wrap: wrap;
-            min-height: 64px;
-            padding: 4px 0;
+            min-height: 62px;
+            padding: 2px 0;
         }
 
         .listitemClass {
             display: inline-block;
-            width: 50px;
-            margin-left: -16px;
+            width: 46px;
+            margin-left: -14px;
             position: relative;
             transition: transform 0.1s;
+            touch-action: manipulation;
         }
 
         .listitemClass:first-child {
             margin-left: 0;
         }
 
-        .listitemClass:hover {
-            transform: translateY(-6px);
+        .listitemClass:active {
+            transform: translateY(-8px);
             z-index: 10;
         }
 
@@ -232,23 +329,26 @@
 
         /* ── ACTION BUTTONS ── */
         .action {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 6px;
             padding: 8px 10px;
             background: rgba(0,0,0,0.2);
             border-top: 1px solid rgba(255,255,255,0.07);
         }
 
-        .action button, .action input[type="submit"] {
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.25);
+        .action input[type="submit"] {
+            padding: 10px 6px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
             font-size: 12px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             transition: all 0.15s;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            min-height: 44px;
+            touch-action: manipulation;
+            width: 100%;
         }
 
         .action input[type="submit"]:nth-child(1) {
@@ -273,27 +373,25 @@
             background: linear-gradient(145deg, #6a1b9a, #8e24aa);
             color: #fff;
             border-color: #6a1b9a;
-        }
-
-        .action input[type="submit"]:hover {
-            filter: brightness(1.15);
-            transform: translateY(-1px);
+            grid-column: 1 / -1;
         }
 
         .action input[type="submit"]:active {
-            transform: translateY(1px);
-            filter: brightness(0.9);
+            transform: scale(0.97);
+            filter: brightness(0.88);
         }
 
         /* ── WIN/LOSE BUTTONS (injected dynamically) ── */
         .winner-area input[type="submit"] {
-            padding: 4px 10px;
+            padding: 5px 10px;
             border-radius: 5px;
             border: none;
             font-size: 11px;
             cursor: pointer;
             font-weight: 600;
             margin-left: 4px;
+            min-height: 30px;
+            touch-action: manipulation;
         }
 
         /* ── DRAG SHADOW ── */
@@ -302,92 +400,35 @@
             opacity: 0.9;
         }
 
-        /* ── BET INPUT ── */
-        .bet-control {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0 10px;
-            border-left: 1px solid rgba(255,215,0,0.3);
-            margin-left: 6px;
-        }
-
-        .bet-control label {
-            font-size: 12px;
-            color: #f0d080;
-            white-space: nowrap;
-        }
-
-        .bet-control input[type="number"] {
-            width: 80px;
-            padding: 6px 8px;
-            border-radius: 6px;
-            border: 1px solid #c9a84c;
-            background: rgba(0,0,0,0.5);
-            color: #fff;
-            font-size: 13px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .bet-control input[type="number"]:focus {
-            outline: none;
-            border-color: #f0d080;
-        }
-
-        /* ── WRONG COUNTER (per player) ── */
-        .wrong-counter {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .wrong-counter .wrong-label {
-            font-size: 10px;
-            color: rgba(255,255,255,0.5);
-            letter-spacing: 0.5px;
-        }
-
-        .wrong-counter .wrong-btn {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            font-size: 14px;
-            line-height: 1;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            transition: background 0.15s;
-        }
-
-        .wrong-counter .wrong-btn:hover {
-            background: rgba(255,255,255,0.25);
-        }
-
-        .wrong-counter .wrong-count {
-            min-width: 18px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
-            color: #ff6b6b;
-        }
-
-        .wrong-counter .wrong-total {
-            font-size: 11px;
-            color: #ffd700;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 700px) {
+        /* ── TABLET: 2-column grid ── */
+        @media (min-width: 600px) {
             .players-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                padding: 12px;
+            }
+
+            .listitemClass {
+                width: 50px;
+                margin-left: -16px;
+            }
+
+            .header input[type="submit"] {
+                font-size: 14px;
+                padding: 10px 18px;
+            }
+        }
+
+        /* ── DESKTOP ── */
+        @media (min-width: 900px) {
+            .header {
+                gap: 12px;
+                padding: 14px 24px;
+            }
+
+            .players-grid {
+                padding: 14px;
+                gap: 14px;
             }
         }
     </style>
@@ -397,9 +438,11 @@
 
     <!-- TOP CONTROLS -->
     <div class="header">
-        <input id="saMal" type="submit" value="စမယ်" onclick="saMal()">
-        <input type="submit" value="ဝေမယ်" onclick="wayMal()">
-        <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
+        <div class="header-game-btns">
+            <input id="saMal" type="submit" value="စမယ်" onclick="saMal()">
+            <input type="submit" value="ဝေမယ်" onclick="wayMal()">
+            <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
+        </div>
         <div class="bet-control">
             <label for="betAmount">တစ်မှားဈေး</label>
             <input type="number" id="betAmount" value="100" min="0" step="50" oninput="updateAllTotals()">
