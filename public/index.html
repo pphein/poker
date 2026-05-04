@@ -302,6 +302,88 @@
             opacity: 0.9;
         }
 
+        /* ── BET INPUT ── */
+        .bet-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 10px;
+            border-left: 1px solid rgba(255,215,0,0.3);
+            margin-left: 6px;
+        }
+
+        .bet-control label {
+            font-size: 12px;
+            color: #f0d080;
+            white-space: nowrap;
+        }
+
+        .bet-control input[type="number"] {
+            width: 80px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #c9a84c;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .bet-control input[type="number"]:focus {
+            outline: none;
+            border-color: #f0d080;
+        }
+
+        /* ── WRONG COUNTER (per player) ── */
+        .wrong-counter {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .wrong-counter .wrong-label {
+            font-size: 10px;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.5px;
+        }
+
+        .wrong-counter .wrong-btn {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 14px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: background 0.15s;
+        }
+
+        .wrong-counter .wrong-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .wrong-counter .wrong-count {
+            min-width: 18px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .wrong-counter .wrong-total {
+            font-size: 11px;
+            color: #ffd700;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 700px) {
             .players-grid {
@@ -318,6 +400,10 @@
         <input id="saMal" type="submit" value="စမယ်" onclick="saMal()">
         <input type="submit" value="ဝေမယ်" onclick="wayMal()">
         <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
+        <div class="bet-control">
+            <label for="betAmount">တစ်မှားဈေး</label>
+            <input type="number" id="betAmount" value="100" min="0" step="50" oninput="updateAllTotals()">
+        </div>
     </div>
 
     <!-- TABLE CENTER: deck + show card -->
@@ -339,6 +425,13 @@
         <div class="player-panel">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၁</span>
+                <div class="wrong-counter">
+                    <span class="wrong-label">မှား</span>
+                    <button class="wrong-btn" onclick="addWrong(1, -1)">−</button>
+                    <span class="wrong-count" id="wrong-count-1">0</span>
+                    <button class="wrong-btn" onclick="addWrong(1, 1)">+</button>
+                    <span class="wrong-total" id="wrong-total-1">0 ကျပ်</span>
+                </div>
             </div>
             <div class="player-info">
                 <div class="info-block">
@@ -368,6 +461,13 @@
         <div class="player-panel">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၂</span>
+                <div class="wrong-counter">
+                    <span class="wrong-label">မှား</span>
+                    <button class="wrong-btn" onclick="addWrong(2, -1)">−</button>
+                    <span class="wrong-count" id="wrong-count-2">0</span>
+                    <button class="wrong-btn" onclick="addWrong(2, 1)">+</button>
+                    <span class="wrong-total" id="wrong-total-2">0 ကျပ်</span>
+                </div>
             </div>
             <div class="player-info">
                 <div class="info-block">
@@ -397,6 +497,13 @@
         <div class="player-panel">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၃</span>
+                <div class="wrong-counter">
+                    <span class="wrong-label">မှား</span>
+                    <button class="wrong-btn" onclick="addWrong(3, -1)">−</button>
+                    <span class="wrong-count" id="wrong-count-3">0</span>
+                    <button class="wrong-btn" onclick="addWrong(3, 1)">+</button>
+                    <span class="wrong-total" id="wrong-total-3">0 ကျပ်</span>
+                </div>
             </div>
             <div class="player-info">
                 <div class="info-block">
@@ -426,6 +533,13 @@
         <div class="player-panel">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၄</span>
+                <div class="wrong-counter">
+                    <span class="wrong-label">မှား</span>
+                    <button class="wrong-btn" onclick="addWrong(4, -1)">−</button>
+                    <span class="wrong-count" id="wrong-count-4">0</span>
+                    <button class="wrong-btn" onclick="addWrong(4, 1)">+</button>
+                    <span class="wrong-total" id="wrong-total-4">0 ကျပ်</span>
+                </div>
             </div>
             <div class="player-info">
                 <div class="info-block">
@@ -456,6 +570,26 @@
     <script src="./js/touch-sortable.js"></script>
     <script src="./js/move.js"></script>
     <script src="app.js"></script>
+
+    <script>
+        var wrongCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+
+        function addWrong(player, delta) {
+            wrongCounts[player] = Math.max(0, wrongCounts[player] + delta);
+            updateTotal(player);
+        }
+
+        function updateTotal(player) {
+            var bet = parseInt(document.getElementById('betAmount').value) || 0;
+            var count = wrongCounts[player];
+            document.getElementById('wrong-count-' + player).textContent = count;
+            document.getElementById('wrong-total-' + player).textContent = (count * bet).toLocaleString() + ' ကျပ်';
+        }
+
+        function updateAllTotals() {
+            [1, 2, 3, 4].forEach(function(p) { updateTotal(p); });
+        }
+    </script>
 </body>
 
 </html>
