@@ -869,11 +869,16 @@ socket.on('sarMaluser1', function () {
     if (initial && showCard.length == 1) {
         sarPhel = showCard.pop();
         showCard = [];
-        document.getElementById('showCard').innerHTML += '';
+        document.getElementById('showCard').innerHTML = '<img src="./cards/' + sarPhel + '.png" class="card-taken" />';
         initial = false
 
     } else if (user4_remove.length) {
         sarPhel = user4_remove.pop();
+        document.getElementById('user4_remove').innerHTML = '';
+        user4_remove.forEach(function(item) {
+            document.getElementById('user4_remove').innerHTML += '<img src="./cards/' + item + '.png" />';
+        });
+        document.getElementById('user4_remove').innerHTML += '<img src="./cards/' + sarPhel + '.png" class="card-taken" />';
     } else {
         return false
     }
@@ -942,11 +947,16 @@ socket.on('sarMaluser2', function () {
     if (initial && showCard.length == 1) {
         sarPhel = showCard.pop();
         showCard = [];
-        document.getElementById('showCard').innerHTML += '';
+        document.getElementById('showCard').innerHTML = '<img src="./cards/' + sarPhel + '.png" class="card-taken" />';
         initial = false
 
     } else if (user1_remove.length) {
         sarPhel = user1_remove.pop();
+        document.getElementById('user1_remove').innerHTML = '';
+        user1_remove.forEach(function(item) {
+            document.getElementById('user1_remove').innerHTML += '<img src="./cards/' + item + '.png" />';
+        });
+        document.getElementById('user1_remove').innerHTML += '<img src="./cards/' + sarPhel + '.png" class="card-taken" />';
     } else {
         return false
     }
@@ -1015,11 +1025,16 @@ socket.on('sarMaluser3', function () {
     if (initial && showCard.length == 1) {
         sarPhel = showCard.pop();
         showCard = [];
-        document.getElementById('showCard').innerHTML += '';
+        document.getElementById('showCard').innerHTML = '<img src="./cards/' + sarPhel + '.png" class="card-taken" />';
         initial = false
 
     } else if (user2_remove.length) {
         sarPhel = user2_remove.pop();
+        document.getElementById('user2_remove').innerHTML = '';
+        user2_remove.forEach(function(item) {
+            document.getElementById('user2_remove').innerHTML += '<img src="./cards/' + item + '.png" />';
+        });
+        document.getElementById('user2_remove').innerHTML += '<img src="./cards/' + sarPhel + '.png" class="card-taken" />';
     } else {
         return false
     }
@@ -1088,11 +1103,16 @@ socket.on('sarMaluser4', function () {
     if (initial && showCard.length == 1) {
         sarPhel = showCard.pop();
         showCard = [];
-        document.getElementById('showCard').innerHTML += '';
+        document.getElementById('showCard').innerHTML = '<img src="./cards/' + sarPhel + '.png" class="card-taken" />';
         initial = false
 
     } else if (user3_remove.length) {
         sarPhel = user3_remove.pop();
+        document.getElementById('user3_remove').innerHTML = '';
+        user3_remove.forEach(function(item) {
+            document.getElementById('user3_remove').innerHTML += '<img src="./cards/' + item + '.png" />';
+        });
+        document.getElementById('user3_remove').innerHTML += '<img src="./cards/' + sarPhel + '.png" class="card-taken" />';
     } else {
         return false
     }
