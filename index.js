@@ -107,6 +107,10 @@ io.on('connection', (socket) => {
         io.sockets.emit('firstCardLoseruser4', data);
     })
 
+    socket.on('autoDecide', function () {
+        io.sockets.emit('autoDecide');
+    })
+
     /* ── Voice signaling ── */
     var voiceUsers = {};   // lives in outer scope so all socket handlers share it
 
