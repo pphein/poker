@@ -452,9 +452,10 @@
     <!-- TOP CONTROLS -->
     <div class="header">
         <div class="header-game-btns">
-            <input id="saMal" type="submit" value="စမယ်" onclick="saMal()">
-            <input type="submit" value="ဝေမယ်" onclick="wayMal()">
-            <input type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()">
+            <input id="btn-saMal"    type="submit" value="စမယ်"           onclick="handleSaMal()">
+            <input id="btn-mwhe"     type="submit" value="မွှေမယ် (5)"    onclick="handleMwhe()"    style="display:none" disabled>
+            <input id="btn-wayMal"   type="submit" value="ဝေမယ် (13)"     onclick="handleWayMal()"  disabled>
+            <input id="btn-showCard" type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()" disabled>
         </div>
         <div class="bet-control">
             <label for="betAmount">တစ်မှားဈေး</label>
@@ -628,6 +629,41 @@
     <script src="app.js"></script>
 
     <script>
+        /* ── GAME FLOW BUTTONS ── */
+        var _mwheLeft = 5, _wayLeft = 13;
+
+        function handleSaMal() {
+            saMal();
+            document.getElementById('btn-saMal').disabled = true;
+            var b = document.getElementById('btn-mwhe');
+            b.style.display = '';
+            b.disabled = false;
+            _mwheLeft = 5;
+            b.value = 'မွှေမယ် (' + _mwheLeft + ')';
+        }
+
+        function handleMwhe() {
+            saMal();
+            _mwheLeft--;
+            document.getElementById('btn-mwhe').value = 'မွှေမယ် (' + _mwheLeft + ')';
+            if (_mwheLeft <= 0) {
+                document.getElementById('btn-mwhe').disabled = true;
+                _wayLeft = 13;
+                document.getElementById('btn-wayMal').disabled = false;
+                document.getElementById('btn-wayMal').value = 'ဝေမယ် (' + _wayLeft + ')';
+            }
+        }
+
+        function handleWayMal() {
+            wayMal();
+            _wayLeft--;
+            document.getElementById('btn-wayMal').value = 'ဝေမယ် (' + _wayLeft + ')';
+            if (_wayLeft <= 0) {
+                document.getElementById('btn-wayMal').disabled = true;
+                document.getElementById('btn-showCard').disabled = false;
+            }
+        }
+
         var wrongCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
 
         function addWrong(player, delta) {

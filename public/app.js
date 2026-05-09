@@ -80,8 +80,6 @@ socket.on('saMal', function (data) {
         document.getElementById('output').innerHTML += '<img src="' + "./cards/" + 'back' + ".png" + '"/>';
 
     })
-    document.getElementById('saMal').value = 'မွှေမယ်';
-
     package = data;
 })
 
