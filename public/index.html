@@ -405,6 +405,14 @@
             visibility: hidden;
         }
 
+        /* ── TAKEN CARD (held by another player) ── */
+        .listitemClass img.card-taken {
+            filter: brightness(0.25) saturate(0);
+            opacity: 0.55;
+            outline: 2px solid rgba(255, 60, 60, 0.7);
+            outline-offset: -2px;
+        }
+
         /* ── TABLET: 2-column grid ── */
         @media (min-width: 600px) {
             .players-grid {
@@ -637,6 +645,34 @@
         function updateAllTotals() {
             [1, 2, 3, 4].forEach(function(p) { updateTotal(p); });
         }
+
+        /* ── TAKEN CARD MARKER ── */
+        function markTakenCards() {
+            /* Build a map: cardName -> [img elements across all hands] */
+            var cardMap = {};
+            [1, 2, 3, 4].forEach(function(u) {
+                var imgs = document.querySelectorAll('#user' + u + ' > .listitemClass > img');
+                imgs.forEach(function(img) {
+                    var m = img.src.match(/\/(\w+)\.png/);
+                    if (!m) return;
+                    var card = m[1];
+                    if (!cardMap[card]) cardMap[card] = [];
+                    cardMap[card].push({ img: img, player: u });
+                });
+            });
+            /* Mark/unmark cards that appear in more than one player's hand */
+            Object.keys(cardMap).forEach(function(card) {
+                var entries = cardMap[card];
+                var takenByMultiple = entries.length > 1;
+                entries.forEach(function(e) { e.img.classList.toggle('card-taken', takenByMultiple); });
+            });
+        }
+
+        /* Auto-run markTakenCards whenever any hand DOM changes */
+        var _handObserver = new MutationObserver(markTakenCards);
+        [1, 2, 3, 4].forEach(function(u) {
+            _handObserver.observe(document.getElementById('user' + u), { childList: true, subtree: true });
+        });
     </script>
 </body>
 
