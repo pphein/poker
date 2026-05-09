@@ -343,18 +343,8 @@ socket.on('showFirstCard', function () {
             }
         });
     }
-    if (showCarduser1.length) {
-        document.getElementById("action-1").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser1()">'
-    }
-    if (showCarduser2.length) {
-        document.getElementById("action-2").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser2()">'
-    }
-    if (showCarduser3.length) {
-        document.getElementById("action-3").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser3()">'
-
-    }
-    if (showCarduser4.length) {
-        document.getElementById("action-4").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="showWinnerCarduser4()">'
+    if (showCarduser1.length || showCarduser2.length || showCarduser3.length || showCarduser4.length) {
+        document.getElementById("action-1").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="autoDecide()">'
     }
 })
 
@@ -1532,6 +1522,57 @@ function manualSortuser4() {
     $('#outputvalues4').val(user4);
 
 }
+
+function autoDecide() {
+    socket.emit('autoDecide');
+}
+
+socket.on('autoDecide', function () {
+    var playerData = [
+        { n: 1, cards: showCarduser1 },
+        { n: 2, cards: showCarduser2 },
+        { n: 3, cards: showCarduser3 },
+        { n: 4, cards: showCarduser4 }
+    ];
+
+    /* Best card for a player: showCard[0] > Ace(01) > highest number */
+    function getBest(cards) {
+        if (!cards.length) return null;
+        var sorted = cards.slice().sort().reverse();
+        if (cards.includes(showCard[0])) return showCard[0];
+        if (cards.includes(showCardType + '01')) return showCardType + '01';
+        return sorted[0];
+    }
+
+    /* Numeric rank for comparison */
+    function rank(card) {
+        if (!card) return -1;
+        if (card === showCard[0]) return 100;
+        var n = parseInt(card.slice(1));
+        return n === 1 ? 14 : n;
+    }
+
+    var results = playerData.map(function (p) {
+        return { n: p.n, best: getBest(p.cards) };
+    });
+
+    var topRank = Math.max.apply(null, results.map(function (r) { return rank(r.best); }));
+
+    results.forEach(function (r) {
+        var el = document.getElementById('user' + r.n + '_winnerCard');
+        el.innerHTML = '';
+        if (!r.best) {
+            el.innerHTML = '<span style="color:rgba(255,255,255,0.4);font-size:11px;">ဖဲမပါ</span>';
+            return;
+        }
+        var isWinner = rank(r.best) === topRank;
+        el.innerHTML = '<img src="./cards/' + r.best + '.png" />'
+            + '<span style="margin-left:4px;font-weight:bold;font-size:13px;color:'
+            + (isWinner ? '#ffd700' : '#ff6b6b') + ';">'
+            + (isWinner ? '🏆 WIN' : '✗ LOSE')
+            + '</span>';
+    });
+});
 
 // $(function() {
 //     $('#user').touch_sortable({
