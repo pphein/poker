@@ -455,7 +455,7 @@
             <input id="btn-saMal"    type="submit" value="စမယ်"           onclick="handleSaMal()">
             <input id="btn-mwhe"     type="submit" value="မွှေမယ် (5)"    onclick="handleMwhe()"    style="display:none" disabled>
             <input id="btn-wayMal"   type="submit" value="ဝေမယ် (13)"     onclick="handleWayMal()"  disabled>
-            <input id="btn-showCard" type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="showFirstCard()" disabled>
+            <input id="btn-showCard" type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="handleShowFirstCard()" disabled>
         </div>
         <div class="bet-control">
             <label for="betAmount">တစ်မှားဈေး</label>
@@ -634,7 +634,7 @@
 
         function handleSaMal() {
             saMal();
-            document.getElementById('btn-saMal').disabled = true;
+            document.getElementById('btn-saMal').style.display = 'none';
             var b = document.getElementById('btn-mwhe');
             b.style.display = '';
             b.disabled = false;
@@ -647,11 +647,16 @@
             _mwheLeft--;
             document.getElementById('btn-mwhe').value = 'မွှေမယ် (' + _mwheLeft + ')';
             if (_mwheLeft <= 0) {
-                document.getElementById('btn-mwhe').disabled = true;
+                document.getElementById('btn-mwhe').style.display = 'none';
                 _wayLeft = 13;
                 document.getElementById('btn-wayMal').disabled = false;
                 document.getElementById('btn-wayMal').value = 'ဝေမယ် (' + _wayLeft + ')';
             }
+        }
+
+        function handleShowFirstCard() {
+            showFirstCard();
+            document.getElementById('btn-showCard').style.display = 'none';
         }
 
         function handleWayMal() {
@@ -659,7 +664,7 @@
             _wayLeft--;
             document.getElementById('btn-wayMal').value = 'ဝေမယ် (' + _wayLeft + ')';
             if (_wayLeft <= 0) {
-                document.getElementById('btn-wayMal').disabled = true;
+                document.getElementById('btn-wayMal').style.display = 'none';
                 document.getElementById('btn-showCard').disabled = false;
             }
         }
