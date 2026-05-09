@@ -1535,42 +1535,80 @@ socket.on('autoDecide', function () {
         { n: 4, cards: showCarduser4 }
     ];
 
-    /* Best card for a player: showCard[0] > Ace(01) > highest number */
-    function getBest(cards) {
-        if (!cards.length) return null;
-        var sorted = cards.slice().sort().reverse();
-        if (cards.includes(showCard[0])) return showCard[0];
-        if (cards.includes(showCardType + '01')) return showCardType + '01';
-        return sorted[0];
-    }
-
-    /* Numeric rank for comparison */
-    function rank(card) {
-        if (!card) return -1;
-        if (card === showCard[0]) return 100;
+    /* Ace (01) counts as 14 so it ranks above 13 */
+    function cardValue(card) {
         var n = parseInt(card.slice(1));
         return n === 1 ? 14 : n;
     }
 
-    var results = playerData.map(function (p) {
-        return { n: p.n, best: getBest(p.cards) };
-    });
+    /* Sort a player's same-suit cards highest first */
+    function sortedValues(cards) {
+        return cards.map(cardValue).sort(function (a, b) { return b - a; });
+    }
 
-    var topRank = Math.max.apply(null, results.map(function (r) { return rank(r.best); }));
+    /* Compare two sorted-value arrays; positive = a wins, negative = b wins */
+    function compareHands(a, b) {
+        var len = Math.max(a.length, b.length);
+        for (var i = 0; i < len; i++) {
+            var diff = (a[i] || 0) - (b[i] || 0);
+            if (diff !== 0) return diff;
+        }
+        return 0;
+    }
 
-    results.forEach(function (r) {
-        var el = document.getElementById('user' + r.n + '_winnerCard');
+    function findWinners() {
+        /* Rule 1: exact same card as လှန်ထားသောဖဲ → instant win */
+        var exact = playerData.filter(function (p) {
+            return p.cards.indexOf(showCard[0]) !== -1;
+        });
+        if (exact.length) return exact.map(function (p) { return p.n; });
+
+        /* Rule 2: narrow to Ace holders if any; else all players with cards */
+        var withAce = playerData.filter(function (p) {
+            return p.cards.indexOf(showCardType + '01') !== -1;
+        });
+        var candidates = withAce.length
+            ? withAce
+            : playerData.filter(function (p) { return p.cards.length > 0; });
+
+        if (!candidates.length) return [];
+
+        /* Rules 3-5: compare full sorted hands card by card (highest first) */
+        var bestHand = null;
+        candidates.forEach(function (p) {
+            var hand = sortedValues(p.cards);
+            if (!bestHand || compareHands(hand, bestHand) > 0) bestHand = hand;
+        });
+
+        return candidates
+            .filter(function (p) { return compareHands(sortedValues(p.cards), bestHand) === 0; })
+            .map(function (p) { return p.n; });
+    }
+
+    /* Best card to display for a player */
+    function getBestCard(cards) {
+        if (cards.indexOf(showCard[0]) !== -1) return showCard[0];
+        if (cards.indexOf(showCardType + '01') !== -1) return showCardType + '01';
+        var top = sortedValues(cards)[0];
+        return cards.filter(function (c) { return cardValue(c) === top; })[0];
+    }
+
+    var winnerNums = findWinners();
+
+    playerData.forEach(function (p) {
+        var el = document.getElementById('user' + p.n + '_winnerCard');
         el.innerHTML = '';
-        if (!r.best) {
+        if (!p.cards.length) {
             el.innerHTML = '<span style="color:rgba(255,255,255,0.4);font-size:11px;">ဖဲမပါ</span>';
             return;
         }
-        var isWinner = rank(r.best) === topRank;
-        el.innerHTML = '<img src="./cards/' + r.best + '.png" />'
-            + '<span style="margin-left:4px;font-weight:bold;font-size:13px;color:'
-            + (isWinner ? '#ffd700' : '#ff6b6b') + ';">'
-            + (isWinner ? '🏆 WIN' : '✗ LOSE')
-            + '</span>';
+        var isWinner = winnerNums.indexOf(p.n) !== -1;
+        el.innerHTML =
+            '<img src="./cards/' + getBestCard(p.cards) + '.png" />' +
+            '<span style="margin-left:4px;font-weight:bold;font-size:13px;color:' +
+            (isWinner ? '#ffd700' : '#ff6b6b') + ';">' +
+            (isWinner ? '🏆 WIN' : '✗ LOSE') +
+            '</span>';
     });
 });
 
