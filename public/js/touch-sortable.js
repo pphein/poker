@@ -6,150 +6,111 @@
 
         return this.each(function() {
             var parent = $(this);
-            var els = parent.children()
-                .on(startEvent, onStart)
-                .css({
-                    cursor: "move",
-                    'user-select': 'none'
-                })
-                .attr('unselectable', 'on')
-                .on('selectstart', false);
 
-            /* If only one element we do nothing */
-            if (els.length < 2) {
-                return;
+            function bindChildren() {
+                parent.children()
+                    .off(startEvent + '.sortable selectstart.sortable')
+                    .on(startEvent + '.sortable', onStart)
+                    .css({ cursor: 'move', 'user-select': 'none' })
+                    .attr('unselectable', 'on')
+                    .on('selectstart.sortable', false);
             }
+            bindChildren();
 
-            /* assumes the distance between the first and second element is the same as 
-               the distance between each other element and the next element */
-            // var elDistance = els.filter(':nth-child(2)').offset().top - els.filter(':first').offset().top;
-            var elDistance = els.filter(':nth-child(2)').offset().left - els.filter(':first').offset().left;
-
-
-            /* Set with each onStart and updated on move if necessary */
-            // var el, parentTop, parentBtm, positionAtStart, hasQueuedAni;
-            var el, parentLeft, parentRight, positionAtStart, hasQueuedAni;
-
+            var el, origFixedLeft, origFixedTop, startPageX, startPageY, placeholder;
 
             function onStart(e) {
-                e = e.originalEvent.touches ? e.originalEvent : e;
-                el = $(e.touches ? e.touches[0].target : e.target);
-                if (!el.is('div')) el = el.closest('div');
-                parentLeft = parent.position().left;
-                parentRight = parentLeft + parent.innerWidth() + el.width();
+                var native = e.originalEvent || e;
+                var touch = native.touches ? native.touches[0] : native;
 
-                els.css('position', 'relative');
-                el.addClass('inMotion').css('z-index', 1);
-                hasQueuedAni = false;
+                el = $(touch.target);
+                if (!el.is('.listitemClass')) el = el.closest('.listitemClass');
+                if (!el.length) return;
 
-                /* Bind respective events based on start trigger */
-                if (e.touches) {
-                    positionAtStart = e.touches[0].pageX;
-                    $('body').on('touchmove.sortable', onMove).on('touchend.sortable', onEnd).on('touchcancel.sortable', onEnd);
+                var offset = el.offset();
+                origFixedLeft = offset.left - $(window).scrollLeft();
+                origFixedTop  = offset.top  - $(window).scrollTop();
+                startPageX = touch.pageX;
+                startPageY = touch.pageY;
+
+                /* Placeholder holds the gap while el floats */
+                placeholder = $('<div>').addClass('listitemClass sort-placeholder')
+                    .css({ visibility: 'hidden' });
+                el.after(placeholder);
+
+                /* Float el above the layout */
+                el.css({
+                    position: 'fixed',
+                    left: origFixedLeft,
+                    top:  origFixedTop,
+                    width: el.outerWidth(),
+                    zIndex: 1000
+                }).addClass('inMotion');
+
+                if (native.touches) {
+                    $('body').on('touchmove.sortable', onMove)
+                             .on('touchend.sortable touchcancel.sortable', onEnd);
                 } else {
-                    positionAtStart = e.pageX;
-                    $('body').on('mousemove.sortable', onMove).on('mouseup.sortable', onEnd).on('mouseleave.sortable', onEnd);
+                    $('body').on('mousemove.sortable', onMove)
+                             .on('mouseup.sortable', onEnd);
                 }
+
+                e.preventDefault();
             }
 
             function onMove(e) {
-                var positionDelta;
-                if (e) {
-                    e = e.originalEvent.touches ? e.originalEvent : e;
-                    var positionNow = (e.touches) ? e.touches[0].pageX : e.pageX;
+                var native = e.originalEvent || e;
+                var touch = native.touches ? native.touches[0] : native;
 
-                    /* Constrain dragging to limits of parent */
-                    positionNow = Math.min(Math.max(parentLeft, positionNow), parentRight);
+                var dx = touch.pageX - startPageX;
+                var dy = touch.pageY - startPageY;
 
-                    /* If the cursor is near document boundary, scroll the page */
-                    if (50 >= (positionNow - $(window).scrollLeft())) {
-                        window.scrollBy(0, -5);
-                    } else if (50 >= $(window).width() + $(window).scrollLeft()) {
-                        window.scrollBy(0, 5);
-                    }
+                el.css({
+                    left: origFixedLeft + dx,
+                    top:  origFixedTop  + dy
+                });
 
-                    /* Move item  */
-                    positionDelta = positionNow - positionAtStart;
-                    el.css('left', positionDelta);
+                /* Current pointer position in page coords */
+                var pX = touch.pageX;
+                var pY = touch.pageY;
+
+                /* Find the first sibling whose centre is "after" the pointer
+                   in reading order (top-to-bottom, left-to-right) */
+                var insertBefore = null;
+                parent.children().not(el).each(function() {
+                    if (insertBefore) return;
+                    var sib = $(this);
+                    var off = sib.offset();
+                    var cx  = off.left + sib.outerWidth()  / 2;
+                    var cy  = off.top  + sib.outerHeight() / 2;
+                    var rowH = sib.outerHeight();
+
+                    var isAfter = (cy > pY + rowH * 0.4) ||
+                                  (Math.abs(cy - pY) <= rowH * 0.4 && cx > pX);
+                    if (isAfter) insertBefore = sib;
+                });
+
+                if (insertBefore) {
+                    insertBefore.before(placeholder);
                 } else {
-                    positionDelta = el.css('left').split('%')[0];
+                    parent.append(placeholder);
                 }
 
-                /* Distance remaining to move, as a number of elDistances */
-                var mvUnits = Math.floor(Math.abs(positionDelta / elDistance));
-                var sel;
-                /* Re-order the list once item crosses over the neighboring elements */
-                if (positionDelta < -elDistance && el.prev().length) {
-
-                    if (!els.filter(':animated').length) {
-                        hasQueuedAni = true;
-
-                        /* Animate and swap */
-                        sel = el.prevAll().slice(0, mvUnits);
-                        sel.animate({
-                            'left': elDistance
-                        }, 150).promise().done(function() {
-                            positionAtStart = positionAtStart - elDistance * mvUnits;
-                            el.insertBefore(sel.last()).css('left', '+=' + (elDistance * mvUnits));
-                            sel.css('left', '');
-                            onMove();
-                        });
-                    }
-                } else if (positionDelta > elDistance && el.next().length) {
-
-                    if (!els.filter(':animated').length) {
-                        hasQueuedAni = true;
-
-                        /* Animate and swap */
-                        sel = el.nextAll().slice(0, mvUnits);
-                        sel.animate({
-                            'left': -elDistance
-                        }, 150).promise().done(function() {
-                            positionAtStart = positionAtStart + elDistance * mvUnits;
-                            el.insertAfter(sel.last()).css('left', '-=' + (elDistance * mvUnits));
-                            sel.css('left', '');
-                            onMove();
-                        });
-                    }
-
-                } else {
-                    hasQueuedAni = false;
-                }
-
-                if (e) {
-                    e.preventDefault();
-                }
+                e.preventDefault();
             }
 
             function onEnd() {
                 $('body').off('.sortable');
 
-                function complete() {
-                    el.animate({
-                        'left': "-=" + el.css('left')
-                    }, 150, function() {
-                        el.css({ 'left': '', 'z-index': '' }).removeClass('inMotion');
-                        els.css('position', '');
-                        // if (options.onComplete) {
-                        //     options.onComplete(el);
-                        // }
-                        if (options.updated) {
-                            options.updated(el);
-                        }
-                    });
-                }
-                /* Ensures all animations are complete, and the item is in it's
-                final position before completing. The promise() waits for the 
-                current animation to complete. setTimeout(x, 1) allows any remaning 
-                animation to be queued up */
-                var aniEls = els.filter(':animated');
-                if (aniEls.length || hasQueuedAni) {
-                    setTimeout(function() {
-                        aniEls.promise().done(onEnd);
-                    }, 1);
-                } else {
-                    complete();
-                }
+                /* Drop el into the placeholder's position */
+                placeholder.replaceWith(el);
+                el.css({ position: '', left: '', top: '', width: '', zIndex: '' })
+                  .removeClass('inMotion');
+
+                if (options.updated) options.updated(el);
+
+                /* Re-bind so newly ordered children are draggable */
+                bindChildren();
             }
         });
     };
