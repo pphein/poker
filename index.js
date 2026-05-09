@@ -107,4 +107,45 @@ io.on('connection', (socket) => {
         io.sockets.emit('firstCardLoseruser4', data);
     })
 
+    /* ── Voice signaling ── */
+    var voiceUsers = {};   // lives in outer scope so all socket handlers share it
+
+    socket.on('voice-join', function () {
+        var label = 'Player ' + (Object.keys(voiceUsers).length + 1);
+        voiceUsers[socket.id] = { sid: socket.id, label: label };
+
+        // Send the new joiner a list of everyone already in the channel
+        var existing = Object.values(voiceUsers).filter(function (u) {
+            return u.sid !== socket.id;
+        });
+        socket.emit('voice-peers', existing);
+
+        // Tell everyone else a new person joined
+        socket.broadcast.emit('voice-joined', { sid: socket.id, label: label });
+    });
+
+    socket.on('voice-leave', function () {
+        delete voiceUsers[socket.id];
+        socket.broadcast.emit('voice-left', { sid: socket.id });
+    });
+
+    socket.on('voice-offer', function (data) {
+        io.to(data.to).emit('voice-offer', { from: socket.id, offer: data.offer });
+    });
+
+    socket.on('voice-answer', function (data) {
+        io.to(data.to).emit('voice-answer', { from: socket.id, answer: data.answer });
+    });
+
+    socket.on('voice-ice', function (data) {
+        io.to(data.to).emit('voice-ice', { from: socket.id, candidate: data.candidate });
+    });
+
+    socket.on('disconnect', function () {
+        if (voiceUsers[socket.id]) {
+            delete voiceUsers[socket.id];
+            socket.broadcast.emit('voice-left', { sid: socket.id });
+        }
+    });
+
 })

@@ -405,6 +405,60 @@
             visibility: hidden;
         }
 
+        /* ── VOICE PANEL ── */
+        .voice-panel {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+        }
+
+        #btn-voice {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            min-height: 40px;
+            touch-action: manipulation;
+            white-space: nowrap;
+        }
+
+        #btn-voice.voice-on {
+            background: linear-gradient(145deg, #c0392b, #e74c3c);
+            border-color: #c0392b;
+        }
+
+        #btn-voice:active { filter: brightness(0.85); }
+
+        #voice-users {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .voice-indicator {
+            font-size: 11px;
+            background: rgba(255,215,0,0.15);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 12px;
+            padding: 3px 8px;
+            color: #f0d080;
+            animation: pulse-mic 1.5s infinite;
+        }
+
+        @keyframes pulse-mic {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.5; }
+        }
+
         /* ── TAKEN CARD: blurred in ပစ်ထားသောဖဲ block ── */
         .remove-area img.card-taken,
         #showCard img.card-taken {
@@ -456,6 +510,10 @@
             <input id="btn-mwhe"     type="submit" value="မွှေမယ် (5)"    onclick="handleMwhe()"    style="display:none" disabled>
             <input id="btn-wayMal"   type="submit" value="ဝေမယ် (13)"     onclick="handleWayMal()"  disabled>
             <input id="btn-showCard" type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="handleShowFirstCard()" disabled>
+        </div>
+        <div class="voice-panel">
+            <button id="btn-voice" onclick="voiceToggle()">🎤 Join Voice</button>
+            <div id="voice-users"></div>
         </div>
         <div class="bet-control">
             <label for="betAmount">တစ်မှားဈေး</label>
@@ -627,6 +685,7 @@
     <script src="./js/touch-sortable.js"></script>
     <script src="./js/move.js"></script>
     <script src="app.js"></script>
+    <script src="./js/voice.js"></script>
 
     <script>
         /* ── GAME FLOW BUTTONS ── */
