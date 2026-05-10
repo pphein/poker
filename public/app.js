@@ -1360,8 +1360,6 @@ socket.on('pyitMaluser3', function (x) {
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
                 '</div>';
         })
-    } else {
-        maPyitBu(x);
     }
 })
 
