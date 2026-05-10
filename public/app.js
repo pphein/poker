@@ -1432,19 +1432,22 @@ function normalImg(x) {
 var readyToPyitMal = false;
 
 function readyToPyit(x) {
-    const div = document.createElement("div")
     cardName = x.src.match(/\/(\w+)\.png/)[1];
-    x.id = cardName
+    x.id = cardName;
     parentClass = x.parentNode;
-    parentId = parentClass.parentNode.id
+    parentId = parentClass.parentNode.id;
+
+    // Remove any existing ပစ်မယ်/မပစ်ဘူး button div in this player's container
+    var existing = document.querySelector('#' + parentId + ' > div[id^="' + parentId + '_"]');
+    if (existing) existing.remove();
+
+    const div = document.createElement("div");
     div.id = parentId + "_" + cardName;
-    pyitMalFuncName = 'pyitMal' +
-        parentId + '(' + cardName + ')';
-    maPyitBuFuncName = 'maPyitBu' + '(' + cardName + ')';
+    pyitMalFuncName = 'pyitMal' + parentId + '(' + cardName + ')';
+    maPyitBuFuncName = 'maPyitBu(' + cardName + ')';
     document.getElementById(parentId).appendChild(div);
     document.getElementById(div.id).innerHTML = '<input type="submit" value="ပစ်မယ်" onclick="' + pyitMalFuncName + '" />';
     document.getElementById(div.id).innerHTML += '<input type="submit" value="မပစ်ဘူး" onclick="' + maPyitBuFuncName + '" />';
-
 }
 
 function selfArrangeuser1() {
