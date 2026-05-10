@@ -152,6 +152,10 @@ io.on('connection', (socket) => {
         io.to(data.to).emit('voice-ice', { from: socket.id, candidate: data.candidate });
     });
 
+    socket.on('voice-chunk', function (data) {
+        socket.broadcast.emit('voice-chunk', { from: socket.id, buf: data });
+    });
+
     socket.on('disconnect', function () {
         if (voiceUsers[socket.id]) {
             delete voiceUsers[socket.id];
