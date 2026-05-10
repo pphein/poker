@@ -12,6 +12,11 @@ app.use(express.static('public'));
 
 // Socket setup & pass server
 var io = socket(server);
+
+/* Shared voice-channel registry — must be outside connection handler
+   so all sockets see the same object */
+var voiceUsers = {};
+
 io.on('connection', (socket) => {
     console.log("Someone connected id", socket.id);
 
@@ -116,8 +121,6 @@ io.on('connection', (socket) => {
     })
 
     /* ── Voice signaling ── */
-    var voiceUsers = {};   // lives in outer scope so all socket handlers share it
-
     socket.on('voice-join', function () {
         var label = 'Player ' + (Object.keys(voiceUsers).length + 1);
         voiceUsers[socket.id] = { sid: socket.id, label: label };
