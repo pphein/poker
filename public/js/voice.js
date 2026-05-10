@@ -9,8 +9,9 @@
     var processor   = null;
     var muted       = false;
 
-    var playCtx         = null;
-    var senderNextTime  = {};   // sid -> scheduled end time
+    var playCtx        = null;
+    var senderNextTime = {};   // sid -> scheduled end time
+    var mutedSpeakers  = {};   // playerNum -> true
 
     /* ── Playback context (lazy, resumes on user gesture) ─── */
     function getPlayCtx() {
@@ -27,6 +28,10 @@
 
     /* ── Receive and play a PCM chunk from a peer ─────────── */
     socket.on('voice-chunk', function (payload) {
+        /* Per-speaker mute check */
+        var pNum = (typeof sidToPlayer !== 'undefined') ? sidToPlayer[payload.from] : null;
+        if (pNum && mutedSpeakers[pNum]) return;
+
         var ctx = getPlayCtx();
         var samples;
         try { samples = new Float32Array(payload.buf); }
@@ -81,8 +86,8 @@
                 silent.connect(captureCtx.destination);
 
                 setJoinBtn(true);
-                showMuteBtn(true);
-                addIndicator('me');
+                showMicBtn(true);
+                showOwnDot(true);
                 socket.emit('voice-join');
             })
             .catch(function (err) {
@@ -97,11 +102,11 @@
         if (localStream) { localStream.getTracks().forEach(function (t) { t.stop(); }); localStream = null; }
         muted = false;
         senderNextTime = {};
-        removeIndicator('me');
+        showOwnDot(false);
         setJoinBtn(false);
-        showMuteBtn(false);
-        var mb = document.getElementById('btn-mute');
-        if (mb) mb.textContent = '🔈 Mute';
+        showMicBtn(false);
+        var mb = myPlayerNum ? document.getElementById('pv-mic-' + myPlayerNum) : null;
+        if (mb) mb.textContent = '🎤 Mic';
     }
 
     /* ── Public controls ─────────────────────────────────────── */
@@ -111,37 +116,53 @@
         if (!localStream) return;
         muted = !muted;
         localStream.getAudioTracks().forEach(function (t) { t.enabled = !muted; });
-        var mb = document.getElementById('btn-mute');
-        if (mb) mb.textContent = muted ? '🔇 Unmute' : '🔈 Mute';
+        var mb = myPlayerNum ? document.getElementById('pv-mic-' + myPlayerNum) : null;
+        if (mb) mb.textContent = muted ? '🔇 Mic' : '🎤 Mic';
     };
 
-    /* ── Presence indicators only (no WebRTC) ─────────────────── */
+    window.toggleSpeakerMute = function (playerNum) {
+        mutedSpeakers[playerNum] = !mutedSpeakers[playerNum];
+        var btn = document.getElementById('pv-spk-' + playerNum);
+        if (btn) {
+            btn.textContent = mutedSpeakers[playerNum] ? '🔇' : '🔊';
+            btn.classList.toggle('spk-muted', mutedSpeakers[playerNum]);
+        }
+    };
+
+    /* ── Presence indicators ─────────────────────────────────── */
     socket.on('voice-peers',  function (list) { list.forEach(function (p) { addIndicator(p.sid); }); });
     socket.on('voice-joined', function (d)    { addIndicator(d.sid); });
     socket.on('voice-left',   function (d)    { removeIndicator(d.sid); delete senderNextTime[d.sid]; });
 
     /* ── UI helpers ──────────────────────────────────────────── */
     function setJoinBtn(on) {
-        var b = document.getElementById('btn-voice');
+        if (!myPlayerNum) return;
+        var b = document.getElementById('pv-join-' + myPlayerNum);
         if (!b) return;
-        b.textContent = on ? '🔊 Connected' : '🎤 Join Voice';
+        b.textContent = on ? '🔊 Leave' : '🎤 Join';
         b.classList.toggle('voice-on', on);
     }
-    function showMuteBtn(show) {
-        var b = document.getElementById('btn-mute');
+    function showMicBtn(show) {
+        if (!myPlayerNum) return;
+        var b = document.getElementById('pv-mic-' + myPlayerNum);
         if (b) b.style.display = show ? '' : 'none';
     }
+    function showOwnDot(show) {
+        if (!myPlayerNum) return;
+        var dot = document.getElementById('pv-dot-' + myPlayerNum);
+        if (dot) dot.style.display = show ? '' : 'none';
+    }
     function addIndicator(sid) {
-        var id = 'vi-' + sid;
-        if (document.getElementById(id)) return;
-        var el = document.createElement('span');
-        el.id = id; el.className = 'voice-indicator'; el.textContent = '🎤';
-        var w = document.getElementById('voice-users');
-        if (w) w.appendChild(el);
+        var pNum = (typeof sidToPlayer !== 'undefined') ? sidToPlayer[sid] : null;
+        if (!pNum) return;
+        var dot = document.getElementById('pv-dot-' + pNum);
+        if (dot) dot.style.display = '';
     }
     function removeIndicator(sid) {
-        var el = document.getElementById('vi-' + sid);
-        if (el) el.remove();
+        var pNum = (typeof sidToPlayer !== 'undefined') ? sidToPlayer[sid] : null;
+        if (!pNum) return;
+        var dot = document.getElementById('pv-dot-' + pNum);
+        if (dot) dot.style.display = 'none';
     }
 
 }());

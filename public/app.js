@@ -2,10 +2,22 @@ var socket = io.connect('https://poker-iyrv.onrender.com/');
 
 var myPlayerNum = null;
 var myDeviceId  = null;
+var sidToPlayer = {};   // full socket.id -> player number
 
 socket.on('player-assigned', function (data) {
     myPlayerNum = data.player;
     myDeviceId  = data.deviceId;
+
+    /* Show join+mic buttons on own panel, speaker mute on others */
+    var joinBtn = document.getElementById('pv-join-' + myPlayerNum);
+    if (joinBtn) joinBtn.style.display = '';
+    [1, 2, 3, 4].forEach(function (n) {
+        if (n !== myPlayerNum) {
+            var spk = document.getElementById('pv-spk-' + n);
+            if (spk) spk.style.display = '';
+        }
+    });
+
     var badge = document.getElementById('device-badge-' + myPlayerNum);
     if (badge && badge.textContent) {
         badge.textContent = '#' + myDeviceId + ' (it\'s me)';
@@ -13,11 +25,13 @@ socket.on('player-assigned', function (data) {
 });
 
 socket.on('device-slots', function (slots) {
+    sidToPlayer = {};
     [1, 2, 3, 4].forEach(function (n) {
+        var slot = slots[n - 1];
         var badge = document.getElementById('device-badge-' + n);
         if (!badge) return;
-        var slot = slots[n - 1];
         if (!slot) { badge.textContent = ''; return; }
+        if (slot.sid) sidToPlayer[slot.sid] = slot.player;
         badge.textContent = '#' + slot.deviceId + (n === myPlayerNum ? ' (it\'s me)' : '');
     });
 });

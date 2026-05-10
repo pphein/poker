@@ -22,7 +22,7 @@ var deviceSlots = [null, null, null, null];
 
 function buildSlots() {
     return deviceSlots.map(function (d, i) {
-        return d ? { player: i + 1, deviceId: d.shortId } : null;
+        return d ? { player: i + 1, deviceId: d.shortId, sid: d.sid } : null;
     });
 }
 

@@ -440,73 +440,50 @@
             visibility: hidden;
         }
 
-        /* ── VOICE PANEL ── */
-        .voice-panel {
+        /* ── PER-PLAYER VOICE CONTROLS ── */
+        .player-voice {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px 10px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 8px;
+            gap: 4px;
+            flex-wrap: wrap;
         }
 
-        #btn-voice {
-            padding: 8px 14px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.3);
+        .btn-pv-join, .btn-pv-mic, .btn-pv-spk {
+            padding: 4px 9px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.25);
             background: rgba(255,255,255,0.1);
             color: #fff;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s;
-            min-height: 40px;
+            min-height: 28px;
             touch-action: manipulation;
             white-space: nowrap;
         }
 
-        #btn-voice.voice-on {
+        .btn-pv-join.voice-on {
             background: linear-gradient(145deg, #1565c0, #1e88e5);
             border-color: #1565c0;
         }
 
-        #btn-mute {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.1);
-            color: #fff;
+        .btn-pv-spk.spk-muted {
+            background: rgba(200,50,50,0.35);
+            border-color: rgba(200,50,50,0.6);
+        }
+
+        .btn-pv-join:active, .btn-pv-mic:active, .btn-pv-spk:active {
+            filter: brightness(0.8);
+        }
+
+        .pv-dot {
             font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-            min-height: 40px;
-            touch-action: manipulation;
-        }
-
-        #btn-mute:active { filter: brightness(0.8); }
-
-        #btn-voice:active { filter: brightness(0.85); }
-
-        #voice-users {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-
-        .voice-indicator {
-            font-size: 11px;
-            background: rgba(255,215,0,0.15);
-            border: 1px solid rgba(255,215,0,0.3);
-            border-radius: 12px;
-            padding: 3px 8px;
-            color: #f0d080;
             animation: pulse-mic 1.5s infinite;
         }
 
         @keyframes pulse-mic {
             0%, 100% { opacity: 1; }
-            50%       { opacity: 0.5; }
+            50%       { opacity: 0.4; }
         }
 
         /* ── DEVICE BADGE ── */
@@ -603,11 +580,6 @@
             <input id="btn-showCard" type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="handleShowFirstCard()" disabled>
             <input id="btn-dawngPi"  type="submit" value="ဒေါင်းပြီ"       onclick="handleDawngPi()" style="display:none">
         </div>
-        <div class="voice-panel">
-            <button id="btn-voice" onclick="voiceToggle()">🎤 Join Voice</button>
-            <button id="btn-mute"  onclick="voiceMute()" style="display:none">🔈 Mute</button>
-            <div id="voice-users"></div>
-        </div>
         <div class="bet-control">
             <label for="betAmount">တစ်မှားဈေး</label>
             <input type="number" id="betAmount" value="100" min="0" step="50" oninput="updateAllTotals()">
@@ -633,6 +605,12 @@
         <div class="player-panel">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၁ <span class="device-badge" id="device-badge-1"></span></span>
+                <div class="player-voice">
+                    <button class="btn-pv-join" id="pv-join-1" onclick="voiceToggle()" style="display:none">🎤 Join</button>
+                    <button class="btn-pv-mic"  id="pv-mic-1"  onclick="voiceMute()"   style="display:none">🎤 Mic</button>
+                    <button class="btn-pv-spk"  id="pv-spk-1"  onclick="toggleSpeakerMute(1)" style="display:none">🔊</button>
+                    <span class="pv-dot" id="pv-dot-1" style="display:none">🎤</span>
+                </div>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
                     <button class="wrong-btn" onclick="addWrong(1, -1)">−</button>
@@ -670,6 +648,12 @@
         <div class="player-panel">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၂ <span class="device-badge" id="device-badge-2"></span></span>
+                <div class="player-voice">
+                    <button class="btn-pv-join" id="pv-join-2" onclick="voiceToggle()" style="display:none">🎤 Join</button>
+                    <button class="btn-pv-mic"  id="pv-mic-2"  onclick="voiceMute()"   style="display:none">🎤 Mic</button>
+                    <button class="btn-pv-spk"  id="pv-spk-2"  onclick="toggleSpeakerMute(2)" style="display:none">🔊</button>
+                    <span class="pv-dot" id="pv-dot-2" style="display:none">🎤</span>
+                </div>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
                     <button class="wrong-btn" onclick="addWrong(2, -1)">−</button>
@@ -707,6 +691,12 @@
         <div class="player-panel">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၃ <span class="device-badge" id="device-badge-3"></span></span>
+                <div class="player-voice">
+                    <button class="btn-pv-join" id="pv-join-3" onclick="voiceToggle()" style="display:none">🎤 Join</button>
+                    <button class="btn-pv-mic"  id="pv-mic-3"  onclick="voiceMute()"   style="display:none">🎤 Mic</button>
+                    <button class="btn-pv-spk"  id="pv-spk-3"  onclick="toggleSpeakerMute(3)" style="display:none">🔊</button>
+                    <span class="pv-dot" id="pv-dot-3" style="display:none">🎤</span>
+                </div>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
                     <button class="wrong-btn" onclick="addWrong(3, -1)">−</button>
@@ -744,6 +734,12 @@
         <div class="player-panel">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၄ <span class="device-badge" id="device-badge-4"></span></span>
+                <div class="player-voice">
+                    <button class="btn-pv-join" id="pv-join-4" onclick="voiceToggle()" style="display:none">🎤 Join</button>
+                    <button class="btn-pv-mic"  id="pv-mic-4"  onclick="voiceMute()"   style="display:none">🎤 Mic</button>
+                    <button class="btn-pv-spk"  id="pv-spk-4"  onclick="toggleSpeakerMute(4)" style="display:none">🔊</button>
+                    <span class="pv-dot" id="pv-dot-4" style="display:none">🎤</span>
+                </div>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
                     <button class="wrong-btn" onclick="addWrong(4, -1)">−</button>
