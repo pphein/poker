@@ -1448,35 +1448,43 @@ function readyToPyit(x) {
 }
 
 function selfArrangeuser1() {
-    $("#user1").touch_sortable({
-        updated: function (event, ui) {
-            manualSortuser1();
-        }
-    });
+    $("#user1").touch_sortable({ updated: function () { manualSortuser1(); } });
+    document.getElementById('stop-arrange-1').style.display = '';
 };
 
 function selfArrangeuser2() {
-    $("#user2").touch_sortable({
-        updated: function (event, ui) {
-            manualSortuser2();
-        }
-    });
+    $("#user2").touch_sortable({ updated: function () { manualSortuser2(); } });
+    document.getElementById('stop-arrange-2').style.display = '';
 };
 
 function selfArrangeuser3() {
-    $("#user3").touch_sortable({
-        updated: function (event, ui) {
-            manualSortuser3();
-        }
-    });
+    $("#user3").touch_sortable({ updated: function () { manualSortuser3(); } });
+    document.getElementById('stop-arrange-3').style.display = '';
 };
 
 function selfArrangeuser4() {
-    $("#user4").touch_sortable({
-        updated: function (event, ui) {
-            manualSortuser4();
-        }
-    });
+    $("#user4").touch_sortable({ updated: function () { manualSortuser4(); } });
+    document.getElementById('stop-arrange-4').style.display = '';
+};
+
+function stopArrangeuser1() {
+    $('#user1').children().off('.sortable').css({ cursor: '', 'user-select': '' });
+    document.getElementById('stop-arrange-1').style.display = 'none';
+};
+
+function stopArrangeuser2() {
+    $('#user2').children().off('.sortable').css({ cursor: '', 'user-select': '' });
+    document.getElementById('stop-arrange-2').style.display = 'none';
+};
+
+function stopArrangeuser3() {
+    $('#user3').children().off('.sortable').css({ cursor: '', 'user-select': '' });
+    document.getElementById('stop-arrange-3').style.display = 'none';
+};
+
+function stopArrangeuser4() {
+    $('#user4').children().off('.sortable').css({ cursor: '', 'user-select': '' });
+    document.getElementById('stop-arrange-4').style.display = 'none';
 };
 
 function manualSortuser1() {
