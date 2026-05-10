@@ -383,6 +383,11 @@
             grid-column: 1 / -1;
         }
 
+        #btn-dawngPi {
+            background: linear-gradient(145deg, #7b1fa2, #ab47bc);
+            border-color: #7b1fa2;
+        }
+
         .action input[type="submit"]:active {
             transform: scale(0.97);
             filter: brightness(0.88);
@@ -462,9 +467,24 @@
         }
 
         #btn-voice.voice-on {
-            background: linear-gradient(145deg, #c0392b, #e74c3c);
-            border-color: #c0392b;
+            background: linear-gradient(145deg, #1565c0, #1e88e5);
+            border-color: #1565c0;
         }
+
+        #btn-mute {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            min-height: 40px;
+            touch-action: manipulation;
+        }
+
+        #btn-mute:active { filter: brightness(0.8); }
 
         #btn-voice:active { filter: brightness(0.85); }
 
@@ -544,6 +564,7 @@
         </div>
         <div class="voice-panel">
             <button id="btn-voice" onclick="voiceToggle()">🎤 Join Voice</button>
+            <button id="btn-mute"  onclick="voiceMute()" style="display:none">🔈 Mute</button>
             <div id="voice-users"></div>
         </div>
         <div class="bet-control">
@@ -723,11 +744,6 @@
     <script src="./js/voice.js"></script>
 
     <script>
-        /* ── DAWNG PI BUTTON ── */
-        #btn-dawngPi {
-            background: linear-gradient(145deg, #7b1fa2, #ab47bc) !important;
-            border-color: #7b1fa2 !important;
-        }
         var _mwheLeft = 5, _wayLeft = 13;
 
         function handleDawngPi() {
