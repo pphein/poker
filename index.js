@@ -17,8 +17,29 @@ var io = socket(server);
    so all sockets see the same object */
 var voiceUsers = {};
 
+/* Device slot registry — 4 slots, assigned in connection order */
+var deviceSlots = [null, null, null, null];
+
+function buildSlots() {
+    return deviceSlots.map(function (d, i) {
+        return d ? { player: i + 1, deviceId: d.shortId } : null;
+    });
+}
+
 io.on('connection', (socket) => {
     console.log("Someone connected id", socket.id);
+
+    /* ── Device slot assignment ── */
+    var slotIndex = deviceSlots.indexOf(null);
+    if (slotIndex === -1) {
+        socket.emit('device-full');
+        setTimeout(function () { socket.disconnect(true); }, 500);
+        return;
+    }
+    var shortId = socket.id.slice(0, 5);
+    deviceSlots[slotIndex] = { sid: socket.id, shortId: shortId };
+    socket.emit('player-assigned', { player: slotIndex + 1, deviceId: shortId });
+    io.sockets.emit('device-slots', buildSlots());
 
     socket.on('saMal', function (data) {
         io.sockets.emit('saMal', data);
@@ -157,6 +178,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', function () {
+        /* Free device slot */
+        var idx = deviceSlots.findIndex(function (d) { return d && d.sid === socket.id; });
+        if (idx !== -1) { deviceSlots[idx] = null; }
+        io.sockets.emit('device-slots', buildSlots());
+
+        /* Voice cleanup */
         if (voiceUsers[socket.id]) {
             delete voiceUsers[socket.id];
             socket.broadcast.emit('voice-left', { sid: socket.id });

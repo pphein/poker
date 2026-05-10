@@ -509,6 +509,40 @@
             50%       { opacity: 0.5; }
         }
 
+        /* ── DEVICE BADGE ── */
+        .device-badge {
+            font-size: 10px;
+            font-weight: normal;
+            color: rgba(255,255,255,0.45);
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 4px;
+            padding: 1px 5px;
+            margin-left: 5px;
+            letter-spacing: 0.5px;
+            font-family: monospace;
+            vertical-align: middle;
+        }
+
+        /* ── DEVICE FULL OVERLAY ── */
+        #device-full-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.88);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #fff;
+            text-align: center;
+            padding: 24px;
+        }
+        #device-full-overlay .dfo-icon  { font-size: 52px; margin-bottom: 14px; }
+        #device-full-overlay .dfo-title { font-size: 20px; font-weight: bold; margin-bottom: 8px; }
+        #device-full-overlay .dfo-sub   { font-size: 13px; color: rgba(255,255,255,0.55); }
+
         /* ── TAKEN CARD: blurred in ပစ်ထားသောဖဲ block ── */
         .remove-area img.card-taken,
         #showCard img.card-taken {
@@ -553,6 +587,13 @@
 
 <body>
 
+    <!-- DEVICE FULL OVERLAY -->
+    <div id="device-full-overlay">
+        <div class="dfo-icon">🚫</div>
+        <div class="dfo-title">ကစားသမား ၄ ဦးပြည့်နေပါပြီ</div>
+        <div class="dfo-sub">ကစားသမားတစ်ဦး ထွက်သွားမှသာ ဝင်နိုင်ပါသည်</div>
+    </div>
+
     <!-- TOP CONTROLS -->
     <div class="header">
         <div class="header-game-btns">
@@ -591,7 +632,7 @@
         <!-- PLAYER 1 -->
         <div class="player-panel">
             <div class="player-header">
-                <span class="player-name">ကစားသမား ၁</span>
+                <span class="player-name">ကစားသမား ၁ <span class="device-badge" id="device-badge-1"></span></span>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
                     <button class="wrong-btn" onclick="addWrong(1, -1)">−</button>
@@ -628,7 +669,7 @@
         <!-- PLAYER 2 -->
         <div class="player-panel">
             <div class="player-header">
-                <span class="player-name">ကစားသမား ၂</span>
+                <span class="player-name">ကစားသမား ၂ <span class="device-badge" id="device-badge-2"></span></span>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
                     <button class="wrong-btn" onclick="addWrong(2, -1)">−</button>
@@ -665,7 +706,7 @@
         <!-- PLAYER 3 -->
         <div class="player-panel">
             <div class="player-header">
-                <span class="player-name">ကစားသမား ၃</span>
+                <span class="player-name">ကစားသမား ၃ <span class="device-badge" id="device-badge-3"></span></span>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
                     <button class="wrong-btn" onclick="addWrong(3, -1)">−</button>
@@ -702,7 +743,7 @@
         <!-- PLAYER 4 -->
         <div class="player-panel">
             <div class="player-header">
-                <span class="player-name">ကစားသမား ၄</span>
+                <span class="player-name">ကစားသမား ၄ <span class="device-badge" id="device-badge-4"></span></span>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
                     <button class="wrong-btn" onclick="addWrong(4, -1)">−</button>

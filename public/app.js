@@ -1,5 +1,27 @@
 var socket = io.connect('https://poker-iyrv.onrender.com/');
 
+var myPlayerNum = null;
+var myDeviceId  = null;
+
+socket.on('player-assigned', function (data) {
+    myPlayerNum = data.player;
+    myDeviceId  = data.deviceId;
+});
+
+socket.on('device-slots', function (slots) {
+    [1, 2, 3, 4].forEach(function (n) {
+        var badge = document.getElementById('device-badge-' + n);
+        if (!badge) return;
+        var slot = slots[n - 1];
+        badge.textContent = slot ? '#' + slot.deviceId : '';
+    });
+});
+
+socket.on('device-full', function () {
+    var overlay = document.getElementById('device-full-overlay');
+    if (overlay) overlay.style.display = 'flex';
+});
+
 var initial = true;
 var player = "player1";
 
