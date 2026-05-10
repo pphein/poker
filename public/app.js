@@ -13,6 +13,8 @@ socket.on('player-assigned', function (data) {
     if (ownArea) ownArea.classList.add('voice-self');
     var ownAction = document.getElementById('action-' + myPlayerNum);
     if (ownAction) ownAction.classList.add('action-self');
+    var ownPanel = document.getElementById('panel-' + myPlayerNum);
+    if (ownPanel) ownPanel.classList.add('panel-self');
 
     /* Show join voice button on own panel only */
     var joinBtn = document.getElementById('pv-join-' + myPlayerNum);
@@ -24,8 +26,11 @@ socket.on('player-assigned', function (data) {
     }
 });
 
+var connectedSlots = [false, false, false, false]; // index = playerNum-1
+
 socket.on('device-slots', function (slots) {
     sidToPlayer = {};
+    connectedSlots = slots.map(function (s) { return s !== null; });
     [1, 2, 3, 4].forEach(function (n) {
         var slot = slots[n - 1];
         var badge = document.getElementById('device-badge-' + n);
@@ -1626,6 +1631,7 @@ socket.on('dawngPi', function () {
     document.getElementById('btn-showCard').style.display = '';
     document.getElementById('btn-showCard').disabled = true;
     document.getElementById('btn-dawngPi').style.display = 'none';
+    document.getElementById('btn-ai').style.display = 'none';
 });
 
 function autoDecide() {
@@ -1721,6 +1727,92 @@ socket.on('autoDecide', function () {
 
 function clearWinnerCard(n) {
     document.getElementById('user' + n + '_winnerCard').innerHTML = '';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   COMPUTER PLAYER ALGORITHM
+   ──────────────────────────────────────────────────────────────
+   Card scoring:
+     Joker (j1/j2) = 1  (always discard first)
+     2  (02) = 2  ...  King (13) = 13
+     Ace (01) = 14      (highest — wins rule 2 in any suit)
+
+   Draw decision (per turn):
+     1. Peek at top of opponent's discard pile.
+     2. Compare its score to the worst card in own hand.
+     3. If discard scores HIGHER → take it (sarMal).
+     4. Otherwise → draw from deck (swalMal).
+
+   Discard decision:
+     After drawing, discard the lowest-scoring card in the
+     updated hand (pyitMal).  Jokers go first, then low numbers.
+
+   Sequencing:
+     Unconnected players (1→4) each play one full turn in order,
+     with a 700 ms gap between draw and discard to allow the
+     socket round-trip to update shared state.
+   ══════════════════════════════════════════════════════════════ */
+
+function aiCardScore(card) {
+    if (!card || card[0] === 'j') return 1;
+    var n = parseInt(card.slice(1), 10);
+    return n === 1 ? 14 : n;
+}
+
+function aiWorstCard(hand) {
+    return hand.reduce(function (w, c) {
+        return aiCardScore(c) < aiCardScore(w) ? c : w;
+    });
+}
+
+function aiGetHand(n)       { return [user1, user2, user3, user4][n - 1]; }
+function aiGetDiscard(n)    { return [user4_remove, user1_remove, user2_remove, user3_remove][n - 1]; }
+
+function aiPlayTurn(n, done) {
+    var hand = aiGetHand(n);
+    if (!hand || hand.length === 0) { done && done(); return; }
+
+    var oppDiscard = aiGetDiscard(n);
+    var topDiscard = oppDiscard.length ? oppDiscard[oppDiscard.length - 1] : null;
+    var deckTop    = package.length    ? package[package.length - 1]        : null;
+    var worst      = aiWorstCard(hand);
+
+    var drawCard, action;
+    if (topDiscard && aiCardScore(topDiscard) > aiCardScore(worst)) {
+        drawCard = topDiscard;
+        action   = 'sarMaluser' + n;
+    } else if (deckTop) {
+        drawCard = deckTop;
+        action   = 'swalMaluser' + n;
+    } else {
+        done && done();
+        return; // nothing to draw
+    }
+
+    /* Pre-compute which card to discard from the expected new hand */
+    var toDiscard = aiWorstCard(hand.concat([drawCard]));
+
+    socket.emit(action);
+    setTimeout(function () {
+        socket.emit('pyitMaluser' + n, toDiscard);
+        setTimeout(function () { done && done(); }, 200);
+    }, 700);
+}
+
+function aiPlayAll() {
+    var aiPlayers = connectedSlots
+        .map(function (connected, i) { return connected ? null : i + 1; })
+        .filter(function (n) { return n !== null; });
+
+    if (aiPlayers.length === 0) return;
+
+    function playNext(idx) {
+        if (idx >= aiPlayers.length) return;
+        aiPlayTurn(aiPlayers[idx], function () {
+            setTimeout(function () { playNext(idx + 1); }, 300);
+        });
+    }
+    playNext(0);
 }
 
 // $(function() {

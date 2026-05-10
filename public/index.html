@@ -516,6 +516,11 @@
             display: none !important;
         }
 
+        /* Hide hand cards on other players' panels */
+        .player-panel:not(.panel-self) .hand-area {
+            display: none !important;
+        }
+
         @keyframes pulse-mic {
             0%, 100% { opacity: 1; }
             50%       { opacity: 0.4; }
@@ -614,6 +619,7 @@
             <input id="btn-wayMal"   type="submit" value="ဝေမယ် (13)"     onclick="handleWayMal()"  disabled>
             <input id="btn-showCard" type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="handleShowFirstCard()" disabled>
             <input id="btn-dawngPi"  type="submit" value="ဒေါင်းပြီ"       onclick="handleDawngPi()" style="display:none">
+            <input id="btn-ai"      type="submit" value="🤖 AI ကစားမည်"  onclick="aiPlayAll()"     style="display:none">
         </div>
         <div class="bet-control">
             <label for="betAmount">တစ်မှားဈေး</label>
@@ -637,7 +643,7 @@
     <div class="players-grid">
 
         <!-- PLAYER 1 -->
-        <div class="player-panel">
+        <div class="player-panel" id="panel-1">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၁ <span class="device-badge" id="device-badge-1"></span></span>
                 <div class="player-voice" id="pv-area-1">
@@ -682,7 +688,7 @@
         </div>
 
         <!-- PLAYER 2 -->
-        <div class="player-panel">
+        <div class="player-panel" id="panel-2">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၂ <span class="device-badge" id="device-badge-2"></span></span>
                 <div class="player-voice" id="pv-area-2">
@@ -727,7 +733,7 @@
         </div>
 
         <!-- PLAYER 3 -->
-        <div class="player-panel">
+        <div class="player-panel" id="panel-3">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၃ <span class="device-badge" id="device-badge-3"></span></span>
                 <div class="player-voice" id="pv-area-3">
@@ -772,7 +778,7 @@
         </div>
 
         <!-- PLAYER 4 -->
-        <div class="player-panel">
+        <div class="player-panel" id="panel-4">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၄ <span class="device-badge" id="device-badge-4"></span></span>
                 <div class="player-voice" id="pv-area-4">
@@ -866,6 +872,7 @@
             if (_wayLeft <= 0) {
                 document.getElementById('btn-wayMal').style.display = 'none';
                 document.getElementById('btn-showCard').disabled = false;
+                document.getElementById('btn-ai').style.display = '';
             }
         }
 
