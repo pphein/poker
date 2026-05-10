@@ -8,9 +8,11 @@ socket.on('player-assigned', function (data) {
     myPlayerNum = data.player;
     myDeviceId  = data.deviceId;
 
-    /* Mark own panel so CSS shows buttons; others stay status-only */
+    /* Mark own panel so CSS shows voice + action buttons; others are view-only */
     var ownArea = document.getElementById('pv-area-' + myPlayerNum);
     if (ownArea) ownArea.classList.add('voice-self');
+    var ownAction = document.getElementById('action-' + myPlayerNum);
+    if (ownAction) ownAction.classList.add('action-self');
 
     /* Show join voice button on own panel only */
     var joinBtn = document.getElementById('pv-join-' + myPlayerNum);

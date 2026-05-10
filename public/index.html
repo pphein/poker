@@ -511,6 +511,11 @@
             display: none !important;
         }
 
+        /* Hide action buttons on other players' panels */
+        .action:not(.action-self) input[type="submit"] {
+            display: none !important;
+        }
+
         @keyframes pulse-mic {
             0%, 100% { opacity: 1; }
             50%       { opacity: 0.4; }
