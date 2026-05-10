@@ -111,6 +111,10 @@ io.on('connection', (socket) => {
         io.sockets.emit('autoDecide');
     })
 
+    socket.on('dawngPi', function () {
+        io.sockets.emit('dawngPi');
+    })
+
     /* ── Voice signaling ── */
     var voiceUsers = {};   // lives in outer scope so all socket handlers share it
 

@@ -540,6 +540,7 @@
             <input id="btn-mwhe"     type="submit" value="မွှေမယ် (5)"    onclick="handleMwhe()"    style="display:none" disabled>
             <input id="btn-wayMal"   type="submit" value="ဝေမယ် (13)"     onclick="handleWayMal()"  disabled>
             <input id="btn-showCard" type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="handleShowFirstCard()" disabled>
+            <input id="btn-dawngPi"  type="submit" value="ဒေါင်းပြီ"       onclick="handleDawngPi()" style="display:none">
         </div>
         <div class="voice-panel">
             <button id="btn-voice" onclick="voiceToggle()">🎤 Join Voice</button>
@@ -722,8 +723,17 @@
     <script src="./js/voice.js"></script>
 
     <script>
-        /* ── GAME FLOW BUTTONS ── */
+        /* ── DAWNG PI BUTTON ── */
+        #btn-dawngPi {
+            background: linear-gradient(145deg, #7b1fa2, #ab47bc) !important;
+            border-color: #7b1fa2 !important;
+        }
         var _mwheLeft = 5, _wayLeft = 13;
+
+        function handleDawngPi() {
+            if (!confirm('ဂိမ်းပြီးပြီ။ အသစ်စတင်မလား?')) return;
+            dawngPi();
+        }
 
         function handleSaMal() {
             saMal();
@@ -750,6 +760,7 @@
         function handleShowFirstCard() {
             showFirstCard();
             document.getElementById('btn-showCard').style.display = 'none';
+            document.getElementById('btn-dawngPi').style.display = '';
         }
 
         function handleWayMal() {

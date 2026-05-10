@@ -1534,6 +1534,59 @@ function manualSortuser4() {
 
 }
 
+function dawngPi() {
+    socket.emit('dawngPi');
+}
+
+socket.on('dawngPi', function () {
+    /* Reset all arrays */
+    package = a1.concat(a2, b1, b2, c1, c2, d1, d2, joker1, joker2);
+    user1 = []; user2 = []; user3 = []; user4 = [];
+    user1_remove = []; user2_remove = []; user3_remove = []; user4_remove = [];
+    user1_sarPhel = []; user2_sarPhel = []; user3_sarPhel = []; user4_sarPhel = [];
+    user1_winnerCard = []; user2_winnerCard = []; user3_winnerCard = []; user4_winnerCard = [];
+    showCard = []; showCardType = '';
+    showCarduser1 = []; showCarduser2 = []; showCarduser3 = []; showCarduser4 = [];
+    initial = true;
+
+    /* Clear all DOM areas */
+    ['user1','user2','user3','user4'].forEach(function (id) {
+        document.getElementById(id).innerHTML = '';
+    });
+    ['user1_remove','user2_remove','user3_remove','user4_remove'].forEach(function (id) {
+        document.getElementById(id).innerHTML = '';
+    });
+    ['user1_sarPhel','user2_sarPhel','user3_sarPhel','user4_sarPhel'].forEach(function (id) {
+        document.getElementById(id).innerHTML = '';
+    });
+    ['user1_winnerCard','user2_winnerCard','user3_winnerCard','user4_winnerCard'].forEach(function (id) {
+        document.getElementById(id).innerHTML = '';
+    });
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('showCard').innerHTML = '';
+
+    /* Reset action rows — remove dynamically added buttons */
+    [1,2,3,4].forEach(function (n) {
+        var a = document.getElementById('action-' + n);
+        /* keep only the original 4 inputs (စားမယ်, ဆွဲမယ်, စီမယ်, စီတာရပ်မယ်) */
+        Array.from(a.querySelectorAll('input[type="submit"]')).forEach(function (btn) {
+            if (btn.value === 'သပ် အနိုင်ဆုံးဖဲပြမယ်') btn.remove();
+        });
+        document.getElementById('stop-arrange-' + n).style.display = 'none';
+    });
+
+    /* Reset header flow buttons */
+    var b = document.getElementById('btn-saMal');
+    b.style.display = ''; b.disabled = false;
+    document.getElementById('btn-mwhe').style.display = 'none';
+    document.getElementById('btn-wayMal').style.display = '';
+    document.getElementById('btn-wayMal').disabled = true;
+    document.getElementById('btn-wayMal').value = 'ဝေမယ် (13)';
+    document.getElementById('btn-showCard').style.display = '';
+    document.getElementById('btn-showCard').disabled = true;
+    document.getElementById('btn-dawngPi').style.display = 'none';
+});
+
 function autoDecide() {
     socket.emit('autoDecide');
 }
