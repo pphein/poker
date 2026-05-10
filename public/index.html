@@ -467,9 +467,14 @@
             border-color: #1565c0;
         }
 
-        .btn-pv-spk.spk-muted {
-            background: rgba(200,50,50,0.35);
-            border-color: rgba(200,50,50,0.6);
+        .btn-pv-mic.muted {
+            background: rgba(200,50,50,0.4);
+            border-color: rgba(200,50,50,0.7);
+        }
+
+        .btn-pv-spk.muted {
+            background: rgba(200,120,0,0.4);
+            border-color: rgba(200,120,0,0.7);
         }
 
         .btn-pv-join:active, .btn-pv-mic:active, .btn-pv-spk:active {
@@ -479,6 +484,24 @@
         .pv-dot {
             font-size: 13px;
             animation: pulse-mic 1.5s infinite;
+        }
+
+        .pv-status-mic {
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: rgba(200,50,50,0.3);
+            color: #ff9090;
+            white-space: nowrap;
+        }
+
+        .pv-status-spk {
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: rgba(200,120,0,0.3);
+            color: #ffcc80;
+            white-space: nowrap;
         }
 
         @keyframes pulse-mic {
@@ -606,10 +629,12 @@
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၁ <span class="device-badge" id="device-badge-1"></span></span>
                 <div class="player-voice">
-                    <button class="btn-pv-join" id="pv-join-1" onclick="voiceToggle()" style="display:none">🎤 Join</button>
-                    <button class="btn-pv-mic"  id="pv-mic-1"  onclick="voiceMute()"   style="display:none">🎤 Mic</button>
-                    <button class="btn-pv-spk"  id="pv-spk-1"  onclick="toggleSpeakerMute(1)" style="display:none">🔊</button>
-                    <span class="pv-dot" id="pv-dot-1" style="display:none">🎤</span>
+                    <button class="btn-pv-join" id="pv-join-1" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
+                    <button class="btn-pv-mic"  id="pv-mic-1"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
+                    <button class="btn-pv-spk"  id="pv-spk-1"  onclick="voiceSpkMute()" style="display:none">🔊 Spk</button>
+                    <span class="pv-dot"        id="pv-dot-1"   style="display:none">🎤</span>
+                    <span class="pv-status-mic" id="pv-mic-st-1" style="display:none">🔇 Mic</span>
+                    <span class="pv-status-spk" id="pv-spk-st-1" style="display:none">🔇 Spk</span>
                 </div>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
@@ -649,10 +674,12 @@
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၂ <span class="device-badge" id="device-badge-2"></span></span>
                 <div class="player-voice">
-                    <button class="btn-pv-join" id="pv-join-2" onclick="voiceToggle()" style="display:none">🎤 Join</button>
-                    <button class="btn-pv-mic"  id="pv-mic-2"  onclick="voiceMute()"   style="display:none">🎤 Mic</button>
-                    <button class="btn-pv-spk"  id="pv-spk-2"  onclick="toggleSpeakerMute(2)" style="display:none">🔊</button>
-                    <span class="pv-dot" id="pv-dot-2" style="display:none">🎤</span>
+                    <button class="btn-pv-join" id="pv-join-2" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
+                    <button class="btn-pv-mic"  id="pv-mic-2"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
+                    <button class="btn-pv-spk"  id="pv-spk-2"  onclick="voiceSpkMute()" style="display:none">🔊 Spk</button>
+                    <span class="pv-dot"        id="pv-dot-2"   style="display:none">🎤</span>
+                    <span class="pv-status-mic" id="pv-mic-st-2" style="display:none">🔇 Mic</span>
+                    <span class="pv-status-spk" id="pv-spk-st-2" style="display:none">🔇 Spk</span>
                 </div>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
@@ -692,10 +719,12 @@
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၃ <span class="device-badge" id="device-badge-3"></span></span>
                 <div class="player-voice">
-                    <button class="btn-pv-join" id="pv-join-3" onclick="voiceToggle()" style="display:none">🎤 Join</button>
-                    <button class="btn-pv-mic"  id="pv-mic-3"  onclick="voiceMute()"   style="display:none">🎤 Mic</button>
-                    <button class="btn-pv-spk"  id="pv-spk-3"  onclick="toggleSpeakerMute(3)" style="display:none">🔊</button>
-                    <span class="pv-dot" id="pv-dot-3" style="display:none">🎤</span>
+                    <button class="btn-pv-join" id="pv-join-3" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
+                    <button class="btn-pv-mic"  id="pv-mic-3"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
+                    <button class="btn-pv-spk"  id="pv-spk-3"  onclick="voiceSpkMute()" style="display:none">🔊 Spk</button>
+                    <span class="pv-dot"        id="pv-dot-3"   style="display:none">🎤</span>
+                    <span class="pv-status-mic" id="pv-mic-st-3" style="display:none">🔇 Mic</span>
+                    <span class="pv-status-spk" id="pv-spk-st-3" style="display:none">🔇 Spk</span>
                 </div>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>
@@ -735,10 +764,12 @@
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၄ <span class="device-badge" id="device-badge-4"></span></span>
                 <div class="player-voice">
-                    <button class="btn-pv-join" id="pv-join-4" onclick="voiceToggle()" style="display:none">🎤 Join</button>
-                    <button class="btn-pv-mic"  id="pv-mic-4"  onclick="voiceMute()"   style="display:none">🎤 Mic</button>
-                    <button class="btn-pv-spk"  id="pv-spk-4"  onclick="toggleSpeakerMute(4)" style="display:none">🔊</button>
-                    <span class="pv-dot" id="pv-dot-4" style="display:none">🎤</span>
+                    <button class="btn-pv-join" id="pv-join-4" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
+                    <button class="btn-pv-mic"  id="pv-mic-4"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
+                    <button class="btn-pv-spk"  id="pv-spk-4"  onclick="voiceSpkMute()" style="display:none">🔊 Spk</button>
+                    <span class="pv-dot"        id="pv-dot-4"   style="display:none">🎤</span>
+                    <span class="pv-status-mic" id="pv-mic-st-4" style="display:none">🔇 Mic</span>
+                    <span class="pv-status-spk" id="pv-spk-st-4" style="display:none">🔇 Spk</span>
                 </div>
                 <div class="wrong-counter">
                     <span class="wrong-label">မှား</span>

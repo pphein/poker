@@ -177,6 +177,10 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('voice-chunk', { from: socket.id, buf: data });
     });
 
+    socket.on('voice-status', function (data) {
+        socket.broadcast.emit('voice-status', { sid: socket.id, micMuted: data.micMuted, spkMuted: data.spkMuted });
+    });
+
     socket.on('disconnect', function () {
         /* Free device slot */
         var idx = deviceSlots.findIndex(function (d) { return d && d.sid === socket.id; });

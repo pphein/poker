@@ -8,15 +8,9 @@ socket.on('player-assigned', function (data) {
     myPlayerNum = data.player;
     myDeviceId  = data.deviceId;
 
-    /* Show join+mic buttons on own panel, speaker mute on others */
+    /* Show join voice button on own panel only */
     var joinBtn = document.getElementById('pv-join-' + myPlayerNum);
     if (joinBtn) joinBtn.style.display = '';
-    [1, 2, 3, 4].forEach(function (n) {
-        if (n !== myPlayerNum) {
-            var spk = document.getElementById('pv-spk-' + n);
-            if (spk) spk.style.display = '';
-        }
-    });
 
     var badge = document.getElementById('device-badge-' + myPlayerNum);
     if (badge && badge.textContent) {
