@@ -1607,7 +1607,8 @@ socket.on('autoDecide', function () {
         var el = document.getElementById('user' + p.n + '_winnerCard');
         el.innerHTML = '';
         if (!p.cards.length) {
-            el.innerHTML = '<span style="color:rgba(255,255,255,0.4);font-size:11px;">ဖဲမပါ</span>';
+            el.innerHTML = '<span style="color:rgba(255,255,255,0.4);font-size:11px;">ဖဲမပါ</span>'
+                + '<button class="winner-close-btn" onclick="clearWinnerCard(' + p.n + ')">×</button>';
             return;
         }
         var isWinner = winnerNums.indexOf(p.n) !== -1;
@@ -1616,9 +1617,14 @@ socket.on('autoDecide', function () {
             '<span style="margin-left:4px;font-weight:bold;font-size:13px;color:' +
             (isWinner ? '#ffd700' : '#ff6b6b') + ';">' +
             (isWinner ? '🏆 WIN' : '✗ LOSE') +
-            '</span>';
+            '</span>' +
+            '<button class="winner-close-btn" onclick="clearWinnerCard(' + p.n + ')">×</button>';
     });
 });
+
+function clearWinnerCard(n) {
+    document.getElementById('user' + n + '_winnerCard').innerHTML = '';
+}
 
 // $(function() {
 //     $('#user').touch_sortable({
