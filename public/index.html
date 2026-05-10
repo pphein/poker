@@ -526,6 +526,60 @@
             50%       { opacity: 0.4; }
         }
 
+        /* ── DAWNG PI OVERLAY ── */
+        .dawngpi-box {
+            background: rgba(20,20,20,0.97);
+            border: 2px solid rgba(255,215,0,0.4);
+            border-radius: 16px;
+            padding: 24px 20px;
+            max-width: 92vw;
+            width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        .dawngpi-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #f0d080;
+            text-align: center;
+        }
+        .dawngpi-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+        }
+        .dawngpi-cards img {
+            width: 38px;
+            border-radius: 4px;
+            background: white;
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+        }
+        .dawngpi-count {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+        }
+        .dawngpi-btn {
+            padding: 12px 32px;
+            border-radius: 10px;
+            border: 2px solid #2e7d32;
+            background: linear-gradient(145deg, #2e7d32, #43a047);
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            min-height: 48px;
+            touch-action: manipulation;
+        }
+        .dawngpi-btn:disabled {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.5);
+            cursor: default;
+        }
+
         /* ── DEVICE BADGE ── */
         .device-badge {
             font-size: 10px;
@@ -609,6 +663,16 @@
         <div class="dfo-icon">🚫</div>
         <div class="dfo-title">ကစားသမား ၄ ဦးပြည့်နေပါပြီ</div>
         <div class="dfo-sub">ကစားသမားတစ်ဦး ထွက်သွားမှသာ ဝင်နိုင်ပါသည်</div>
+    </div>
+
+    <!-- DAWNG PI AGREEMENT OVERLAY -->
+    <div id="dawngpi-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); z-index:9998; align-items:center; justify-content:center;">
+        <div class="dawngpi-box">
+            <div id="dawngpi-player" class="dawngpi-title"></div>
+            <div id="dawngpi-cards" class="dawngpi-cards"></div>
+            <div id="dawngpi-count" class="dawngpi-count"></div>
+            <input id="dawngpi-agree-btn" type="submit" value="သဘောတူမည်" onclick="dawngPiAgree()" class="dawngpi-btn">
+        </div>
     </div>
 
     <!-- TOP CONTROLS -->
@@ -833,7 +897,6 @@
         var _mwheLeft = 5, _wayLeft = 13;
 
         function handleDawngPi() {
-            if (!confirm('ဂိမ်းပြီးပြီ။ အသစ်စတင်မလား?')) return;
             dawngPi();
         }
 

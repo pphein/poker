@@ -1551,10 +1551,58 @@ function manualSortuser4() {
 }
 
 function dawngPi() {
-    socket.emit('dawngPi');
+    socket.emit('dawngPi-request', { player: myPlayerNum });
 }
 
+function dawngPiAgree() {
+    socket.emit('dawngPi-agree');
+    var btn = document.getElementById('dawngpi-agree-btn');
+    if (btn) { btn.disabled = true; btn.value = 'သဘောတူပြီ ✓'; }
+}
+
+socket.on('dawngPi-request', function (data) {
+    var hands = [user1, user2, user3, user4];
+    var hand  = hands[data.player - 1] || [];
+    var names = ['ကစားသမား ၁','ကစားသမား ၂','ကစားသမား ၃','ကစားသမား ၄'];
+
+    document.getElementById('dawngpi-player').textContent =
+        names[data.player - 1] + ' ဒေါင်းပြီ ပြောနေသည်';
+
+    document.getElementById('dawngpi-cards').innerHTML = hand.map(function (c) {
+        return '<img src="./cards/' + c + '.png" />';
+    }).join('');
+
+    document.getElementById('dawngpi-count').textContent =
+        data.agreedCount + ' / ' + data.totalCount + ' သဘောတူပြီ';
+
+    var btn = document.getElementById('dawngpi-agree-btn');
+    if (myPlayerNum === data.player) {
+        btn.style.display = 'none';
+    } else {
+        btn.style.display = '';
+        btn.disabled = false;
+        btn.value = 'သဘောတူမည်';
+    }
+
+    document.getElementById('dawngpi-overlay').style.display = 'flex';
+});
+
+socket.on('dawngPi-agreed', function (data) {
+    document.getElementById('dawngpi-count').textContent =
+        data.agreedCount + ' / ' + data.totalCount + ' သဘောတူပြီ';
+    if (data.sid === socket.id) {
+        var btn = document.getElementById('dawngpi-agree-btn');
+        if (btn) { btn.disabled = true; btn.value = 'သဘောတူပြီ ✓'; }
+    }
+});
+
+socket.on('dawngPi-cancelled', function () {
+    document.getElementById('dawngpi-overlay').style.display = 'none';
+});
+
 socket.on('dawngPi', function () {
+    document.getElementById('dawngpi-overlay').style.display = 'none';
+
     /* Reset all arrays */
     package = a1.concat(a2, b1, b2, c1, c2, d1, d2, joker1, joker2);
     user1 = []; user2 = []; user3 = []; user4 = [];

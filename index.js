@@ -20,10 +20,18 @@ var voiceUsers = {};
 /* Device slot registry — 4 slots, assigned in connection order */
 var deviceSlots = [null, null, null, null];
 
+/* ဒေါင်းပြီ agreement state */
+var dawngPiReq = null; // { requester: sid, agreed: [sid,...] }
+
 function buildSlots() {
     return deviceSlots.map(function (d, i) {
         return d ? { player: i + 1, deviceId: d.shortId, sid: d.sid } : null;
     });
+}
+
+function finishDawngPi() {
+    dawngPiReq = null;
+    io.sockets.emit('dawngPi');
 }
 
 io.on('connection', (socket) => {
@@ -137,9 +145,30 @@ io.on('connection', (socket) => {
         io.sockets.emit('autoDecide');
     })
 
-    socket.on('dawngPi', function () {
-        io.sockets.emit('dawngPi');
-    })
+    /* ── ဒေါင်းပြီ agreement flow ── */
+    socket.on('dawngPi-request', function (data) {
+        var connected = deviceSlots.filter(function (d) { return d !== null; }).length;
+        dawngPiReq = { requester: socket.id, agreed: [socket.id] };
+        io.sockets.emit('dawngPi-request', {
+            sid: socket.id, player: data.player,
+            agreedCount: 1, totalCount: connected
+        });
+        if (connected <= 1) { finishDawngPi(); }
+    });
+
+    socket.on('dawngPi-agree', function () {
+        if (!dawngPiReq) return;
+        if (dawngPiReq.agreed.indexOf(socket.id) === -1) {
+            dawngPiReq.agreed.push(socket.id);
+        }
+        var connected = deviceSlots.filter(function (d) { return d !== null; }).length;
+        io.sockets.emit('dawngPi-agreed', {
+            sid: socket.id,
+            agreedCount: dawngPiReq.agreed.length,
+            totalCount: connected
+        });
+        if (dawngPiReq.agreed.length >= connected) { finishDawngPi(); }
+    });
 
     /* ── Voice signaling ── */
     socket.on('voice-join', function () {
@@ -191,6 +220,17 @@ io.on('connection', (socket) => {
         if (voiceUsers[socket.id]) {
             delete voiceUsers[socket.id];
             socket.broadcast.emit('voice-left', { sid: socket.id });
+        }
+
+        /* ဒေါင်းပြီ: if requester disconnects, cancel; else recheck agreement */
+        if (dawngPiReq) {
+            if (dawngPiReq.requester === socket.id) {
+                dawngPiReq = null;
+                io.sockets.emit('dawngPi-cancelled');
+            } else {
+                var connected = deviceSlots.filter(function (d) { return d !== null; }).length;
+                if (dawngPiReq.agreed.length >= connected) { finishDawngPi(); }
+            }
         }
     });
 
