@@ -2,41 +2,83 @@
     'use strict';
 
     var localStream = null;
-    var muted = false;
-    var peers = {};   // socketId -> RTCPeerConnection
+    var muted       = false;
+    var peers       = {};   // socketId -> RTCPeerConnection
 
-    var ICE = {
+    var ICE_SERVERS = {
         iceServers: [
             { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' },
-            /* TURN relay — needed for devices on different networks / behind NAT */
+            { urls: 'stun:stun2.l.google.com:19302' },
             {
                 urls: [
                     'turn:openrelay.metered.ca:80',
                     'turn:openrelay.metered.ca:443',
                     'turn:openrelay.metered.ca:443?transport=tcp'
                 ],
-                username: 'openrelayproject',
+                username:   'openrelayproject',
                 credential: 'openrelayproject'
             }
         ]
     };
 
-    /* ────────────────────────────────────────────
-       UI
-    ──────────────────────────────────────────── */
-    function setStatus(text, on) {
-        var btn = document.getElementById('btn-voice');
-        if (btn) { btn.textContent = text; btn.classList.toggle('voice-on', !!on); }
+    /* ── Audio playback ─────────────────────────────────────── */
+    function playAudio(el) {
+        el.muted = false;
+        var p = el.play();
+        if (p && typeof p.catch === 'function') {
+            p.catch(function () {
+                /* Autoplay blocked — resume on next user tap/click */
+                function resume() {
+                    el.play().catch(function () {});
+                    document.removeEventListener('click',      resume);
+                    document.removeEventListener('touchstart', resume);
+                }
+                document.addEventListener('click',      resume, { once: true });
+                document.addEventListener('touchstart', resume, { once: true });
+            });
+        }
+    }
+
+    function attachAudio(sid, stream) {
+        var el = document.querySelector('audio[data-sid="' + sid + '"]');
+        if (!el) {
+            el = document.createElement('audio');
+            el.dataset.sid = sid;
+            el.setAttribute('playsinline', '');
+            el.style.display = 'none';
+            document.body.appendChild(el);
+        }
+        el.srcObject = stream;
+        playAudio(el);
+    }
+
+    function detachAudio(sid) {
+        var el = document.querySelector('audio[data-sid="' + sid + '"]');
+        if (el) { el.srcObject = null; el.remove(); }
+    }
+
+    /* ── UI ─────────────────────────────────────────────────── */
+    function setJoinBtn(connected) {
+        var b = document.getElementById('btn-voice');
+        if (!b) return;
+        b.textContent = connected ? '🔊 Connected' : '🎤 Join Voice';
+        b.classList.toggle('voice-on', connected);
+    }
+
+    function showMuteBtn(show) {
+        var b = document.getElementById('btn-mute');
+        if (b) b.style.display = show ? '' : 'none';
     }
 
     function addIndicator(sid) {
-        if (document.getElementById('vi-' + sid)) return;
+        var id = 'vi-' + sid;
+        if (document.getElementById(id)) return;
         var el = document.createElement('span');
-        el.id = 'vi-' + sid;
+        el.id = id;
         el.className = 'voice-indicator';
         el.textContent = '🎤';
-        document.getElementById('voice-users').appendChild(el);
+        var wrap = document.getElementById('voice-users');
+        if (wrap) wrap.appendChild(el);
     }
 
     function removeIndicator(sid) {
@@ -44,41 +86,28 @@
         if (el) el.remove();
     }
 
-    function attachAudio(sid, stream) {
-        var el = document.querySelector('audio[data-sid="' + sid + '"]');
-        if (!el) {
-            el = document.createElement('audio');
-            el.autoplay = true;
-            el.dataset.sid = sid;
-            el.style.display = 'none';
-            document.body.appendChild(el);
-        }
-        el.srcObject = stream;
-    }
+    /* ── Peer connection ────────────────────────────────────── */
+    function makePC(sid) {
+        if (peers[sid]) { try { peers[sid].close(); } catch (e) {} }
 
-    function detachAudio(sid) {
-        var el = document.querySelector('audio[data-sid="' + sid + '"]');
-        if (el) el.remove();
-    }
-
-    /* ────────────────────────────────────────────
-       Peer connection
-    ──────────────────────────────────────────── */
-    function createPC(sid) {
-        if (peers[sid]) { peers[sid].close(); }
-
-        var pc = new RTCPeerConnection(ICE);
+        var pc = new RTCPeerConnection(ICE_SERVERS);
         peers[sid] = pc;
 
-        /* Add our mic tracks */
+        /* Send our mic audio to the peer */
         if (localStream) {
-            localStream.getTracks().forEach(function (t) { pc.addTrack(t, localStream); });
+            localStream.getTracks().forEach(function (t) {
+                pc.addTrack(t, localStream);
+            });
         }
 
-        /* Play remote audio */
-        pc.ontrack = function (e) { attachAudio(sid, e.streams[0]); };
+        /* Receive peer's audio */
+        pc.ontrack = function (e) {
+            if (e.streams && e.streams[0]) {
+                attachAudio(sid, e.streams[0]);
+            }
+        };
 
-        /* Send ICE candidates through signalling server */
+        /* Forward ICE candidates */
         pc.onicecandidate = function (e) {
             if (e.candidate) {
                 socket.emit('voice-ice', { to: sid, candidate: e.candidate });
@@ -86,33 +115,30 @@
         };
 
         pc.oniceconnectionstatechange = function () {
-            if (pc.iceConnectionState === 'failed') { pc.restartIce(); }
             if (pc.iceConnectionState === 'closed' ||
-                pc.iceConnectionState === 'disconnected') { removePeer(sid); }
+                pc.iceConnectionState === 'failed') {
+                removePeer(sid);
+            }
         };
 
         return pc;
     }
 
     function removePeer(sid) {
-        if (peers[sid]) { peers[sid].close(); delete peers[sid]; }
+        if (peers[sid]) {
+            try { peers[sid].close(); } catch (e) {}
+            delete peers[sid];
+        }
         detachAudio(sid);
         removeIndicator(sid);
     }
 
-    /* ────────────────────────────────────────────
-       Start / stop / mute
-    ──────────────────────────────────────────── */
-    function showMuteBtn(visible) {
-        var b = document.getElementById('btn-mute');
-        if (b) b.style.display = visible ? '' : 'none';
-    }
-
+    /* ── Join / Leave / Mute ────────────────────────────────── */
     function start() {
         navigator.mediaDevices.getUserMedia({ audio: true, video: false })
             .then(function (stream) {
                 localStream = stream;
-                setStatus('🔊 Connected', true);
+                setJoinBtn(true);
                 showMuteBtn(true);
                 addIndicator('me');
                 socket.emit('voice-join');
@@ -123,13 +149,18 @@
     }
 
     function stop() {
+        socket.emit('voice-leave');
         Object.keys(peers).forEach(removePeer);
-        if (localStream) { localStream.getTracks().forEach(function (t) { t.stop(); }); localStream = null; }
+        if (localStream) {
+            localStream.getTracks().forEach(function (t) { t.stop(); });
+            localStream = null;
+        }
         removeIndicator('me');
-        setStatus('🎤 Join Voice', false);
+        setJoinBtn(false);
         showMuteBtn(false);
         muted = false;
-        socket.emit('voice-leave');
+        var mb = document.getElementById('btn-mute');
+        if (mb) mb.textContent = '🔈 Mute';
     }
 
     window.voiceToggle = function () {
@@ -140,58 +171,64 @@
         if (!localStream) return;
         muted = !muted;
         localStream.getAudioTracks().forEach(function (t) { t.enabled = !muted; });
-        document.getElementById('btn-mute').textContent = muted ? '🔇 Unmute' : '🔈 Mute';
+        var mb = document.getElementById('btn-mute');
+        if (mb) mb.textContent = muted ? '🔇 Unmute' : '🔈 Mute';
     };
 
-    /* ────────────────────────────────────────────
-       Signalling
-    ──────────────────────────────────────────── */
+    /* ── Signalling ─────────────────────────────────────────── */
 
-    /* We joined — server sends us the list of existing users */
+    /* Server sends the list of people already in the call */
     socket.on('voice-peers', function (list) {
         list.forEach(function (p) {
             addIndicator(p.sid);
-            var pc = createPC(p.sid);
-            /* We initiate the offer to the existing peer */
+            var pc = makePC(p.sid);
             pc.createOffer({ offerToReceiveAudio: true })
                 .then(function (offer) { return pc.setLocalDescription(offer); })
                 .then(function () {
                     socket.emit('voice-offer', { to: p.sid, offer: pc.localDescription });
-                });
+                })
+                .catch(function (e) { console.error('offer error', e); });
         });
     });
 
-    /* New user joined — they will send us an offer shortly */
+    /* A new person joined — they will send us an offer */
     socket.on('voice-joined', function (data) {
         addIndicator(data.sid);
     });
 
-    /* Incoming offer from a peer who joined after us */
+    /* Incoming offer */
     socket.on('voice-offer', function (data) {
-        var pc = createPC(data.from);
+        var pc = makePC(data.from);
         pc.setRemoteDescription(new RTCSessionDescription(data.offer))
             .then(function () { return pc.createAnswer(); })
             .then(function (ans) { return pc.setLocalDescription(ans); })
             .then(function () {
                 socket.emit('voice-answer', { to: data.from, answer: pc.localDescription });
-            });
+            })
+            .catch(function (e) { console.error('answer error', e); });
     });
 
     /* Incoming answer */
     socket.on('voice-answer', function (data) {
         var pc = peers[data.from];
-        if (pc) pc.setRemoteDescription(new RTCSessionDescription(data.answer));
+        if (pc) {
+            pc.setRemoteDescription(new RTCSessionDescription(data.answer))
+                .catch(function (e) { console.error('setRemote error', e); });
+        }
     });
 
     /* Incoming ICE candidate */
     socket.on('voice-ice', function (data) {
         var pc = peers[data.from];
         if (pc && data.candidate) {
-            pc.addIceCandidate(new RTCIceCandidate(data.candidate)).catch(function () {});
+            pc.addIceCandidate(new RTCIceCandidate(data.candidate))
+                .catch(function () {});
         }
     });
 
-    /* Someone left */
-    socket.on('voice-left', function (data) { removePeer(data.sid); });
+    /* Peer left */
+    socket.on('voice-left', function (data) {
+        removePeer(data.sid);
+    });
 
 }());
