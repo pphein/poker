@@ -6,6 +6,10 @@ var myDeviceId  = null;
 socket.on('player-assigned', function (data) {
     myPlayerNum = data.player;
     myDeviceId  = data.deviceId;
+    var badge = document.getElementById('device-badge-' + myPlayerNum);
+    if (badge && badge.textContent) {
+        badge.textContent = '#' + myDeviceId + ' (it\'s me)';
+    }
 });
 
 socket.on('device-slots', function (slots) {
@@ -13,7 +17,8 @@ socket.on('device-slots', function (slots) {
         var badge = document.getElementById('device-badge-' + n);
         if (!badge) return;
         var slot = slots[n - 1];
-        badge.textContent = slot ? '#' + slot.deviceId : '';
+        if (!slot) { badge.textContent = ''; return; }
+        badge.textContent = '#' + slot.deviceId + (n === myPlayerNum ? ' (it\'s me)' : '');
     });
 });
 
