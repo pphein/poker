@@ -170,6 +170,15 @@ io.on('connection', (socket) => {
         if (dawngPiReq.agreed.length >= connected) { finishDawngPi(); }
     });
 
+    socket.on('dawngPi-disagree', function () {
+        if (!dawngPiReq) return;
+        var slotIdx = deviceSlots.findIndex(function (d) { return d && d.sid === socket.id; });
+        var playerNum = slotIdx + 1;
+        var deviceId  = slotIdx !== -1 ? deviceSlots[slotIdx].shortId : '?';
+        dawngPiReq = null;
+        io.sockets.emit('dawngPi-disagreed', { player: playerNum, deviceId: deviceId });
+    });
+
     /* ── Voice signaling ── */
     socket.on('voice-join', function () {
         var label = 'Player ' + (Object.keys(voiceUsers).length + 1);

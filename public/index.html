@@ -581,6 +581,10 @@
             color: rgba(255,255,255,0.5);
             cursor: default;
         }
+        .dawngpi-btn-no {
+            background: linear-gradient(145deg, #c0392b, #e74c3c);
+            border-color: #c0392b;
+        }
 
         /* ── DEVICE BADGE ── */
         .device-badge {
@@ -673,7 +677,10 @@
             <div id="dawngpi-player" class="dawngpi-title"></div>
             <div id="dawngpi-cards" class="dawngpi-cards"></div>
             <div id="dawngpi-count" class="dawngpi-count"></div>
-            <input id="dawngpi-agree-btn" type="submit" value="သဘောတူမည်" onclick="dawngPiAgree()" class="dawngpi-btn">
+            <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; width:100%;">
+                <input id="dawngpi-agree-btn"    type="submit" value="သဘောတူမည်"  onclick="dawngPiAgree()"    class="dawngpi-btn">
+                <input id="dawngpi-disagree-btn" type="submit" value="သဘောမတူပါ" onclick="dawngPiDisagree()" class="dawngpi-btn dawngpi-btn-no">
+            </div>
         </div>
     </div>
 

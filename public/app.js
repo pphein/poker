@@ -1558,6 +1558,13 @@ function dawngPiAgree() {
     socket.emit('dawngPi-agree');
     var btn = document.getElementById('dawngpi-agree-btn');
     if (btn) { btn.disabled = true; btn.value = 'သဘောတူပြီ ✓'; }
+    var noBtn = document.getElementById('dawngpi-disagree-btn');
+    if (noBtn) noBtn.disabled = true;
+}
+
+function dawngPiDisagree() {
+    socket.emit('dawngPi-disagree');
+    document.getElementById('dawngpi-overlay').style.display = 'none';
 }
 
 socket.on('dawngPi-request', function (data) {
@@ -1565,8 +1572,9 @@ socket.on('dawngPi-request', function (data) {
     var hand  = hands[data.player - 1] || [];
     var names = ['ကစားသမား ၁','ကစားသမား ၂','ကစားသမား ၃','ကစားသမား ၄'];
 
+    var devId = playerDeviceIds[data.player] || '?';
     document.getElementById('dawngpi-player').textContent =
-        names[data.player - 1] + ' ဒေါင်းပြီ ပြောနေသည်';
+        names[data.player - 1] + ' (Device #' + devId + ') ဒေါင်းပြီ ပြောနေသည်';
 
     document.getElementById('dawngpi-cards').innerHTML = hand.map(function (c) {
         return '<img src="./cards/' + c + '.png" />';
@@ -1575,15 +1583,18 @@ socket.on('dawngPi-request', function (data) {
     document.getElementById('dawngpi-count').textContent =
         data.agreedCount + ' / ' + data.totalCount + ' သဘောတူပြီ';
 
-    var btn = document.getElementById('dawngpi-agree-btn');
+    var agreeBtn    = document.getElementById('dawngpi-agree-btn');
+    var disagreeBtn = document.getElementById('dawngpi-disagree-btn');
     if (myPlayerNum === data.player) {
-        btn.style.display = 'none';
+        agreeBtn.style.display    = 'none';
+        disagreeBtn.style.display = 'none';
     } else {
-        var devId = playerDeviceIds[data.player] || '?';
-        alert('ကစားသမား ' + data.player + ' (Device #' + devId + ') ဒေါင်းပြီ ပြောနေသည်');
-        btn.style.display = '';
-        btn.disabled = false;
-        btn.value = 'သဘောတူမည်';
+        agreeBtn.style.display    = '';
+        agreeBtn.disabled         = false;
+        agreeBtn.value            = 'သဘောတူမည်';
+        disagreeBtn.style.display = '';
+        disagreeBtn.disabled      = false;
+        disagreeBtn.value         = 'သဘောမတူပါ';
     }
 
     document.getElementById('dawngpi-overlay').style.display = 'flex';
@@ -1600,6 +1611,12 @@ socket.on('dawngPi-agreed', function (data) {
 
 socket.on('dawngPi-cancelled', function () {
     document.getElementById('dawngpi-overlay').style.display = 'none';
+});
+
+socket.on('dawngPi-disagreed', function (data) {
+    document.getElementById('dawngpi-overlay').style.display = 'none';
+    var names = ['ကစားသမား ၁','ကစားသမား ၂','ကစားသမား ၃','ကစားသမား ၄'];
+    alert((names[data.player - 1] || 'ကစားသမား') + ' (Device #' + data.deviceId + ') သဘောမတူပါ');
 });
 
 socket.on('dawngPi', function () {
