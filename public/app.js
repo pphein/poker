@@ -1667,10 +1667,6 @@ socket.on('dawngPi', function () {
     document.getElementById('btn-wayMal').value = 'ဝေမယ် (13)';
     document.getElementById('btn-showCard').style.display = '';
     document.getElementById('btn-showCard').disabled = true;
-    [1, 2, 3, 4].forEach(function(n) {
-        var b = document.getElementById('btn-dawngPi-' + n);
-        if (b) b.style.display = 'none';
-    });
     document.getElementById('btn-ai').style.display = 'none';
 });
 

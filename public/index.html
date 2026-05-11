@@ -756,7 +756,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
                 <input id="stop-arrange-1" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser1()" style="display:none">
-                <input id="btn-dawngPi-1" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" style="display:none">
+                <input id="btn-dawngPi-1" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()">
             </div>
         </div>
 
@@ -802,7 +802,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
                 <input id="stop-arrange-2" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser2()" style="display:none">
-                <input id="btn-dawngPi-2" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" style="display:none">
+                <input id="btn-dawngPi-2" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()">
             </div>
         </div>
 
@@ -848,7 +848,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
                 <input id="stop-arrange-3" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser3()" style="display:none">
-                <input id="btn-dawngPi-3" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" style="display:none">
+                <input id="btn-dawngPi-3" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()">
             </div>
         </div>
 
@@ -894,7 +894,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
                 <input id="stop-arrange-4" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser4()" style="display:none">
-                <input id="btn-dawngPi-4" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" style="display:none">
+                <input id="btn-dawngPi-4" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()">
             </div>
         </div>
 
@@ -937,10 +937,6 @@
         function handleShowFirstCard() {
             showFirstCard();
             document.getElementById('btn-showCard').style.display = 'none';
-            [1, 2, 3, 4].forEach(function(n) {
-                var btn = document.getElementById('btn-dawngPi-' + n);
-                if (btn) btn.style.display = '';
-            });
         }
 
         function handleWayMal() {
