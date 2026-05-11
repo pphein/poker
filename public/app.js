@@ -1615,8 +1615,10 @@ socket.on('dawngPi-cancelled', function () {
 
 socket.on('dawngPi-disagreed', function (data) {
     document.getElementById('dawngpi-overlay').style.display = 'none';
-    var names = ['ကစားသမား ၁','ကစားသမား ၂','ကစားသမား ၃','ကစားသမား ၄'];
-    alert((names[data.player - 1] || 'ကစားသမား') + ' (Device #' + data.deviceId + ') သဘောမတူပါ');
+    if (data.player !== myPlayerNum) {
+        var names = ['ကစားသမား ၁','ကစားသမား ၂','ကစားသမား ၃','ကစားသမား ၄'];
+        alert((names[data.player - 1] || 'ကစားသမား') + ' (Device #' + data.deviceId + ') သဘောမတူပါ');
+    }
 });
 
 socket.on('dawngPi', function () {
