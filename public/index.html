@@ -383,9 +383,11 @@
             grid-column: 1 / -1;
         }
 
-        #btn-dawngPi {
-            background: linear-gradient(145deg, #7b1fa2, #ab47bc);
-            border-color: #7b1fa2;
+        [id^="btn-dawngPi-"] {
+            background: linear-gradient(145deg, #7b1fa2, #ab47bc) !important;
+            border-color: #7b1fa2 !important;
+            color: #fff !important;
+            grid-column: 1 / -1;
         }
 
         .action input[type="submit"]:active {
@@ -682,7 +684,6 @@
             <input id="btn-mwhe"     type="submit" value="မွှေမယ် (5)"    onclick="handleMwhe()"    style="display:none" disabled>
             <input id="btn-wayMal"   type="submit" value="ဝေမယ် (13)"     onclick="handleWayMal()"  disabled>
             <input id="btn-showCard" type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="handleShowFirstCard()" disabled>
-            <input id="btn-dawngPi"  type="submit" value="ဒေါင်းပြီ"       onclick="handleDawngPi()" style="display:none">
             <input id="btn-ai"      type="submit" value="🤖 AI ကစားမည်"  onclick="aiPlayAll()"     style="display:none">
         </div>
         <div class="bet-control">
@@ -748,6 +749,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
                 <input id="stop-arrange-1" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser1()" style="display:none">
+                <input id="btn-dawngPi-1" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" style="display:none">
             </div>
         </div>
 
@@ -793,6 +795,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
                 <input id="stop-arrange-2" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser2()" style="display:none">
+                <input id="btn-dawngPi-2" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" style="display:none">
             </div>
         </div>
 
@@ -838,6 +841,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
                 <input id="stop-arrange-3" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser3()" style="display:none">
+                <input id="btn-dawngPi-3" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" style="display:none">
             </div>
         </div>
 
@@ -883,6 +887,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
                 <input id="stop-arrange-4" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser4()" style="display:none">
+                <input id="btn-dawngPi-4" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" style="display:none">
             </div>
         </div>
 
@@ -925,7 +930,10 @@
         function handleShowFirstCard() {
             showFirstCard();
             document.getElementById('btn-showCard').style.display = 'none';
-            document.getElementById('btn-dawngPi').style.display = '';
+            [1, 2, 3, 4].forEach(function(n) {
+                var btn = document.getElementById('btn-dawngPi-' + n);
+                if (btn) btn.style.display = '';
+            });
         }
 
         function handleWayMal() {

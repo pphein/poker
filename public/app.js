@@ -3,6 +3,7 @@ var socket = io.connect('https://poker-iyrv.onrender.com/');
 var myPlayerNum = null;
 var myDeviceId  = null;
 var sidToPlayer = {};   // full socket.id -> player number
+var playerDeviceIds = {};  // playerNum -> deviceId
 
 socket.on('player-assigned', function (data) {
     myPlayerNum = data.player;
@@ -37,6 +38,7 @@ socket.on('device-slots', function (slots) {
         if (!badge) return;
         if (!slot) { badge.textContent = ''; return; }
         if (slot.sid) sidToPlayer[slot.sid] = slot.player;
+        playerDeviceIds[n] = slot.deviceId;
         badge.textContent = '#' + slot.deviceId + (n === myPlayerNum ? ' (it\'s me)' : '');
     });
 });
@@ -1577,6 +1579,8 @@ socket.on('dawngPi-request', function (data) {
     if (myPlayerNum === data.player) {
         btn.style.display = 'none';
     } else {
+        var devId = playerDeviceIds[data.player] || '?';
+        alert('ကစားသမား ' + data.player + ' (Device #' + devId + ') ဒေါင်းပြီ ပြောနေသည်');
         btn.style.display = '';
         btn.disabled = false;
         btn.value = 'သဘောတူမည်';
@@ -1646,7 +1650,10 @@ socket.on('dawngPi', function () {
     document.getElementById('btn-wayMal').value = 'ဝေမယ် (13)';
     document.getElementById('btn-showCard').style.display = '';
     document.getElementById('btn-showCard').disabled = true;
-    document.getElementById('btn-dawngPi').style.display = 'none';
+    [1, 2, 3, 4].forEach(function(n) {
+        var b = document.getElementById('btn-dawngPi-' + n);
+        if (b) b.style.display = 'none';
+    });
     document.getElementById('btn-ai').style.display = 'none';
 });
 
