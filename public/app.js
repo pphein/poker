@@ -1960,12 +1960,6 @@ function aiAutoPlay(n) {
     var hand = aiGetHand(n);
     if (!hand || hand.length === 0) return;
 
-    // 5 % chance to declare ဒေါင်းပြီ
-    if (Math.random() < 0.05) {
-        socket.emit('dawngPi-request', { player: n });
-        return;
-    }
-
     // Draw phase — randomly pick sarMal or swalMal
     var oppDiscard = aiGetDiscard(n);
     var canSar  = oppDiscard.length > 0;
