@@ -23,6 +23,10 @@ var deviceSlots = [null, null, null, null];
 /* ဒေါင်းပြီ agreement state */
 var dawngPiReq = null; // { requester: sid, agreed: [sid,...] }
 
+/* Wrong counter & bet amount — shared state */
+var wrongCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+var betAmount = 100;
+
 function buildSlots() {
     return deviceSlots.map(function (d, i) {
         return d ? { player: i + 1, deviceId: d.shortId, sid: d.sid } : null;
@@ -48,6 +52,9 @@ io.on('connection', (socket) => {
     deviceSlots[slotIndex] = { sid: socket.id, shortId: shortId };
     socket.emit('player-assigned', { player: slotIndex + 1, deviceId: shortId });
     io.sockets.emit('device-slots', buildSlots());
+
+    /* Send current wrong counts and bet amount to newly connected client */
+    socket.emit('wrong-state', { wrongCounts: wrongCounts, betAmount: betAmount });
 
     socket.on('saMal', function (data) {
         io.sockets.emit('saMal', data);
@@ -144,6 +151,19 @@ io.on('connection', (socket) => {
     socket.on('autoDecide', function () {
         io.sockets.emit('autoDecide');
     })
+
+    /* ── Wrong counter & bet amount ── */
+    socket.on('wrong-update', function (data) {
+        var p = data.player;
+        if (p < 1 || p > 4) return;
+        wrongCounts[p] = Math.max(0, wrongCounts[p] + data.delta);
+        io.sockets.emit('wrong-update', { player: p, count: wrongCounts[p] });
+    });
+
+    socket.on('bet-update', function (data) {
+        betAmount = Math.max(0, parseInt(data.betAmount) || 0);
+        io.sockets.emit('bet-update', { betAmount: betAmount });
+    });
 
     /* ── ဒေါင်းပြီ agreement flow ── */
     socket.on('dawngPi-request', function (data) {

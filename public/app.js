@@ -62,6 +62,22 @@ socket.on('firstTurn', function (data) {
     setTurn(data.player);
 });
 
+socket.on('wrong-state', function (data) {
+    wrongCounts = data.wrongCounts;
+    document.getElementById('betAmount').value = data.betAmount;
+    updateAllTotals();
+});
+
+socket.on('wrong-update', function (data) {
+    wrongCounts[data.player] = data.count;
+    updateTotal(data.player);
+});
+
+socket.on('bet-update', function (data) {
+    document.getElementById('betAmount').value = data.betAmount;
+    updateAllTotals();
+});
+
 var initial = true;
 var player = "player1";
 

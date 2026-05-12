@@ -713,7 +713,7 @@
         </div>
         <div class="bet-control">
             <label for="betAmount">တစ်မှားဈေး</label>
-            <input type="number" id="betAmount" value="100" min="0" step="50" oninput="updateAllTotals()">
+            <input type="number" id="betAmount" value="100" min="0" step="50" oninput="handleBetChange()">
         </div>
     </div>
 
@@ -976,8 +976,12 @@
         var wrongCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
 
         function addWrong(player, delta) {
-            wrongCounts[player] = Math.max(0, wrongCounts[player] + delta);
-            updateTotal(player);
+            socket.emit('wrong-update', { player: player, delta: delta });
+        }
+
+        function handleBetChange() {
+            var bet = parseInt(document.getElementById('betAmount').value) || 0;
+            socket.emit('bet-update', { betAmount: bet });
         }
 
         function updateTotal(player) {
