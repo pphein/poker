@@ -168,12 +168,19 @@ io.on('connection', (socket) => {
     /* ── ဒေါင်းပြီ agreement flow ── */
     socket.on('dawngPi-request', function (data) {
         var connected = deviceSlots.filter(function (d) { return d !== null; }).length;
-        dawngPiReq = { requester: socket.id, agreed: [socket.id] };
+        /* Check if the socket is the actual owner of data.player.
+           If AI is acting on behalf of an unconnected player, start agreed=[]
+           so all connected players must explicitly agree. */
+        var slotIdx = deviceSlots.findIndex(function (d) { return d && d.sid === socket.id; });
+        var socketPlayer = slotIdx + 1;
+        var isOwnRequest = socketPlayer === data.player;
+        var initialAgreed = isOwnRequest ? [socket.id] : [];
+        dawngPiReq = { requester: socket.id, agreed: initialAgreed };
         io.sockets.emit('dawngPi-request', {
             sid: socket.id, player: data.player,
-            agreedCount: 1, totalCount: connected
+            agreedCount: initialAgreed.length, totalCount: connected
         });
-        if (connected <= 1) { finishDawngPi(); }
+        if (initialAgreed.length >= connected && connected > 0) { finishDawngPi(); }
     });
 
     socket.on('dawngPi-agree', function () {
