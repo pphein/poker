@@ -7,12 +7,69 @@ var playerDeviceIds = {};  // playerNum -> deviceId
 var currentTurn = null;
 var turnPhase = 'draw'; // 'draw' = must sarMal/swalMal first; 'discard' = must pyitMal
 
+var _turnTimerInterval = null;
+
+function startTurnTimer(playerN) {
+    clearTurnTimer();
+    var minutes = parseInt(document.getElementById('timerDuration').value) || 2;
+    var remaining = minutes * 60;
+
+    function tick() {
+        var el = document.getElementById('turn-timer-' + playerN);
+        if (!el) return;
+        var mins = Math.floor(remaining / 60);
+        var secs = remaining % 60;
+        el.textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
+        el.style.display = '';
+        el.classList.toggle('urgent', remaining <= 30);
+        if (remaining <= 0) {
+            clearTurnTimer();
+            playTimerAlert();
+            return;
+        }
+        remaining--;
+        _turnTimerInterval = setTimeout(tick, 1000);
+    }
+    tick();
+}
+
+function clearTurnTimer() {
+    if (_turnTimerInterval) {
+        clearTimeout(_turnTimerInterval);
+        _turnTimerInterval = null;
+    }
+    [1, 2, 3, 4].forEach(function (i) {
+        var el = document.getElementById('turn-timer-' + i);
+        if (el) { el.style.display = 'none'; el.textContent = ''; el.classList.remove('urgent'); }
+    });
+}
+
+function playTimerAlert() {
+    try {
+        var ctx = new (window.AudioContext || window.webkitAudioContext)();
+        [0, 0.45, 0.9].forEach(function (t) {
+            var osc  = ctx.createOscillator();
+            var gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'sine';
+            osc.frequency.value = 880;
+            gain.gain.setValueAtTime(0, ctx.currentTime + t);
+            gain.gain.linearRampToValueAtTime(0.6, ctx.currentTime + t + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + t + 0.38);
+            osc.start(ctx.currentTime + t);
+            osc.stop(ctx.currentTime + t + 0.4);
+        });
+    } catch (e) {}
+}
+
 function setTurn(n) {
     currentTurn = n;
     turnPhase = 'draw';
     [1, 2, 3, 4].forEach(function (i) {
         document.getElementById('turn-badge-' + i).style.display = (i === n) ? '' : 'none';
     });
+    startTurnTimer(n);
 }
 
 socket.on('player-assigned', function (data) {
@@ -1686,6 +1743,7 @@ socket.on('dawngPi', function () {
     /* Reset turn */
     currentTurn = null;
     turnPhase = 'draw';
+    clearTurnTimer();
     [1, 2, 3, 4].forEach(function (i) {
         document.getElementById('turn-badge-' + i).style.display = 'none';
     });
