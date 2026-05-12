@@ -101,6 +101,10 @@ function setTurn(n) {
         document.getElementById('turn-badge-' + i).style.display = (i === n) ? 'inline-block' : 'none';
     });
     startTurnTimer(n);
+    // Auto-play for unconnected (AI) players
+    if (!connectedSlots[n - 1]) {
+        setTimeout(function () { aiAutoPlay(n); }, 800 + Math.random() * 600);
+    }
 }
 
 socket.on('player-assigned', function (data) {
@@ -1361,7 +1365,7 @@ function pyitMaluser1(x) {
 }
 
 socket.on('pyitMaluser1', function (x) {
-    cardName = x.match(/\/(\w+)\.png/)[1];
+    var _m = x && x.match(/\/(\w+)\.png/); cardName = _m ? _m[1] : x;
     cardNumber = cardName.slice(1);
     if (checkToRemove(user2_sarPhel, user2_remove, cardNumber)) {
         return false;
@@ -1421,7 +1425,7 @@ function pyitMaluser2(x) {
 }
 
 socket.on('pyitMaluser2', function (x) {
-    cardName = x.match(/\/(\w+)\.png/)[1];
+    var _m = x && x.match(/\/(\w+)\.png/); cardName = _m ? _m[1] : x;
     cardNumber = cardName.slice(1);
     if (checkToRemove(user3_sarPhel, user3_remove, cardNumber)) {
         return false;
@@ -1481,7 +1485,7 @@ function pyitMaluser3(x) {
 }
 
 socket.on('pyitMaluser3', function (x) {
-    cardName = x.match(/\/(\w+)\.png/)[1];
+    var _m = x && x.match(/\/(\w+)\.png/); cardName = _m ? _m[1] : x;
     cardNumber = cardName.slice(1);
     if (checkToRemove(user4_sarPhel, user4_remove, cardNumber)) {
         return false;
@@ -1542,7 +1546,7 @@ function pyitMaluser4(x) {
 }
 
 socket.on('pyitMaluser4', function (x) {
-    cardName = x.match(/\/(\w+)\.png/)[1];
+    var _m = x && x.match(/\/(\w+)\.png/); cardName = _m ? _m[1] : x;
     cardNumber = cardName.slice(1);
     if (checkToRemove(user1_sarPhel, user1_remove, cardNumber)) {
         return false;
@@ -1923,89 +1927,72 @@ function clearWinnerCard(n) {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   COMPUTER PLAYER ALGORITHM
+   AI (RANDOM) PLAYER
    ──────────────────────────────────────────────────────────────
-   Card scoring:
-     Joker (j1/j2) = 1  (always discard first)
-     2  (02) = 2  ...  King (13) = 13
-     Ace (01) = 14      (highest — wins rule 2 in any suit)
+   The connected player with the lowest slot number acts as AI
+   controller — only one client executes AI to prevent duplicates.
 
-   Draw decision (per turn):
-     1. Peek at top of opponent's discard pile.
-     2. Compare its score to the worst card in own hand.
-     3. If discard scores HIGHER → take it (sarMal).
-     4. Otherwise → draw from deck (swalMal).
+   Each AI turn:
+     1. Randomly sarMal (take discard) or swalMal (draw deck).
+     2. After 700–1200 ms, discard a random card from hand.
+     3. 5 % chance per turn to call ဒေါင်းပြီ instead.
 
-   Discard decision:
-     After drawing, discard the lowest-scoring card in the
-     updated hand (pyitMal).  Jokers go first, then low numbers.
-
-   Sequencing:
-     Unconnected players (1→4) each play one full turn in order,
-     with a 700 ms gap between draw and discard to allow the
-     socket round-trip to update shared state.
+   Triggered automatically by setTurn() when the current player
+   has no device connected. Also callable manually via the button.
    ══════════════════════════════════════════════════════════════ */
 
-function aiCardScore(card) {
-    if (!card || card[0] === 'j') return 1;
-    var n = parseInt(card.slice(1), 10);
-    return n === 1 ? 14 : n;
+function aiGetHand(n)    { return [user1, user2, user3, user4][n - 1]; }
+function aiGetDiscard(n) { return [user4_remove, user1_remove, user2_remove, user3_remove][n - 1]; }
+
+/* Returns true if this client is the designated AI controller */
+function isAiController() {
+    for (var i = 0; i < 4; i++) {
+        if (connectedSlots[i]) return myPlayerNum === i + 1;
+    }
+    return false;
 }
 
-function aiWorstCard(hand) {
-    return hand.reduce(function (w, c) {
-        return aiCardScore(c) < aiCardScore(w) ? c : w;
-    });
-}
+function aiAutoPlay(n) {
+    if (currentTurn !== n)    return;  // stale — turn already moved on
+    if (connectedSlots[n - 1]) return;  // player just connected
+    if (!isAiController())    return;  // another client handles AI
 
-function aiGetHand(n)       { return [user1, user2, user3, user4][n - 1]; }
-function aiGetDiscard(n)    { return [user4_remove, user1_remove, user2_remove, user3_remove][n - 1]; }
-
-function aiPlayTurn(n, done) {
     var hand = aiGetHand(n);
-    if (!hand || hand.length === 0) { done && done(); return; }
+    if (!hand || hand.length === 0) return;
 
-    var oppDiscard = aiGetDiscard(n);
-    var topDiscard = oppDiscard.length ? oppDiscard[oppDiscard.length - 1] : null;
-    var deckTop    = package.length    ? package[package.length - 1]        : null;
-    var worst      = aiWorstCard(hand);
-
-    var drawCard, action;
-    if (topDiscard && aiCardScore(topDiscard) > aiCardScore(worst)) {
-        drawCard = topDiscard;
-        action   = 'sarMaluser' + n;
-    } else if (deckTop) {
-        drawCard = deckTop;
-        action   = 'swalMaluser' + n;
-    } else {
-        done && done();
-        return; // nothing to draw
+    // 5 % chance to declare ဒေါင်းပြီ
+    if (Math.random() < 0.05) {
+        socket.emit('dawngPi-request', { player: n });
+        return;
     }
 
-    /* Pre-compute which card to discard from the expected new hand */
-    var toDiscard = aiWorstCard(hand.concat([drawCard]));
+    // Draw phase — randomly pick sarMal or swalMal
+    var oppDiscard = aiGetDiscard(n);
+    var canSar  = oppDiscard.length > 0;
+    var canSwal = package.length > 0;
+    var action;
+    if      (canSar && canSwal) action = (Math.random() < 0.5 ? 'sarMaluser' : 'swalMaluser') + n;
+    else if (canSar)            action = 'sarMaluser'  + n;
+    else if (canSwal)           action = 'swalMaluser' + n;
+    else return; // nothing to draw
 
     socket.emit(action);
+
+    // Discard phase — wait for socket round-trip then discard random card
     setTimeout(function () {
-        socket.emit('pyitMaluser' + n, toDiscard);
-        setTimeout(function () { done && done(); }, 200);
-    }, 700);
+        if (currentTurn !== n || turnPhase !== 'discard') return;
+        var h = aiGetHand(n);
+        if (!h || h.length === 0) return;
+        var card = h[Math.floor(Math.random() * h.length)];
+        socket.emit('pyitMaluser' + n, card);
+    }, 700 + Math.random() * 500);
 }
 
+/* Manual fallback — force-play the current AI turn (header button) */
 function aiPlayAll() {
-    var aiPlayers = connectedSlots
-        .map(function (connected, i) { return connected ? null : i + 1; })
-        .filter(function (n) { return n !== null; });
-
-    if (aiPlayers.length === 0) return;
-
-    function playNext(idx) {
-        if (idx >= aiPlayers.length) return;
-        aiPlayTurn(aiPlayers[idx], function () {
-            setTimeout(function () { playNext(idx + 1); }, 300);
-        });
+    if (currentTurn && !connectedSlots[currentTurn - 1]) {
+        aiAutoPlay(currentTurn);
     }
-    playNext(0);
 }
 
 // $(function() {
