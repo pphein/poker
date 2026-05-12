@@ -660,6 +660,14 @@
             animation: pulse-turn 0.5s ease-in-out infinite;
         }
 
+        /* ── SAND CLOCK ── */
+        .sand-clock {
+            display: none;
+            flex-shrink: 0;
+            vertical-align: middle;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+        }
+
         /* ── TAKEN CARD: blurred in ပစ်ထားသောဖဲ block ── */
         .remove-area img.card-taken,
         #showCard img.card-taken {
@@ -765,6 +773,15 @@
                 <span class="player-name">ကစားသမား ၁ <span class="device-badge" id="device-badge-1"></span></span>
                 <span class="turn-badge" id="turn-badge-1">အလှည့်</span>
                 <span class="turn-timer" id="turn-timer-1"></span>
+                <svg class="sand-clock" id="sand-clock-1" viewBox="0 0 24 40" xmlns="http://www.w3.org/2000/svg" width="18" height="30">
+                    <defs>
+                        <clipPath id="sc-top-1"><path d="M2,2 L22,2 L14,20 L10,20 Z"/></clipPath>
+                        <clipPath id="sc-bot-1"><path d="M10,20 L14,20 L22,38 L2,38 Z"/></clipPath>
+                    </defs>
+                    <path d="M2,2 L22,2 L14,20 L22,38 L2,38 L10,20 Z" fill="rgba(0,0,0,0.3)" stroke="rgba(255,215,0,0.55)" stroke-width="1.5" stroke-linejoin="round"/>
+                    <rect id="sc-sand-top-1" x="2" y="2" width="20" height="18" fill="rgba(255,215,0,0.8)" clip-path="url(#sc-top-1)"/>
+                    <rect id="sc-sand-bot-1" x="2" y="38" width="20" height="0"  fill="rgba(255,215,0,0.8)" clip-path="url(#sc-bot-1)"/>
+                </svg>
                 <div class="player-voice" id="pv-area-1">
                     <button class="btn-pv-join" id="pv-join-1" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
                     <button class="btn-pv-mic"  id="pv-mic-1"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
@@ -813,6 +830,15 @@
                 <span class="player-name">ကစားသမား ၂ <span class="device-badge" id="device-badge-2"></span></span>
                 <span class="turn-badge" id="turn-badge-2">အလှည့်</span>
                 <span class="turn-timer" id="turn-timer-2"></span>
+                <svg class="sand-clock" id="sand-clock-2" viewBox="0 0 24 40" xmlns="http://www.w3.org/2000/svg" width="18" height="30">
+                    <defs>
+                        <clipPath id="sc-top-2"><path d="M2,2 L22,2 L14,20 L10,20 Z"/></clipPath>
+                        <clipPath id="sc-bot-2"><path d="M10,20 L14,20 L22,38 L2,38 Z"/></clipPath>
+                    </defs>
+                    <path d="M2,2 L22,2 L14,20 L22,38 L2,38 L10,20 Z" fill="rgba(0,0,0,0.3)" stroke="rgba(255,215,0,0.55)" stroke-width="1.5" stroke-linejoin="round"/>
+                    <rect id="sc-sand-top-2" x="2" y="2" width="20" height="18" fill="rgba(255,215,0,0.8)" clip-path="url(#sc-top-2)"/>
+                    <rect id="sc-sand-bot-2" x="2" y="38" width="20" height="0"  fill="rgba(255,215,0,0.8)" clip-path="url(#sc-bot-2)"/>
+                </svg>
                 <div class="player-voice" id="pv-area-2">
                     <button class="btn-pv-join" id="pv-join-2" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
                     <button class="btn-pv-mic"  id="pv-mic-2"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
@@ -861,6 +887,15 @@
                 <span class="player-name">ကစားသမား ၃ <span class="device-badge" id="device-badge-3"></span></span>
                 <span class="turn-badge" id="turn-badge-3">အလှည့်</span>
                 <span class="turn-timer" id="turn-timer-3"></span>
+                <svg class="sand-clock" id="sand-clock-3" viewBox="0 0 24 40" xmlns="http://www.w3.org/2000/svg" width="18" height="30">
+                    <defs>
+                        <clipPath id="sc-top-3"><path d="M2,2 L22,2 L14,20 L10,20 Z"/></clipPath>
+                        <clipPath id="sc-bot-3"><path d="M10,20 L14,20 L22,38 L2,38 Z"/></clipPath>
+                    </defs>
+                    <path d="M2,2 L22,2 L14,20 L22,38 L2,38 L10,20 Z" fill="rgba(0,0,0,0.3)" stroke="rgba(255,215,0,0.55)" stroke-width="1.5" stroke-linejoin="round"/>
+                    <rect id="sc-sand-top-3" x="2" y="2" width="20" height="18" fill="rgba(255,215,0,0.8)" clip-path="url(#sc-top-3)"/>
+                    <rect id="sc-sand-bot-3" x="2" y="38" width="20" height="0"  fill="rgba(255,215,0,0.8)" clip-path="url(#sc-bot-3)"/>
+                </svg>
                 <div class="player-voice" id="pv-area-3">
                     <button class="btn-pv-join" id="pv-join-3" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
                     <button class="btn-pv-mic"  id="pv-mic-3"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
@@ -909,6 +944,15 @@
                 <span class="player-name">ကစားသမား ၄ <span class="device-badge" id="device-badge-4"></span></span>
                 <span class="turn-badge" id="turn-badge-4">အလှည့်</span>
                 <span class="turn-timer" id="turn-timer-4"></span>
+                <svg class="sand-clock" id="sand-clock-4" viewBox="0 0 24 40" xmlns="http://www.w3.org/2000/svg" width="18" height="30">
+                    <defs>
+                        <clipPath id="sc-top-4"><path d="M2,2 L22,2 L14,20 L10,20 Z"/></clipPath>
+                        <clipPath id="sc-bot-4"><path d="M10,20 L14,20 L22,38 L2,38 Z"/></clipPath>
+                    </defs>
+                    <path d="M2,2 L22,2 L14,20 L22,38 L2,38 L10,20 Z" fill="rgba(0,0,0,0.3)" stroke="rgba(255,215,0,0.55)" stroke-width="1.5" stroke-linejoin="round"/>
+                    <rect id="sc-sand-top-4" x="2" y="2" width="20" height="18" fill="rgba(255,215,0,0.8)" clip-path="url(#sc-top-4)"/>
+                    <rect id="sc-sand-bot-4" x="2" y="38" width="20" height="0"  fill="rgba(255,215,0,0.8)" clip-path="url(#sc-bot-4)"/>
+                </svg>
                 <div class="player-voice" id="pv-area-4">
                     <button class="btn-pv-join" id="pv-join-4" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
                     <button class="btn-pv-mic"  id="pv-mic-4"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>

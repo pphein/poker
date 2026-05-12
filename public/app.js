@@ -11,17 +11,42 @@ var _turnTimerInterval = null;
 
 function startTurnTimer(playerN) {
     clearTurnTimer();
-    var minutes = parseInt(document.getElementById('timerDuration').value) || 2;
-    var remaining = minutes * 60;
+    var minutes  = parseInt(document.getElementById('timerDuration').value) || 2;
+    var totalSecs = minutes * 60;
+    var remaining = totalSecs;
+
+    // Show sand clock for this player
+    var clockEl = document.getElementById('sand-clock-' + playerN);
+    if (clockEl) clockEl.style.display = '';
 
     function tick() {
         var el = document.getElementById('turn-timer-' + playerN);
         if (!el) return;
+
+        // Update text countdown
         var mins = Math.floor(remaining / 60);
         var secs = remaining % 60;
         el.textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
         el.style.display = '';
-        el.classList.toggle('urgent', remaining <= 30);
+        var urgent = remaining <= 30;
+        el.classList.toggle('urgent', urgent);
+
+        // Update SVG sand
+        var fraction   = Math.max(0, remaining / totalSecs);
+        var sandColor  = urgent ? 'rgba(255,68,68,0.85)' : 'rgba(255,215,0,0.8)';
+        var topEl = document.getElementById('sc-sand-top-' + playerN);
+        var botEl = document.getElementById('sc-sand-bot-' + playerN);
+        if (topEl) {
+            topEl.setAttribute('height', 18 * fraction);
+            topEl.setAttribute('fill', sandColor);
+        }
+        if (botEl) {
+            var botH = 18 * (1 - fraction);
+            botEl.setAttribute('y', 38 - botH);
+            botEl.setAttribute('height', botH);
+            botEl.setAttribute('fill', sandColor);
+        }
+
         if (remaining <= 0) {
             clearTurnTimer();
             playTimerAlert();
@@ -41,6 +66,12 @@ function clearTurnTimer() {
     [1, 2, 3, 4].forEach(function (i) {
         var el = document.getElementById('turn-timer-' + i);
         if (el) { el.style.display = 'none'; el.textContent = ''; el.classList.remove('urgent'); }
+        var clockEl = document.getElementById('sand-clock-' + i);
+        if (clockEl) clockEl.style.display = 'none';
+        var topEl = document.getElementById('sc-sand-top-' + i);
+        if (topEl) { topEl.setAttribute('height', '18'); topEl.setAttribute('fill', 'rgba(255,215,0,0.8)'); }
+        var botEl = document.getElementById('sc-sand-bot-' + i);
+        if (botEl) { botEl.setAttribute('y', '38'); botEl.setAttribute('height', '0'); botEl.setAttribute('fill', 'rgba(255,215,0,0.8)'); }
     });
 }
 
