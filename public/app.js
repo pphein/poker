@@ -5,9 +5,11 @@ var myDeviceId  = null;
 var sidToPlayer = {};   // full socket.id -> player number
 var playerDeviceIds = {};  // playerNum -> deviceId
 var currentTurn = null;
+var turnPhase = 'draw'; // 'draw' = must sarMal/swalMal first; 'discard' = must pyitMal
 
 function setTurn(n) {
     currentTurn = n;
+    turnPhase = 'draw';
     [1, 2, 3, 4].forEach(function (i) {
         document.getElementById('turn-badge-' + i).style.display = (i === n) ? '' : 'none';
     });
@@ -406,6 +408,7 @@ socket.on('showFirstCard', function () {
     if (showCarduser1.length || showCarduser2.length || showCarduser3.length || showCarduser4.length) {
         document.getElementById("action-1").innerHTML += ' <input type="submit" value="သပ် အနိုင်ဆုံးဖဲပြမယ်" onclick="autoDecide()">'
     }
+    setTurn(1);
 })
 
 function showWinnerCarduser1() {
@@ -708,11 +711,13 @@ function swalMaluser1() {
     //     document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
 
     // })
+    if (myPlayerNum !== 1 || currentTurn !== 1 || turnPhase !== 'draw') return;
     socket.emit('swalMaluser1');
 }
 
 socket.on('swalMaluser1', function () {
     initial = false
+    if (currentTurn === 1) turnPhase = 'discard';
     if (user1.length > 13) {
         return false;
     }
@@ -755,11 +760,13 @@ function swalMaluser2() {
     //     document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
 
     // })
+    if (myPlayerNum !== 2 || currentTurn !== 2 || turnPhase !== 'draw') return;
     socket.emit('swalMaluser2')
 }
 
 socket.on('swalMaluser2', function () {
     initial = false
+    if (currentTurn === 2) turnPhase = 'discard';
     if (user2.length > 13) {
         return false;
     }
@@ -801,11 +808,13 @@ function swalMaluser3() {
     //     img = "./cards/" + item + ".png";
     //     document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
     // })
+    if (myPlayerNum !== 3 || currentTurn !== 3 || turnPhase !== 'draw') return;
     socket.emit('swalMaluser3');
 }
 
 socket.on('swalMaluser3', function () {
     initial = false
+    if (currentTurn === 3) turnPhase = 'discard';
     if (user3.length > 13) {
         return false;
     }
@@ -846,11 +855,13 @@ function swalMaluser4() {
     //     img = "./cards/" + item + ".png";
     //     document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
     // })
+    if (myPlayerNum !== 4 || currentTurn !== 4 || turnPhase !== 'draw') return;
     socket.emit('swalMaluser4');
 }
 
 socket.on('swalMaluser4', function () {
     initial = false
+    if (currentTurn === 4) turnPhase = 'discard';
     if (user4.length > 13) {
         return false;
     }
@@ -905,10 +916,12 @@ function sarMaluser1() {
     //     img = "./cards/" + item + ".png";
     //     document.getElementById('user1_sarPhel').innerHTML += '<img src="' + img + '" />';
     // })
+    if (myPlayerNum !== 1 || currentTurn !== 1 || turnPhase !== 'draw') return;
     socket.emit('sarMaluser1');
 }
 
 socket.on('sarMaluser1', function () {
+    if (currentTurn === 1) turnPhase = 'discard';
     if (user1.length > 13) {
         return false
     } else if (user1_sarPhel.length == 3) {
@@ -983,10 +996,12 @@ function sarMaluser2() {
     //     img = "./cards/" + item + ".png";
     //     document.getElementById('user2_sarPhel').innerHTML += '<img src="' + img + '" />';
     // })
+    if (myPlayerNum !== 2 || currentTurn !== 2 || turnPhase !== 'draw') return;
     socket.emit('sarMaluser2');
 }
 
 socket.on('sarMaluser2', function () {
+    if (currentTurn === 2) turnPhase = 'discard';
     if (user2.length > 13) {
         return false
     } else if (user2_sarPhel.length == 3) {
@@ -1061,10 +1076,12 @@ function sarMaluser3() {
     //     img = "./cards/" + item + ".png";
     //     document.getElementById('user3_sarPhel').innerHTML += '<img src="' + img + '" />';
     // })
+    if (myPlayerNum !== 3 || currentTurn !== 3 || turnPhase !== 'draw') return;
     socket.emit('sarMaluser3');
 }
 
 socket.on('sarMaluser3', function () {
+    if (currentTurn === 3) turnPhase = 'discard';
     if (user3.length > 13) {
         return false
     } else if (user3_sarPhel.length == 3) {
@@ -1139,10 +1156,12 @@ function sarMaluser4() {
     //     img = "./cards/" + item + ".png";
     //     document.getElementById('user4_sarPhel').innerHTML += '<img src="' + img + '" />';
     // })
+    if (myPlayerNum !== 4 || currentTurn !== 4 || turnPhase !== 'draw') return;
     socket.emit('sarMaluser4');
 }
 
 socket.on('sarMaluser4', function () {
+    if (currentTurn === 4) turnPhase = 'discard';
     if (user4.length > 13) {
         return false
     } else if (user4_sarPhel.length == 3) {
@@ -1233,6 +1252,7 @@ function pyitMaluser1(x) {
     // } else {
     //     maPyitBu(x);
     // }
+    if (myPlayerNum !== 1 || currentTurn !== 1 || turnPhase !== 'discard') return;
     socket.emit('pyitMaluser1', x.src)
 }
 
@@ -1292,6 +1312,7 @@ function pyitMaluser2(x) {
     // } else {
     //     maPyitBu(x);
     // }
+    if (myPlayerNum !== 2 || currentTurn !== 2 || turnPhase !== 'discard') return;
     socket.emit('pyitMaluser2', x.src)
 }
 
@@ -1351,6 +1372,7 @@ function pyitMaluser3(x) {
     // } else {
     //     maPyitBu(x);
     // }
+    if (myPlayerNum !== 3 || currentTurn !== 3 || turnPhase !== 'discard') return;
     socket.emit('pyitMaluser3', x.src)
 }
 
@@ -1411,6 +1433,7 @@ function pyitMaluser4(x) {
     // } else {
     //     maPyitBu(x);
     // }
+    if (myPlayerNum !== 4 || currentTurn !== 4 || turnPhase !== 'discard') return;
     socket.emit('pyitMaluser4', x.src)
 }
 
@@ -1468,6 +1491,10 @@ function readyToPyit(x) {
     x.id = cardName;
     parentClass = x.parentNode;
     parentId = parentClass.parentNode.id;
+
+    // Only allow card selection on your turn, after drawing
+    var playerN = parseInt(parentId.replace('user', ''));
+    if (currentTurn !== playerN || turnPhase !== 'discard') return;
 
     // Remove any existing ပစ်မယ်/မပစ်ဘူး button div in this player's container
     var existing = document.querySelector('#' + parentId + ' > div[id^="' + parentId + '_"]');
@@ -1642,6 +1669,7 @@ socket.on('dawngPi', function () {
 
     /* Reset turn */
     currentTurn = null;
+    turnPhase = 'draw';
     [1, 2, 3, 4].forEach(function (i) {
         document.getElementById('turn-badge-' + i).style.display = 'none';
     });
