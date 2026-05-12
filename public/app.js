@@ -17,7 +17,7 @@ function startTurnTimer(playerN) {
 
     // Show sand clock for this player
     var clockEl = document.getElementById('sand-clock-' + playerN);
-    if (clockEl) clockEl.style.display = '';
+    if (clockEl) clockEl.style.display = 'inline-block';
 
     function tick() {
         var el = document.getElementById('turn-timer-' + playerN);
@@ -27,7 +27,7 @@ function startTurnTimer(playerN) {
         var mins = Math.floor(remaining / 60);
         var secs = remaining % 60;
         el.textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
-        el.style.display = '';
+        el.style.display = 'inline-block';
         var urgent = remaining <= 30;
         el.classList.toggle('urgent', urgent);
 
@@ -98,7 +98,7 @@ function setTurn(n) {
     currentTurn = n;
     turnPhase = 'draw';
     [1, 2, 3, 4].forEach(function (i) {
-        document.getElementById('turn-badge-' + i).style.display = (i === n) ? '' : 'none';
+        document.getElementById('turn-badge-' + i).style.display = (i === n) ? 'inline-block' : 'none';
     });
     startTurnTimer(n);
 }
