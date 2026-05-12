@@ -152,6 +152,10 @@ io.on('connection', (socket) => {
         io.sockets.emit('autoDecide');
     })
 
+    socket.on('ai-speak', function (data) {
+        io.sockets.emit('ai-speak', data);
+    });
+
     /* ── Wrong counter & bet amount ── */
     socket.on('wrong-update', function (data) {
         var p = data.player;

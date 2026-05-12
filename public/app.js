@@ -1962,7 +1962,8 @@ function aiAutoPlay(n) {
 
     // 5 % chance to declare ဒေါင်းပြီ — connected players will see the overlay
     if (Math.random() < 0.05) {
-        socket.emit('dawngPi-request', { player: n });
+        aiSpeakAction(n, 'dawng');
+        setTimeout(function () { socket.emit('dawngPi-request', { player: n }); }, 400);
         return;
     }
 
@@ -1970,13 +1971,16 @@ function aiAutoPlay(n) {
     var oppDiscard = aiGetDiscard(n);
     var canSar  = oppDiscard.length > 0;
     var canSwal = package.length > 0;
+    var actionType;
     var action;
-    if      (canSar && canSwal) action = (Math.random() < 0.5 ? 'sarMaluser' : 'swalMaluser') + n;
-    else if (canSar)            action = 'sarMaluser'  + n;
-    else if (canSwal)           action = 'swalMaluser' + n;
+    if      (canSar && canSwal) { actionType = Math.random() < 0.5 ? 'sar' : 'swal'; }
+    else if (canSar)            { actionType = 'sar'; }
+    else if (canSwal)           { actionType = 'swal'; }
     else return; // nothing to draw
 
-    socket.emit(action);
+    action = (actionType === 'sar' ? 'sarMaluser' : 'swalMaluser') + n;
+    aiSpeakAction(n, actionType);
+    setTimeout(function () { socket.emit(action); }, 400);
 
     // Discard phase — wait for socket round-trip then discard random card
     setTimeout(function () {
@@ -1984,8 +1988,9 @@ function aiAutoPlay(n) {
         var h = aiGetHand(n);
         if (!h || h.length === 0) return;
         var card = h[Math.floor(Math.random() * h.length)];
-        socket.emit('pyitMaluser' + n, card);
-    }, 700 + Math.random() * 500);
+        aiSpeakAction(n, 'pyit');
+        setTimeout(function () { socket.emit('pyitMaluser' + n, card); }, 400);
+    }, 1100 + Math.random() * 500);
 }
 
 /* Manual fallback — force-play the current AI turn (header button) */
@@ -1994,6 +1999,53 @@ function aiPlayAll() {
         aiAutoPlay(currentTurn);
     }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   AI VOICE — TTS + PCM tone via voice channel
+   ══════════════════════════════════════════════════════════════ */
+
+var AI_SPEAK_FREQ = { sar: 523, swal: 659, pyit: 392, dawng: 880 };
+var AI_SPEAK_NUMS = ['၁', '၂', '၃', '၄'];
+var AI_SPEAK_TEXT = {
+    sar:   function (n) { return 'ကစားသမား ' + AI_SPEAK_NUMS[n - 1] + ' စားမည်'; },
+    swal:  function (n) { return 'ကစားသမား ' + AI_SPEAK_NUMS[n - 1] + ' ဆွဲမည်'; },
+    pyit:  function (n) { return 'ကစားသမား ' + AI_SPEAK_NUMS[n - 1] + ' ပစ်မည်'; },
+    dawng: function (n) { return 'ကစားသမား ' + AI_SPEAK_NUMS[n - 1] + ' ဒေါင်းပြီ'; }
+};
+
+/* Emit a sine-wave tone as voice-chunk PCM so voice-channel users hear it */
+function aiEmitVoiceTone(freq, durationMs) {
+    var sampleRate = 16000;
+    var chunkSize  = 2048;
+    var total      = Math.floor(sampleRate * durationMs / 1000);
+    var all        = new Float32Array(total);
+    var durSec     = durationMs / 1000;
+    for (var i = 0; i < total; i++) {
+        var t   = i / sampleRate;
+        var env = Math.min(t * 20, 1) * Math.min((durSec - t) * 20, 1);
+        all[i]  = 0.35 * env * Math.sin(2 * Math.PI * freq * t);
+    }
+    for (var off = 0; off < total; off += chunkSize) {
+        socket.emit('voice-chunk', all.slice(off, Math.min(off + chunkSize, total)).buffer);
+    }
+}
+
+/* Broadcast TTS text to all clients and emit a tone to voice channel */
+function aiSpeakAction(n, type) {
+    socket.emit('ai-speak', { text: AI_SPEAK_TEXT[type](n) });
+    aiEmitVoiceTone(AI_SPEAK_FREQ[type], 350);
+}
+
+/* All clients play the TTS announcement locally */
+socket.on('ai-speak', function (data) {
+    if (!window.speechSynthesis || !data || !data.text) return;
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(data.text);
+    utt.lang  = 'my';
+    utt.rate  = 0.9;
+    utt.pitch = 0.85;
+    window.speechSynthesis.speak(utt);
+});
 
 // $(function() {
 //     $('#user').touch_sortable({
