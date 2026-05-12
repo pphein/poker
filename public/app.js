@@ -4,6 +4,14 @@ var myPlayerNum = null;
 var myDeviceId  = null;
 var sidToPlayer = {};   // full socket.id -> player number
 var playerDeviceIds = {};  // playerNum -> deviceId
+var currentTurn = null;
+
+function setTurn(n) {
+    currentTurn = n;
+    [1, 2, 3, 4].forEach(function (i) {
+        document.getElementById('turn-badge-' + i).style.display = (i === n) ? '' : 'none';
+    });
+}
 
 socket.on('player-assigned', function (data) {
     myPlayerNum = data.player;
@@ -46,6 +54,10 @@ socket.on('device-slots', function (slots) {
 socket.on('device-full', function () {
     var overlay = document.getElementById('device-full-overlay');
     if (overlay) overlay.style.display = 'flex';
+});
+
+socket.on('firstTurn', function (data) {
+    setTurn(data.player);
 });
 
 var initial = true;
@@ -1246,6 +1258,7 @@ socket.on('pyitMaluser1', function (x) {
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
                 '</div>';
         })
+        setTurn(2);
     }
 })
 
@@ -1304,6 +1317,7 @@ socket.on('pyitMaluser2', function (x) {
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
                 '</div>';
         })
+        setTurn(3);
     }
 })
 
@@ -1362,6 +1376,7 @@ socket.on('pyitMaluser3', function (x) {
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
                 '</div>';
         })
+        setTurn(4);
     }
 })
 
@@ -1422,6 +1437,7 @@ socket.on('pyitMaluser4', function (x) {
                 '<img onclick="readyToPyit(this)" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="' + img + '" /> ' +
                 '</div>';
         })
+        setTurn(1);
     }
 })
 
@@ -1623,6 +1639,12 @@ socket.on('dawngPi-disagreed', function (data) {
 
 socket.on('dawngPi', function () {
     document.getElementById('dawngpi-overlay').style.display = 'none';
+
+    /* Reset turn */
+    currentTurn = null;
+    [1, 2, 3, 4].forEach(function (i) {
+        document.getElementById('turn-badge-' + i).style.display = 'none';
+    });
 
     /* Reset all arrays */
     package = a1.concat(a2, b1, b2, c1, c2, d1, d2, joker1, joker2);

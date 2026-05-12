@@ -170,6 +170,10 @@ io.on('connection', (socket) => {
         if (dawngPiReq.agreed.length >= connected) { finishDawngPi(); }
     });
 
+    socket.on('firstTurn', function (data) {
+        io.sockets.emit('firstTurn', data);
+    });
+
     socket.on('dawngPi-disagree', function () {
         if (!dawngPiReq) return;
         var slotIdx = deviceSlots.findIndex(function (d) { return d && d.sid === socket.id; });

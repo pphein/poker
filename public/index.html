@@ -620,6 +620,24 @@
         #device-full-overlay .dfo-title { font-size: 20px; font-weight: bold; margin-bottom: 8px; }
         #device-full-overlay .dfo-sub   { font-size: 13px; color: rgba(255,255,255,0.55); }
 
+        /* ── TURN BADGE ── */
+        .turn-badge {
+            display: none;
+            font-size: 11px;
+            font-weight: bold;
+            color: #1a3a2a;
+            background: linear-gradient(145deg, #f0d080, #ffd700);
+            border-radius: 6px;
+            padding: 2px 8px;
+            white-space: nowrap;
+            animation: pulse-turn 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse-turn {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.55; }
+        }
+
         /* ── TAKEN CARD: blurred in ပစ်ထားသောဖဲ block ── */
         .remove-area img.card-taken,
         #showCard img.card-taken {
@@ -718,6 +736,7 @@
         <div class="player-panel" id="panel-1">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၁ <span class="device-badge" id="device-badge-1"></span></span>
+                <span class="turn-badge" id="turn-badge-1">အလှည့်</span>
                 <div class="player-voice" id="pv-area-1">
                     <button class="btn-pv-join" id="pv-join-1" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
                     <button class="btn-pv-mic"  id="pv-mic-1"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
@@ -764,6 +783,7 @@
         <div class="player-panel" id="panel-2">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၂ <span class="device-badge" id="device-badge-2"></span></span>
+                <span class="turn-badge" id="turn-badge-2">အလှည့်</span>
                 <div class="player-voice" id="pv-area-2">
                     <button class="btn-pv-join" id="pv-join-2" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
                     <button class="btn-pv-mic"  id="pv-mic-2"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
@@ -810,6 +830,7 @@
         <div class="player-panel" id="panel-3">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၃ <span class="device-badge" id="device-badge-3"></span></span>
+                <span class="turn-badge" id="turn-badge-3">အလှည့်</span>
                 <div class="player-voice" id="pv-area-3">
                     <button class="btn-pv-join" id="pv-join-3" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
                     <button class="btn-pv-mic"  id="pv-mic-3"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
@@ -856,6 +877,7 @@
         <div class="player-panel" id="panel-4">
             <div class="player-header">
                 <span class="player-name">ကစားသမား ၄ <span class="device-badge" id="device-badge-4"></span></span>
+                <span class="turn-badge" id="turn-badge-4">အလှည့်</span>
                 <div class="player-voice" id="pv-area-4">
                     <button class="btn-pv-join" id="pv-join-4" onclick="voiceToggle()"  style="display:none">🎤 Join</button>
                     <button class="btn-pv-mic"  id="pv-mic-4"  onclick="voiceMute()"    style="display:none">🎤 Mic</button>
@@ -947,6 +969,7 @@
                 document.getElementById('btn-wayMal').style.display = 'none';
                 document.getElementById('btn-showCard').disabled = false;
                 document.getElementById('btn-ai').style.display = '';
+                socket.emit('firstTurn', { player: myPlayerNum });
             }
         }
 
