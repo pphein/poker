@@ -2042,8 +2042,9 @@ function clearWinnerCard(n) {
 
    Each AI turn:
      1. Randomly sarMal (take discard) or swalMal (draw deck).
-     2. After 700–1200 ms, discard a random card from hand.
-     3. 5 % chance per turn to call ဒေါင်းပြီ instead.
+     2. After 700–1200 ms, find the best discard:
+        - If any discard produces a valid ဒေါင်းပြီ hand → discard it and declare ဒေါင်းပြီ.
+        - Otherwise discard the least useful card (lowest set/run potential).
 
    Triggered automatically by setTurn() when the current player
    has no device connected. Also callable manually via the button.
@@ -2060,20 +2061,51 @@ function isAiController() {
     return false;
 }
 
+/* Return the card from hand (14 cards) whose removal produces a winning 13-card hand,
+   or null if no such card exists. */
+function aiFindWinDiscard(hand) {
+    for (var i = 0; i < hand.length; i++) {
+        var without = hand.slice(0, i).concat(hand.slice(i + 1));
+        if (canDawngPi(without)) return hand[i];
+    }
+    return null;
+}
+
+/* Discard the card that contributes least to potential sets or runs */
+function aiBestDiscard(hand) {
+    var nonJokers = hand.filter(function (c) { return !_dpIsJoker(c); });
+    if (!nonJokers.length) return hand[0];
+
+    var scored = nonJokers.map(function (c) {
+        var rank = parseInt(c.slice(1));
+        var suit = c[0];
+        /* set potential: how many same-rank cards exist */
+        var setScore = hand.filter(function (x) {
+            return !_dpIsJoker(x) && parseInt(x.slice(1)) === rank;
+        }).length;
+        /* run potential: how many adjacent same-suit cards exist */
+        var runScore = 0;
+        for (var d = -2; d <= 2; d++) {
+            var r = rank + d;
+            if (r >= 1 && r <= 13 && d !== 0) {
+                var need = suit + (r < 10 ? '0' : '') + r;
+                if (hand.indexOf(need) !== -1) runScore++;
+            }
+        }
+        return { card: c, score: setScore + runScore };
+    });
+
+    scored.sort(function (a, b) { return a.score - b.score; });
+    return scored[0].card;
+}
+
 function aiAutoPlay(n) {
-    if (currentTurn !== n)    return;  // stale — turn already moved on
+    if (currentTurn !== n)     return;  // stale — turn already moved on
     if (connectedSlots[n - 1]) return;  // player just connected
-    if (!isAiController())    return;  // another client handles AI
+    if (!isAiController())     return;  // another client handles AI
 
     var hand = aiGetHand(n);
     if (!hand || hand.length === 0) return;
-
-    // 5 % chance to declare ဒေါင်းပြီ — connected players will see the overlay
-    if (Math.random() < 0.05) {
-        aiSpeakAction(n, 'dawng');
-        setTimeout(function () { socket.emit('dawngPi-request', { player: n }); }, 400);
-        return;
-    }
 
     // Draw phase — randomly pick sarMal or swalMal
     var oppDiscard = aiGetDiscard(n);
@@ -2090,14 +2122,30 @@ function aiAutoPlay(n) {
     aiSpeakAction(n, actionType);
     setTimeout(function () { socket.emit(action); }, 400);
 
-    // Discard phase — wait for socket round-trip then discard random card
+    // Discard phase — check for a winning discard first
     setTimeout(function () {
         if (currentTurn !== n || turnPhase !== 'discard') return;
         var h = aiGetHand(n);
         if (!h || h.length === 0) return;
-        var card = h[Math.floor(Math.random() * h.length)];
-        aiSpeakAction(n, 'pyit');
-        setTimeout(function () { socket.emit('pyitMaluser' + n, card); }, 400);
+
+        var winCard = aiFindWinDiscard(h);
+        if (winCard !== null) {
+            // Discard the card that completes the hand, then declare ဒေါင်းပြီ
+            aiSpeakAction(n, 'pyit');
+            setTimeout(function () {
+                socket.emit('pyitMaluser' + n, winCard);
+                setTimeout(function () {
+                    if (currentTurn !== n) return; // sanity check
+                    aiSpeakAction(n, 'dawng');
+                    setTimeout(function () { socket.emit('dawngPi-request', { player: n }); }, 400);
+                }, 700);
+            }, 400);
+        } else {
+            // No winning hand yet — discard least useful card
+            var card = aiBestDiscard(h);
+            aiSpeakAction(n, 'pyit');
+            setTimeout(function () { socket.emit('pyitMaluser' + n, card); }, 400);
+        }
     }, 1100 + Math.random() * 500);
 }
 
