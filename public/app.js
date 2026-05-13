@@ -845,6 +845,7 @@ socket.on('swalMaluser1', function () {
         document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
 
     })
+    updateDawngPiBtn();
 })
 
 function swalMaluser2() {
@@ -894,6 +895,7 @@ socket.on('swalMaluser2', function () {
         document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
 
     })
+    updateDawngPiBtn();
 })
 
 function swalMaluser3() {
@@ -941,6 +943,7 @@ socket.on('swalMaluser3', function () {
         img = "./cards/" + item + ".png";
         document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
     })
+    updateDawngPiBtn();
 })
 
 function swalMaluser4() {
@@ -988,6 +991,7 @@ socket.on('swalMaluser4', function () {
         img = "./cards/" + item + ".png";
         document.getElementById('output').innerHTML += '<img src="' + "./cards/back.png" + '"/>';
     })
+    updateDawngPiBtn();
 })
 
 function sarMaluser1() {
@@ -1068,6 +1072,7 @@ socket.on('sarMaluser1', function () {
         img = "./cards/" + item + ".png";
         document.getElementById('user1_sarPhel').innerHTML += '<img src="' + img + '" />';
     })
+    updateDawngPiBtn();
 })
 
 function sarMaluser2() {
@@ -1148,6 +1153,7 @@ socket.on('sarMaluser2', function () {
         img = "./cards/" + item + ".png";
         document.getElementById('user2_sarPhel').innerHTML += '<img src="' + img + '" />';
     })
+    updateDawngPiBtn();
 })
 
 function sarMaluser3() {
@@ -1228,6 +1234,7 @@ socket.on('sarMaluser3', function () {
         img = "./cards/" + item + ".png";
         document.getElementById('user3_sarPhel').innerHTML += '<img src="' + img + '" />';
     })
+    updateDawngPiBtn();
 })
 
 function sarMaluser4() {
@@ -1308,6 +1315,7 @@ socket.on('sarMaluser4', function () {
         img = "./cards/" + item + ".png";
         document.getElementById('user4_sarPhel').innerHTML += '<img src="' + img + '" />';
     })
+    updateDawngPiBtn();
 })
 
 function checkToRemove(sarPhel, htwetPhel, card) {
@@ -1387,6 +1395,7 @@ socket.on('pyitMaluser1', function (x) {
                 '</div>';
         })
         setTurn(2);
+        updateDawngPiBtn();
     }
 })
 
@@ -1447,6 +1456,7 @@ socket.on('pyitMaluser2', function (x) {
                 '</div>';
         })
         setTurn(3);
+        updateDawngPiBtn();
     }
 })
 
@@ -1507,6 +1517,7 @@ socket.on('pyitMaluser3', function (x) {
                 '</div>';
         })
         setTurn(4);
+        updateDawngPiBtn();
     }
 })
 
@@ -1569,6 +1580,7 @@ socket.on('pyitMaluser4', function (x) {
                 '</div>';
         })
         setTurn(1);
+        updateDawngPiBtn();
     }
 })
 
@@ -1699,6 +1711,102 @@ function manualSortuser4() {
     user4 = temp;
     $('#outputvalues4').val(user4);
 
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DAWNG PI HAND VALIDATION
+   Rules:
+   - All 13 cards must partition into groups of 3 or 4
+   - Each group is a SET (same rank, jokers allowed) or a RUN
+     (consecutive ranks, same suit, NO jokers)
+   - At least one RUN group must be present
+   ══════════════════════════════════════════════════════════════ */
+
+function _dpIsJoker(c) { return c === 'j1' || c === 'j2'; }
+
+/* Helper: all index combinations of size k from array arr */
+function _dpCombos(arr, k) {
+    if (k === 0) return [[]];
+    if (arr.length < k) return [];
+    var result = [];
+    for (var i = 0; i <= arr.length - k; i++) {
+        var rest = _dpCombos(arr.slice(i + 1), k - 1);
+        for (var j = 0; j < rest.length; j++) result.push([arr[i]].concat(rest[j]));
+    }
+    return result;
+}
+
+function canDawngPi(hand) {
+    if (!hand || hand.length !== 13) return false;
+
+    var jokerCount = 0;
+    var cards = [];
+    hand.forEach(function (c) {
+        if (_dpIsJoker(c)) jokerCount++;
+        else cards.push(c);
+    });
+
+    /* Sort by suit then rank so runs appear contiguously */
+    cards.sort(function (a, b) {
+        if (a[0] !== b[0]) return a[0] < b[0] ? -1 : 1;
+        return parseInt(a.slice(1)) - parseInt(b.slice(1));
+    });
+
+    function solve(remaining, jLeft, hasRun) {
+        if (remaining.length === 0 && jLeft === 0) return hasRun;
+        if (remaining.length + jLeft < 3) return false;
+
+        var first   = remaining[0];
+        var fSuit   = first[0];
+        var fRank   = parseInt(first.slice(1));
+
+        /* --- Try RUN groups (3 or 4 cards, same suit, consecutive, no jokers) --- */
+        for (var runLen = 3; runLen <= 4; runLen++) {
+            if (fRank + runLen - 1 > 13) break;
+            var rem = remaining.slice();
+            var ok  = true;
+            for (var k = 0; k < runLen; k++) {
+                var need = fSuit + (fRank + k < 10 ? '0' : '') + (fRank + k);
+                var idx  = rem.indexOf(need);
+                if (idx === -1) { ok = false; break; }
+                rem.splice(idx, 1);
+            }
+            if (ok && solve(rem, jLeft, true)) return true;
+        }
+
+        /* --- Try SET groups (same rank, jokers fill to size 3 or 4) --- */
+        var sameRankIdx = [];
+        for (var i = 0; i < remaining.length; i++) {
+            if (parseInt(remaining[i].slice(1)) === fRank) sameRankIdx.push(i);
+        }
+
+        for (var setSize = 3; setSize <= 4; setSize++) {
+            for (var jUsed = 0; jUsed <= Math.min(jLeft, setSize - 1); jUsed++) {
+                var nonJokerNeed = setSize - jUsed;
+                if (nonJokerNeed < 1 || nonJokerNeed > sameRankIdx.length) continue;
+                /* Must include index 0; pick (nonJokerNeed-1) more from sameRankIdx[1..] */
+                var otherIdx = sameRankIdx.slice(1);
+                var combos   = _dpCombos(otherIdx, nonJokerNeed - 1);
+                for (var ci = 0; ci < combos.length; ci++) {
+                    var picked = [0].concat(combos[ci]).sort(function (a, b) { return b - a; });
+                    var rem2   = remaining.slice();
+                    picked.forEach(function (idx) { rem2.splice(idx, 1); });
+                    if (solve(rem2, jLeft - jUsed, hasRun)) return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    return solve(cards, jokerCount, false);
+}
+
+function updateDawngPiBtn() {
+    if (!myPlayerNum) return;
+    var hand = [user1, user2, user3, user4][myPlayerNum - 1];
+    var btn  = document.getElementById('btn-dawngPi-' + myPlayerNum);
+    if (btn) btn.disabled = !canDawngPi(hand);
 }
 
 function dawngPi() {

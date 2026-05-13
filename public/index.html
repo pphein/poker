@@ -851,9 +851,20 @@
             <div class="rules-section">
                 <h3>ဒေါင်းပြီ (နိုင်ကြေညာ)</h3>
                 <ul>
-                    <li>မိမိ hand တွင် တည်ဆောက်မှု ပြည့်စုံသောအခါ ဒေါင်းပြီ နှိပ်နိုင်သည်</li>
+                    <li>ဖဲ ၁၃ ချပ်အားလုံးကို တူညီသောအဆင့် (rank) အုပ်စုများဖြင့် စီစဉ်ရမည်</li>
+                    <li>အနည်းဆုံး အုပ်စုတစ်ခုသည် တူညီသောအမျိုးအစား (suit) ဖြင့် ဆက်တိုက် (serial) ဖြစ်ရမည် — ဥပမာ A♠+2♠+3♠ သို့မဟုတ် 3♥+4♥+5♥</li>
+                    <li>Serial run အုပ်စုတွင် Joker (wild card) အသုံးပြု၍ မရပါ</li>
+                    <li>Joker ကို တူညီသော rank အုပ်စုများတွင်သာ အစားထိုးအသုံးပြုနိုင်သည်</li>
                     <li>ကစားသမားအားလုံး သဘောတူမှသာ နိုင်ကြေညာ ပြုနိုင်သည်</li>
                     <li>မတူပါက ဒေါင်းပြီ ပယ်ဖျက်သည်</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>Joker ဖဲ</h3>
+                <ul>
+                    <li>Joker ဖဲသည် မည်သည့်ဖဲကိုမဆို အစားထိုးနိုင်သည် (wild card)</li>
+                    <li>ဖဲပုံ တစ်ပုံလျှင် Joker ၂ ချပ် ပါဝင်၍ စုစုပေါင်း Joker ၄ ချပ် ရှိသည်</li>
                 </ul>
             </div>
 
@@ -956,7 +967,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser1()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser1()">
                 <input id="stop-arrange-1" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser1()" style="display:none">
-                <input id="btn-dawngPi-1" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()">
+                <input id="btn-dawngPi-1" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" disabled>
             </div>
         </div>
 
@@ -1013,7 +1024,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser2()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser2()">
                 <input id="stop-arrange-2" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser2()" style="display:none">
-                <input id="btn-dawngPi-2" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()">
+                <input id="btn-dawngPi-2" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" disabled>
             </div>
         </div>
 
@@ -1070,7 +1081,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser3()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser3()">
                 <input id="stop-arrange-3" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser3()" style="display:none">
-                <input id="btn-dawngPi-3" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()">
+                <input id="btn-dawngPi-3" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" disabled>
             </div>
         </div>
 
@@ -1127,7 +1138,7 @@
                 <input type="submit" value="ဆွဲမယ်" onclick="swalMaluser4()">
                 <input type="submit" value="စီမယ်" onclick="selfArrangeuser4()">
                 <input id="stop-arrange-4" type="submit" value="စီတာရပ်မယ်" class="btn-stop-arrange" onclick="stopArrangeuser4()" style="display:none">
-                <input id="btn-dawngPi-4" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()">
+                <input id="btn-dawngPi-4" type="submit" value="ဒေါင်းပြီ" onclick="handleDawngPi()" disabled>
             </div>
         </div>
 
