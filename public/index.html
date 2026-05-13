@@ -676,6 +676,86 @@
         }
 
 
+        /* ── RULES MODAL ── */
+        #rules-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 9997;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        #rules-overlay.open { display: flex; }
+        .rules-box {
+            background: rgba(15,35,20,0.98);
+            border: 2px solid rgba(255,215,0,0.4);
+            border-radius: 16px;
+            padding: 24px 20px 20px;
+            max-width: 520px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .rules-title {
+            font-size: 17px;
+            font-weight: bold;
+            color: #f0d080;
+            margin-bottom: 16px;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        .rules-close {
+            position: absolute;
+            top: 14px; right: 14px;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 18px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+            flex-shrink: 0;
+        }
+        .rules-close:active { background: rgba(255,255,255,0.25); }
+        .rules-section {
+            margin-bottom: 14px;
+        }
+        .rules-section h3 {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 6px;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+            padding-bottom: 4px;
+        }
+        .rules-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .rules-section ul li {
+            font-size: 12px;
+            color: rgba(255,255,255,0.85);
+            padding: 3px 0 3px 14px;
+            position: relative;
+            line-height: 1.5;
+        }
+        .rules-section ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #f0d080;
+        }
+
         /* ── TABLET: 2-column grid ── */
         @media (min-width: 600px) {
             .players-grid {
@@ -732,6 +812,61 @@
         </div>
     </div>
 
+    <!-- RULES MODAL -->
+    <div id="rules-overlay" onclick="if(event.target===this)closeRules()">
+        <div class="rules-box">
+            <button class="rules-close" onclick="closeRules()">✕</button>
+            <div class="rules-title">ဖဲဂိမ်း နည်းဥပဒေ</div>
+
+            <div class="rules-section">
+                <h3>အထွေထွေ</h3>
+                <ul>
+                    <li>ကစားသမား ၄ ဦး၊ ဖဲ ၁၀၈ ချပ် (ဒိုင်ချပ် ၂ ချပ်)</li>
+                    <li>ကစားသမားတစ်ဦးစီ ဖဲ ၁၃ ချပ် ရရှိသည်</li>
+                    <li>ကျန်သောဖဲများကို ဖဲပုံ (deck) ပေါ်တွင် ထားသည်</li>
+                    <li>ဖဲပုံမှ ပထမဆုံးဖဲကို လှန်ပြီး ပစ်ဖဲပုံ (discard) တွင် ထားသည်</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>အလှည့်တစ်ကြိမ်</h3>
+                <ul>
+                    <li><strong style="color:#f0d080">စားမယ်</strong> — ကျဆင်းဖဲပုံမှ ဖဲတစ်ချပ် ယူသည်</li>
+                    <li><strong style="color:#f0d080">ဆွဲမယ်</strong> — ဖဲပုံ (deck) မှ ဖဲတစ်ချပ် ဆွဲသည်</li>
+                    <li>ဆွဲ သို့မဟုတ် စားပြီးနောက် မိမိ hand မှ ဖဲတစ်ချပ် <strong style="color:#f0d080">ပစ်</strong>ရမည်</li>
+                    <li>အလှည့်အစီအစဉ်: ၁ → ၂ → ၃ → ၄ → ၁ …</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>ဖဲချပ် တန်ဖိုးများ</h3>
+                <ul>
+                    <li>A (Ace) — အမြင့်ဆုံး သို့မဟုတ် အနိမ့်ဆုံး</li>
+                    <li>K, Q, J, 10, 9, 8, 7, 6, 5, 4, 3, 2 — ကြေးကြက်မှ ၂ အထိ</li>
+                    <li>ဂဏန်းဖဲ (2–10) — ဂဏန်းအတိုင်း တန်ဖိုး</li>
+                    <li>J, Q, K — တစ်ချပ်စီ ၁၀ မှတ်</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>ဒေါင်းပြီ (နိုင်ကြေညာ)</h3>
+                <ul>
+                    <li>မိမိ hand တွင် တည်ဆောက်မှု ပြည့်စုံသောအခါ ဒေါင်းပြီ နှိပ်နိုင်သည်</li>
+                    <li>ကစားသမားအားလုံး သဘောတူမှသာ နိုင်ကြေညာ ပြုနိုင်သည်</li>
+                    <li>မတူပါက ဒေါင်းပြီ ပယ်ဖျက်သည်</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>မှားဂဏန်း</h3>
+                <ul>
+                    <li>ကစားသမားတစ်ဦး မှားတိုင်း မှားဂဏန်း တစ်ချက် တိုးသည်</li>
+                    <li>နိုင်ကြောင်း ကြေညာသူသည် မှားဂဏန်းများ × တစ်မှားဈေး ငွေ ရရှိသည်</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <!-- TOP CONTROLS -->
     <div class="header">
         <div class="header-game-btns">
@@ -740,6 +875,7 @@
             <input id="btn-wayMal"   type="submit" value="ဝေမယ် (13)"     onclick="handleWayMal()"  disabled>
             <input id="btn-showCard" type="submit" value="အပေါ်ဖဲလှန်မယ်" onclick="handleShowFirstCard()" disabled>
             <input id="btn-ai"      type="submit" value="🤖 AI ကစားမည်"  onclick="aiPlayAll()"     style="display:none">
+            <input id="btn-rules"   type="submit" value="ဂိမ်းနည်း"      onclick="openRules()">
         </div>
         <div class="bet-control">
             <label for="betAmount">တစ်မှားဈေး</label>
@@ -1053,6 +1189,9 @@
         function addWrong(player, delta) {
             socket.emit('wrong-update', { player: player, delta: delta });
         }
+
+        function openRules()  { document.getElementById('rules-overlay').classList.add('open'); }
+        function closeRules() { document.getElementById('rules-overlay').classList.remove('open'); }
 
         function handleBetChange() {
             var bet = parseInt(document.getElementById('betAmount').value) || 0;
